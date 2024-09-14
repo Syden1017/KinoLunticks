@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KinoLunticksApp", "KinoLunticksApp\KinoLunticksApp.csproj", "{77398D9E-B4E1-48BD-8C69-99A66CD766EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77398D9E-B4E1-48BD-8C69-99A66CD766EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77398D9E-B4E1-48BD-8C69-99A66CD766EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77398D9E-B4E1-48BD-8C69-99A66CD766EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77398D9E-B4E1-48BD-8C69-99A66CD766EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6ACD3B5C-0005-4F16-8111-1F086032812B}
+	EndGlobalSection
+EndGlobal
