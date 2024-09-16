@@ -183,7 +183,7 @@
            BasedOn="{StaticResource btnAutorization}">
         <Style.Setters>
             <Setter Property="Margin"
-                    Value="7 15"/>
+                    Value="7 13"/>
         </Style.Setters>
     </Style>
 

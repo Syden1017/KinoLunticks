@@ -55,7 +55,6 @@
 
             <xctk:WatermarkTextBox x:Name="txtBoxLogin"
                                    Watermark="логин"
-                                   Text="{Binding Login}"
                                    
                                    Style="{DynamicResource txtBoxLogin}"
                                    
@@ -70,7 +69,6 @@
             </xctk:WatermarkTextBox>
 
             <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
-                                       Text="{Binding Password}"
                                        Watermark="пароль"
                                        PasswordChar="*"
                                        
@@ -86,7 +84,7 @@
                 </xctk:WatermarkPasswordBox.WatermarkTemplate>
             </xctk:WatermarkPasswordBox>
 
-            <xctk:WatermarkPasswordBox x:Name="txtBoxConfirmPassword"
+            <xctk:WatermarkPasswordBox x:Name="passBoxConfirmPassword"
                                        Watermark="подтвердите пароль"
                                        PasswordChar="*"
                                        
@@ -103,8 +101,7 @@
             </xctk:WatermarkPasswordBox>
 
             <xctk:WatermarkTextBox x:Name="txtBoxFirstName"
-                                   Watermark="Имя"
-                                   Text="{Binding UserName}"
+                                   Watermark="имя"
                                    
                                    Style="{DynamicResource txtBoxLogin}"
                                    
@@ -119,8 +116,7 @@
             </xctk:WatermarkTextBox>
 
             <xctk:WatermarkTextBox x:Name="txtBoxLastName"
-                                   Watermark="Фамилия"
-                                   Text="{Binding UserLastName}"
+                                   Watermark="фамилия"
                                    
                                    Style="{DynamicResource txtBoxLogin}"
                                    
@@ -136,7 +132,6 @@
 
             <xctk:WatermarkTextBox x:Name="txtBoxEmail"
                                    Watermark="электронная почта"
-                                   Text="{Binding EmailAddress}"
                                    
                                    Style="{DynamicResource txtBoxLogin}"
                                    

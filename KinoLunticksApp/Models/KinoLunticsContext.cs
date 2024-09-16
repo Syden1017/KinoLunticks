@@ -150,6 +150,7 @@ public partial class KinoLunticsContext : DbContext
             entity.Property(e => e.UserRole)
                 .HasMaxLength(3)
                 .IsUnicode(false)
+                .HasDefaultValueSql("((2))")
                 .IsFixedLength();
 
             entity.HasOne(d => d.UserRoleNavigation).WithMany(p => p.Users)
