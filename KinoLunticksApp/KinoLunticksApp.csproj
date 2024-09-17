@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Montserrat-VariableFont_wght.ttf" />
     <None Remove="Images\exit.png" />
     <None Remove="Images\minimize.png" />
   </ItemGroup>
@@ -24,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\Montserrat-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\exit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -7,12 +7,12 @@
       xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d"
       
-      d:DesignHeight="600"
-      d:DesignWidth="900"
+      d:DesignHeight="1080"
+      d:DesignWidth="1920"
       
       Title="Регистрация">
 
-    <Grid>
+    <Grid Background="#2B2B2B">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="3*"/>
@@ -56,7 +56,7 @@
             <xctk:WatermarkTextBox x:Name="txtBoxLogin"
                                    Watermark="логин"
                                    
-                                   Style="{DynamicResource txtBoxLogin}"
+                                   Style="{DynamicResource txtBoxRegister}"
                                    
                                    Grid.Column="1"
                                    Grid.Row="0">
@@ -72,7 +72,7 @@
                                        Watermark="пароль"
                                        PasswordChar="*"
                                        
-                                       Style="{DynamicResource pBoxPassword}"
+                                       Style="{DynamicResource pBoxPasswordRegister}"
                                        
                                        Grid.Column="1"
                                        Grid.Row="1">
@@ -88,7 +88,7 @@
                                        Watermark="подтвердите пароль"
                                        PasswordChar="*"
                                        
-                                       Style="{DynamicResource pBoxPassword}"
+                                       Style="{DynamicResource pBoxPasswordRegister}"
                                        
                                        Grid.Column="1"
                                        Grid.Row="2">
@@ -103,7 +103,7 @@
             <xctk:WatermarkTextBox x:Name="txtBoxFirstName"
                                    Watermark="имя"
                                    
-                                   Style="{DynamicResource txtBoxLogin}"
+                                   Style="{DynamicResource txtBoxRegister}"
                                    
                                    Grid.Column="1"
                                    Grid.Row="3">
@@ -118,7 +118,7 @@
             <xctk:WatermarkTextBox x:Name="txtBoxLastName"
                                    Watermark="фамилия"
                                    
-                                   Style="{DynamicResource txtBoxLogin}"
+                                   Style="{DynamicResource txtBoxRegister}"
                                    
                                    Grid.Column="1"
                                    Grid.Row="4">
@@ -133,7 +133,7 @@
             <xctk:WatermarkTextBox x:Name="txtBoxEmail"
                                    Watermark="электронная почта"
                                    
-                                   Style="{DynamicResource txtBoxLogin}"
+                                   Style="{DynamicResource txtBoxRegister}"
                                    
                                    Grid.Column="1"
                                    Grid.Row="5">
