@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <None Remove="Images\exit.png" />
-    <None Remove="Images\maximize.png" />
     <None Remove="Images\minimize.png" />
   </ItemGroup>
 
@@ -26,9 +25,6 @@
 
   <ItemGroup>
     <Resource Include="Images\exit.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\maximize.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\minimize.png">

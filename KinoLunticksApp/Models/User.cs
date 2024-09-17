@@ -1,4 +1,7 @@
-﻿namespace KinoLunticksApp.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace KinoLunticksApp.Models;
 
 public partial class User
 {
@@ -19,8 +22,6 @@ public partial class User
     public byte[]? Photo { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual Role UserRoleNavigation { get; set; } = null!;
 
     public virtual ICollection<BankAccount> AccountNumbers { get; set; } = new List<BankAccount>();
 }
