@@ -4,14 +4,200 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:KinoLunticksApp.Pages"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage">
+      
+      d:DesignHeight="1080" 
+      d:DesignWidth="1920"
+      
+      Title="Главная">
 
-    <Grid>
-        <TextBlock Text="ПРИВЕТ, МИР"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="54"/>
+    <Grid Background="#2B2B2B">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.25*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Поиск -->
+        <xctk:WatermarkTextBox x:Name="txtBoxSearch"
+               Watermark="Поиск &#128269;"
+               
+               Grid.Column="0"
+               Grid.Row="0"
+               
+               TextChanged="txtBoxSearch_TextChanged"/>
+
+        <Grid Grid.Column="1"
+              Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2.5*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Фильтр -->
+            <Grid Grid.Column="0"
+                  Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Поле: "
+                           
+                           Grid.Column="0"
+                           Grid.Row="0"/>
+
+                <ComboBox x:Name="cmbBoxFilterField"
+                          SelectionChanged="cmbBoxFilterField_SelectionChanged"
+                   
+                          Grid.Column="1"
+                          Grid.Row="0">
+                    <ComboBox.Items>
+                        <TextBlock Text="Не выбрано"/>
+                        <TextBlock Text="Год поступление"/>
+                        <TextBlock Text="Год рождения"/>
+                    </ComboBox.Items>
+                </ComboBox>
+
+                <TextBlock Text="Значение: "
+                   
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+
+                <ComboBox x:Name="cmbBoxFilterType"
+                          SelectionChanged="cmbBoxFilterType_SelectionChanged"
+                  
+                          Grid.Column="3"
+                          Grid.Row="0">
+                    <ComboBox.Items>
+                        <TextBlock Text="Не задано"/>
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+
+            <!-- Сортировка -->
+            <Grid Grid.Column="2"
+                  Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Поле: "
+               
+                           Grid.Column="0"
+                           Grid.Row="0"/>
+
+                <ComboBox x:Name="cmbBoxSortField"
+                          SelectionChanged="cmbBoxSortField_SelectionChanged"
+                  
+                          Grid.Column="1"
+                          Grid.Row="0">
+                    <ComboBox.Items>
+                        <TextBlock Text="№ студенческого билета"/>
+                        <TextBlock Text="Фамилия"/>
+                        <TextBlock Text="Имя"/>
+                        <TextBlock Text="Отчество"/>
+                        <TextBlock Text="Дата рождения"/>
+                    </ComboBox.Items>
+                </ComboBox>
+
+                <TextBlock Text="Тип: "
+                   
+                           Grid.Column="2"
+                           Grid.Row="0"/>
+
+                <ComboBox x:Name="cmbBoxSortType"
+                          SelectionChanged="cmbBoxSortType_SelectionChanged"
+                  
+                          Grid.Column="3"
+                          Grid.Row="0">
+                    <ComboBox.Items>
+                        <TextBlock Text="По возрастанию"/>
+                        <TextBlock Text="По убыванию"/>
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+        </Grid>
+
+        <Button Grid.Column="2"
+                Grid.Row="0"
+                Margin="5">
+            <Button.Content>
+                <Image Source="/Images/personal account.png"/>
+            </Button.Content>
+        </Button>
+
+        <ScrollViewer Grid.Column="0"
+                      Grid.Row="1"
+                      Grid.ColumnSpan="3">
+            <ListView x:Name="lViewLuntiki"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{Binding MovieName}"
+                                
+                                       Grid.Row="0"
+                                       Grid.Column="1"/>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="1"
+                                        Grid.Column="1">
+                                <TextBlock Text="{Binding MovieGenre}"/>
+
+                                <TextBlock Text="{Binding AgeRestriction}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding MovieDuration}"
+    
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="{Binding MovieDescription}"
+    
+                                       Grid.Row="3"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="{Binding MovieRating}"
+    
+                                       Grid.Row="4"
+                                       Grid.Column="1"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListView>
+        </ScrollViewer>
     </Grid>
 </Page>
