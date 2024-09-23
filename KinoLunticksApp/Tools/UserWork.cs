@@ -11,17 +11,6 @@ namespace KinoLunticksApp.Tools
         KinoLunticsContext _db = new KinoLunticsContext();
 
         /// <summary>
-        /// Проверяет существование пользователя в базе данных с указанным логином и паролем.
-        /// </summary>
-        /// <param name="login">Логин пользователя</param>
-        /// <param name="password">Пароль пользователя</param>
-        /// <returns>Возвращает true, если пользователь с заданными логином и паролем существует, иначе false.</returns>
-        public bool IsValid(string login, string password)
-        {
-            return _db.Users.Where(user => user.Login == login && user.Password == password).Any();
-        }
-
-        /// <summary>
         /// Проверяет существование пользователя в базе данных с указанным логином.
         /// </summary>
         /// <param name="login">Логин пользователя</param>

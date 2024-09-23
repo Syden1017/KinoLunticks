@@ -1,5 +1,78 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--#region Admin Panel Page-->
+    <ControlTemplate x:Key="templateDel"
+                     TargetType="Button">
+        <Border Width="300"
+                CornerRadius="15"
+                Background="#41C0C7">
+            <ContentControl HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="Удалить"
+                            Foreground="Black"
+                            FontSize="24"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="templateChange"
+                 TargetType="Button">
+        <Border Width="300"
+            CornerRadius="15"
+            Background="#41C0C7">
+            <ContentControl HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="Изменить"
+                        Foreground="Black"
+                        FontSize="24"/>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="templateAdd"
+                     TargetType="Button">
+        <Border Width="300"
+                CornerRadius="15"
+                Background="#41C0C7">
+            <ContentControl HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="Добавить фильм"
+                            Foreground="Black"
+                            FontSize="24"/>
+        </Border>
+    </ControlTemplate>
+
+    <Style x:Key="gradientBack"
+           TargetType="Grid">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="1,0"
+                                     MappingMode="RelativeToBoundingBox"
+                                     StartPoint="0,1">
+                    <GradientStop Color="#1D1D1D"/>
+                    <GradientStop Color="#666666" Offset="0.5"/>
+                    <GradientStop Color="#2B2B2B" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="txtBlockTheaterName"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="FontSize"
+                    Value="44"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+        </Style.Setters>
+    </Style>
+    <!--#endregion-->
+
     <!--#region Main Window -->
     <Style x:Key="mainBtn"
            TargetType="Button">

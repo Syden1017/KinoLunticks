@@ -21,5 +21,7 @@ public partial class Movie
 
     public decimal TicketPrice { get; set; }
 
+    public byte[]? Preview { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }

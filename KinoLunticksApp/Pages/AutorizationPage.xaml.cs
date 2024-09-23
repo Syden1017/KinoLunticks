@@ -3,8 +3,10 @@ using System.Windows.Input;
 using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
+
 using Microsoft.EntityFrameworkCore;
-using KinoLunticksApp.Tools;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace KinoLunticksApp.Pages
 {
@@ -14,15 +16,15 @@ namespace KinoLunticksApp.Pages
     public partial class AutorizationPage : Page
     {
         KinoLunticsContext _db = new KinoLunticsContext();
-        UserWork _user = new UserWork();
 
         Frame _frame;
+
+        private bool isPasswordVisible = false;
 
         public AutorizationPage(Frame frame)
         {
             InitializeComponent();
 
-            Data.Login = false;
             _frame = frame;
         }
 
@@ -31,13 +33,9 @@ namespace KinoLunticksApp.Pages
             string login = txtBoxLogin.Text;
             string password = passBoxPassword.Password;
 
-            if (_user.IsValid(login, password))
-            {
-                Data.Login = true;
+            var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == login && user.Password == password);
 
-                _frame.Navigate(new MainPage(_frame));
-            }
-            else
+            if (user == null)
             {
                 MessageBox.Show(
                     "Неверный логин или пароль. " +
@@ -46,6 +44,15 @@ namespace KinoLunticksApp.Pages
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning
                     );
+            }
+
+            if (user.UserRole == "002")
+            {
+                _frame.Navigate(new MainPage(_frame, user));
+            }
+            else
+            {
+                _frame.Navigate(new AdminPanelPage(_frame));
             }
         }
 

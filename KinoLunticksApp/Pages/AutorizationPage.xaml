@@ -64,21 +64,26 @@
                 </xctk:WatermarkTextBox.WatermarkTemplate>
             </xctk:WatermarkTextBox>
 
-            <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
-                                       Watermark="пароль"
-                                       PasswordChar="*"
-                                       
-                                       Style="{DynamicResource pBoxPasswordAuth}"
-                                       
-                                       Grid.Column="1"
-                                       Grid.Row="1">
-                <xctk:WatermarkPasswordBox.WatermarkTemplate>
-                    <DataTemplate>
-                        <ContentControl Content="{Binding}"
-                                        Foreground="#696969"/>
-                    </DataTemplate>
-                </xctk:WatermarkPasswordBox.WatermarkTemplate>
-            </xctk:WatermarkPasswordBox>
+            <Grid Grid.Column="1"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
+                                           Watermark="пароль"
+                                           PasswordChar="*"
+                                           
+                                           Style="{DynamicResource pBoxPasswordAuth}">
+                    <xctk:WatermarkPasswordBox.WatermarkTemplate>
+                        <DataTemplate>
+                            <ContentControl Content="{Binding}"
+                                            Foreground="#696969"/>
+                        </DataTemplate>
+                    </xctk:WatermarkPasswordBox.WatermarkTemplate>
+                </xctk:WatermarkPasswordBox>
+            </Grid>
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"

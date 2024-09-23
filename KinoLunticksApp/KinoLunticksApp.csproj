@@ -10,8 +10,10 @@
 
   <ItemGroup>
     <None Remove="Fonts\Montserrat-VariableFont_wght.ttf" />
+    <None Remove="Images\DefaultPhoto.png" />
     <None Remove="Images\exit.png" />
     <None Remove="Images\minimize.png" />
+    <None Remove="Images\personal account.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +30,16 @@
     <Resource Include="Fonts\Montserrat-VariableFont_wght.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\DefaultPhoto.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\exit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\minimize.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\personal account.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
