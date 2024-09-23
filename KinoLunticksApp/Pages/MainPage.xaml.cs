@@ -10,11 +10,12 @@ namespace KinoLunticksApp.Pages
     public partial class MainPage : Page
     {
         KinoLunticsContext _db = new KinoLunticsContext();
+        User _user = new User();
         List<Movie> _movies = new List<Movie>();
 
         Frame _frame;
 
-        public MainPage(Frame frame)
+        public MainPage(Frame frame, User user)
         {
             InitializeComponent();
 
@@ -24,6 +25,7 @@ namespace KinoLunticksApp.Pages
             lViewLuntiki.ItemsSource = _movies;
 
             _frame = frame;
+            _user = user;
         }
 
         private void txtBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
