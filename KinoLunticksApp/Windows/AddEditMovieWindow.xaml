@@ -4,14 +4,214 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KinoLunticksApp.Windows"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         
-        Title="AddEditMovieWindow"
+        x:Name="addEditWindow"
         
-        Height="450"
-        Width="800">
+        Title="{Binding MovieCode,
+                StringFormat={}Фильм {0}}"
+        
+        Height="300"
+        Width="700"
+        
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize"
+        
+        WindowStyle="None">
 
-    <Grid>
+    <Grid Style="{DynamicResource gradientAddEditWindow}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="1.2*"/>
+        </Grid.ColumnDefinitions>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image x:Name="imgPhoto"
+               Cursor="Hand"
+               
+               MouseLeftButtonDown="imgPhoto_MouseLeftButtonDown"
+               MouseRightButtonDown="imgPhoto_MouseRightButtonDown"
+               
+               Grid.Column="0"
+               Grid.Row="0"
+               Grid.ColumnSpan="2"
+               Grid.RowSpan="6">
+            <Image.Source>
+                <Binding Path="Preview">
+                    <Binding.TargetNullValue>
+                        <ImageSource>
+                            /KinoLunticksApp;component/Images/DefaultPhoto.png
+                        </ImageSource>
+                    </Binding.TargetNullValue>
+                </Binding>
+            </Image.Source>
+        </Image>
+
+        <TextBlock Text="Код фильма:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="2"
+                   Grid.Row="0"/>
+
+        <xctk:MaskedTextBox x:Name="txtBoxMovieCode"
+                            Text="{Binding MovieCode}"
+                            Mask="000"
+                            
+                            Style="{DynamicResource txtBoxAddEdit}"
+                            
+                            Grid.Column="3"
+                            Grid.Row="0"/>
+
+        <TextBlock Text="Название:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="4"
+                   Grid.Row="0"/>
+
+        <TextBox x:Name="txtBoxMovieName"
+                 Text="{Binding MovieName}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="5"
+                 Grid.Row="0"/>
+
+        <TextBlock Text="Рейтинг:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="2"
+                   Grid.Row="1"/>
+
+        <xctk:MaskedTextBox x:Name="txtBoxMovieRating"
+                            Text="{Binding MovieRating}"
+                            Mask=".0"
+                            
+                            Style="{DynamicResource txtBoxAddEdit}"
+                            
+                            Grid.Column="3"
+                            Grid.Row="1"/>
+
+        <TextBlock Text="Жанр:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="4"
+                   Grid.Row="1"/>
+
+        <TextBox x:Name="txtBoxMovieGenre"
+                 Text="{Binding MovieGenre}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="5"
+                 Grid.Row="1"/>
+
+        <TextBlock Text="Длительность:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="2"
+                   Grid.Row="2"/>
+
+        <TextBox x:Name="txtBoxMovieDuration"
+                 Text="{Binding MovieDuration}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="3"
+                 Grid.Row="2"/>
+
+        <TextBlock Text="Стоимость билета:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="4"
+                   Grid.Row="2"
+                   Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="txtBoxTicketPrice"
+                 Text="{Binding TicketPrice}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 Margin="150 7 5 7"
+                 
+                 Grid.Column="4"
+                 Grid.Row="2"
+                 Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Возраст. ограничения:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="2"
+                   Grid.Row="3"
+                   Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="txtBoxAgeRestriction"
+                 Text="{Binding AgeRestriction}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="4"
+                 Grid.Row="3"
+                 Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Описание фильма:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   Margin="5 0 55 0"
+                   
+                   Grid.Column="2"
+                   Grid.Row="4"
+                   Grid.ColumnSpan="2"/>
+
+        <TextBox x:Name="txtBoxMovieDescription"
+                 Text="{Binding MovieDescription}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 TextWrapping="Wrap"
+                 Margin="60 7 5 7"
+                 
+                 Grid.Column="3"
+                 Grid.Row="4"
+                 Grid.ColumnSpan="3"
+                 Grid.RowSpan="2"/>
+
+        <Button x:Name="btnSaveChanges"
+                Click="btnSaveChanges_Click"
+                Content="Сохранить"
+                
+                Style="{DynamicResource btnSaveChanges}"
+                
+                Grid.Column="0"
+                Grid.Row="6"
+                Grid.ColumnSpan="3"/>
+
+        <Button x:Name="btnCancel"
+                Click="btnCancel_Click"
+                Content="Отменить"
+                
+                Style="{DynamicResource btnCancel}"
+                
+                Grid.Column="3"
+                Grid.Row="6"
+                Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

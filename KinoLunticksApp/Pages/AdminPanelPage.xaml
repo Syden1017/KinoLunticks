@@ -42,22 +42,16 @@
 
             <Button Name="addButton"
                     Click="addButton_Click"
+                    Style="{DynamicResource btnAdminPage}"
                     
                     Margin="0 50"
                     
                     Template="{DynamicResource templateAdd}"
-                    Grid.Row="1"/>
-
-            <Button Name="changeButton"
-                    Click="changeButton_Click"
-                    
-                    Margin="0 50"
-                    
-                    Template="{DynamicResource templateChange}"
                     Grid.Row="2"/>
 
             <Button Name="deleteButton"
                     Click="deleteButton_Click"
+                    Style="{DynamicResource btnAdminPage}"
                     
                     Margin="0 50"
                     
@@ -68,19 +62,17 @@
         <ListView Name="tableView"
                   Grid.Row="1"
                   Grid.Column="1"
-                  ItemContainerStyle="{DynamicResource NoHoverHighlightListViewItemStyle}"
                   Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Auto"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="200"
+                    <GridViewColumn Width="150"
                                     Header="Фото">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Stretch="UniformToFill"
-                                       Width="100"
-                                       Height="100"
+                                <Image Width="150"
+                                       Height="150"
                                        Margin="30 0 0 0"
                                        HorizontalAlignment="Center">
                                     <Image.Source>
@@ -97,7 +89,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="200"
+                    <GridViewColumn Width="230"
                                     Header="Название фильма">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -110,7 +102,7 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="400"
+                    <GridViewColumn Width="465"
                                     Header="Описание фильма">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
@@ -184,6 +176,17 @@
                                            FontSize="20"
                                            Foreground="#FFF" 
                                            Margin="10,0,0,0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn Width="35">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="changeButton"
+                                        Style="{DynamicResource btnAdminPage}"
+                                        Template="{DynamicResource templateChange}"
+                                        Click="changeButton_Click"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
