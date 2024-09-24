@@ -31,23 +31,6 @@ namespace KinoLunticksApp.Pages
         {
             var addEditMovieWindow = new AddEditMovieWindow(null);
             addEditMovieWindow.ShowDialog();
-        }
-
-        private void changeButton_Click(object sender, RoutedEventArgs e)
-        {
-            var movieForUpdate = tableView.SelectedItem;
-
-            if (movieForUpdate == null)
-            {
-                MessageBox.Show(
-                    "Выберите фильм для изменения",
-                    "Предупреждение",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                    );
-            }
-
-            //var addEditMovieWindow = new AddEditMovieWindow(movieForUpdate);
 
             tableView.ItemsSource = _db.Movies.ToList();
         }
@@ -64,11 +47,14 @@ namespace KinoLunticksApp.Pages
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
             }
-            if (MessageBox.Show(
-                    $"Вы точно хотите удалить записи в количестве {moviesForRemoving.Count()} элементов?",
-                    "Внимание",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+
+            MessageBoxResult result = MessageBox.Show(
+                                          $"Вы точно хотите удалить записи в количестве {moviesForRemoving.Count()} элементов?",
+                                          "Внимание",
+                                          MessageBoxButton.YesNo,
+                                          MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
                 try
                 {
@@ -88,6 +74,14 @@ namespace KinoLunticksApp.Pages
                     MessageBox.Show(ex.Message.ToString());
                 }
             }
+
+            tableView.ItemsSource = _db.Movies.ToList();
+        }
+
+        private void changeButton_Click(object sender, RoutedEventArgs e)
+        {
+            var changeMovie = new AddEditMovieWindow((sender as Button).DataContext as Movie);
+            changeMovie.ShowDialog();
 
             tableView.ItemsSource = _db.Movies.ToList();
         }
