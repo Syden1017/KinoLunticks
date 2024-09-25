@@ -475,8 +475,8 @@
         </Style.Setters>
     </Style>
     <!--#endregion-->
-
-    <!--#region Main Page -->
+   
+   <!--#region Main Page -->
     <Style x:Key="txtBoxSearch"
            TargetType="TextBox">
         <Style.Setters>
@@ -513,7 +513,20 @@
                     Value="Center"/>
         </Style.Setters>
     </Style>
+    
+    <!--#region Personal Account Page -->
+    <Style x:Key="txtBlockPersonalInfo"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="36"/>
 
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
 
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+        </Style.Setters>
+    </Style>
     <!--#endregion-->
 </ResourceDictionary>
