@@ -27,6 +27,8 @@
         <!-- Поиск -->
         <xctk:WatermarkTextBox x:Name="txtBoxSearch"
                Watermark="Поиск &#128269;"
+                               
+               Style="{DynamicResource txtBoxSearch}"
                
                Grid.Column="0"
                Grid.Row="0"
@@ -50,20 +52,25 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Поле: "
+                <TextBlock x:Name="txtBlockPoleFiltr"
+                           Text="Поле: "
                            
                            Grid.Column="0"
-                           Grid.Row="0"/>
+                           Grid.Row="0"
+                           
+                           Style="{DynamicResource txtBlockPoleFiltr}"/>
 
                 <ComboBox x:Name="cmbBoxFilterField"
                           SelectionChanged="cmbBoxFilterField_SelectionChanged"
                    
                           Grid.Column="1"
-                          Grid.Row="0">
+                          Grid.Row="0"
+                          
+                          >
                     <ComboBox.Items>
                         <TextBlock Text="Не выбрано"/>
-                        <TextBlock Text="Год поступление"/>
-                        <TextBlock Text="Год рождения"/>
+                        <TextBlock Text="Жанр"/>
+                        <TextBlock Text="Возрастные ограничения"/>
                     </ComboBox.Items>
                 </ComboBox>
 
@@ -104,7 +111,7 @@
                           Grid.Column="1"
                           Grid.Row="0">
                     <ComboBox.Items>
-                        <TextBlock Text="№ студенческого билета"/>
+                        <TextBlock Text="Ретинг"/>
                         <TextBlock Text="Фамилия"/>
                         <TextBlock Text="Имя"/>
                         <TextBlock Text="Отчество"/>
@@ -138,66 +145,78 @@
             </Button.Content>
         </Button>
 
-        <ScrollViewer Grid.Column="0"
-                      Grid.Row="1"
-                      Grid.ColumnSpan="3">
-            <ListView x:Name="lViewLuntiki"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+        <ListView x:Name="lViewLuntiki"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  Grid.Row="1"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="3">
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="2*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-                            <TextBlock Text="{Binding MovieName}"
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Image x:Name="imgPhoto"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Grid.RowSpan="5"
+                               Width="250">
+                            <Image.Source>
+                                <Binding Path="Preview">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            /KinoLunticksApp;component/Images/luntik.jpg
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+
+                        <TextBlock Text="{Binding MovieName}"
                                 
                                        Grid.Row="0"
                                        Grid.Column="1"/>
 
-                            <StackPanel Orientation="Horizontal"
-                                        Grid.Row="1"
-                                        Grid.Column="1">
-                                <TextBlock Text="{Binding MovieGenre}"/>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="1"
+                                    Grid.Column="1">
+                            <TextBlock Text="{Binding MovieGenre}"/>
 
-                                <TextBlock Text="{Binding AgeRestriction}"/>
-                            </StackPanel>
+                            <TextBlock Text="{Binding AgeRestriction}"/>
+                        </StackPanel>
 
-                            <TextBlock Text="{Binding MovieDuration}"
+                        <TextBlock Text="{Binding MovieDuration}"
     
-                                       Grid.Row="2"
-                                       Grid.Column="1"/>
+                                   Grid.Row="2"
+                                   Grid.Column="1"/>
 
-                            <TextBlock Text="{Binding MovieDescription}"
+                        
+
+                        <TextBlock Text="{Binding MovieRating}"
     
-                                       Grid.Row="3"
-                                       Grid.Column="1"/>
+                                   Grid.Row="4"
+                                   Grid.Column="1"/>
 
-                            <TextBlock Text="{Binding MovieRating}"
-    
-                                       Grid.Row="4"
-                                       Grid.Column="1"/>
-
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ListView>
-        </ScrollViewer>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
