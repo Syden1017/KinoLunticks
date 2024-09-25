@@ -475,6 +475,44 @@
         </Style.Setters>
     </Style>
     <!--#endregion-->
+   
+   <!--#region Main Page -->
+    <Style x:Key="txtBoxSearch"
+           TargetType="TextBox">
+        <Style.Setters>
+            <Setter Property="Background"
+                    Value="#94DBDF"/>
+
+            <Setter Property="Margin"
+                    Value="7"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockPoleFiltr"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="20"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+        </Style.Setters>
+    </Style>
     
     <!--#region Personal Account Page -->
     <Style x:Key="txtBlockPersonalInfo"

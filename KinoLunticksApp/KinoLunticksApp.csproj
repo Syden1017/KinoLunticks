@@ -13,6 +13,7 @@
     <None Remove="Images\default.JPG" />
     <None Remove="Images\DefaultPhoto.png" />
     <None Remove="Images\exit.png" />
+    <None Remove="Images\luntik.jpg" />
     <None Remove="Images\minimize.png" />
     <None Remove="Images\personal account.png" />
   </ItemGroup>
