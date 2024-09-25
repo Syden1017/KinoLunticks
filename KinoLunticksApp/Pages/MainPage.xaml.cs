@@ -52,5 +52,10 @@ namespace KinoLunticksApp.Pages
         {
 
         }
+
+        private void btnPersonalAccount_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            _frame.Navigate(new PersonalAccountPage(_frame, _user));
+        }
     }
 }

@@ -475,4 +475,20 @@
         </Style.Setters>
     </Style>
     <!--#endregion-->
+    
+    <!--#region Personal Account Page -->
+    <Style x:Key="txtBlockPersonalInfo"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="36"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+        </Style.Setters>
+    </Style>
+    <!--#endregion-->
 </ResourceDictionary>

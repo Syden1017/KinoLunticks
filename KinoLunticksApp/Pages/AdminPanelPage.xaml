@@ -63,7 +63,7 @@
                   Grid.Row="1"
                   Grid.Column="1"
                   Background="Transparent"
-                  ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.View>
                 <GridView>
