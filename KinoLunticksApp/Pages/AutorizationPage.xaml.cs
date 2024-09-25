@@ -45,14 +45,16 @@ namespace KinoLunticksApp.Pages
                     MessageBoxImage.Warning
                     );
             }
-
-            if (user.UserRole == "002")
-            {
-                _frame.Navigate(new MainPage(_frame, user));
-            }
             else
             {
-                _frame.Navigate(new AdminPanelPage(_frame));
+                if (user.UserRole == "002")
+                {
+                    _frame.Navigate(new MainPage(_frame, user));
+                }
+                else
+                {
+                    _frame.Navigate(new AdminPanelPage(_frame));
+                }
             }
         }
 

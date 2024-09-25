@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <None Remove="Fonts\Montserrat-VariableFont_wght.ttf" />
+    <None Remove="Images\default.JPG" />
     <None Remove="Images\DefaultPhoto.png" />
     <None Remove="Images\exit.png" />
     <None Remove="Images\minimize.png" />
@@ -34,6 +35,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\exit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\default.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\minimize.png">
