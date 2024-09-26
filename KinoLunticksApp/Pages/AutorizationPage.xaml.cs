@@ -28,6 +28,14 @@ namespace KinoLunticksApp.Pages
             _frame = frame;
         }
 
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLogIn_Click(null, null);
+            }
+        }
+
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
             string login = txtBoxLogin.Text;

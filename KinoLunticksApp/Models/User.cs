@@ -19,7 +19,11 @@ public partial class User
 
     public string UserRole { get; set; } = null!;
 
+    public byte[]? Photo { get; set; }
+
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+
+    public virtual Role UserRoleNavigation { get; set; } = null!;
 
     public virtual ICollection<BankAccount> AccountNumbers { get; set; } = new List<BankAccount>();
 }

@@ -55,7 +55,9 @@
             <ContentControl Content="&#9999;"
                             Cursor="Hand"
                             Foreground="Black"
-                            FontSize="14"/>
+                            FontSize="14"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
         </Border>
     </ControlTemplate>
 
@@ -476,45 +478,83 @@
     </Style>
     <!--#endregion-->
    
-   <!--#region Main Page -->
+    <!--#region Main Page -->
     <Style x:Key="txtBoxSearch"
            TargetType="TextBox">
-        <Style.Setters>
-            <Setter Property="Background"
-                    Value="#94DBDF"/>
+         <Style.Setters>
+             <Setter Property="Background"
+                     Value="#94DBDF"/>
 
-            <Setter Property="Margin"
-                    Value="7"/>
+             <Setter Property="Margin"
+                     Value="7"/>
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style.Setters>
+             <Setter Property="Template">
+                 <Setter.Value>
+                     <ControlTemplate TargetType="TextBox">
+                         <Border Background="{TemplateBinding Background}"
+                                 CornerRadius="10">
+                             <ContentPresenter HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
+                         </Border>
+                     </ControlTemplate>
+                 </Setter.Value>
+             </Setter>
+         </Style.Setters>
     </Style>
 
     <Style x:Key="txtBlockPoleFiltr"
            TargetType="TextBlock">
-        <Style.Setters>
-            <Setter Property="FontSize"
-                    Value="20"/>
+         <Style.Setters>
+             <Setter Property="FontSize"
+                     Value="20"/>
 
-            <Setter Property="VerticalAlignment"
-                    Value="Center"/>
+             <Setter Property="VerticalAlignment"
+                     Value="Center"/>
 
-            <Setter Property="HorizontalAlignment"
-                    Value="Center"/>
-        </Style.Setters>
+             <Setter Property="HorizontalAlignment"
+                     Value="Center"/>
+         </Style.Setters>
     </Style>
+    <!--#endregion-->
     
     <!--#region Personal Account Page -->
+    <Style x:Key="btnBack"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="FontSize"
+                    Value="18"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#515151"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style x:Key="txtBlockPersonalInfo"
            TargetType="TextBlock">
         <Style.Setters>
@@ -527,6 +567,80 @@
             <Setter Property="VerticalAlignment"
                     Value="Center"/>
         </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBoxPersonalInfo"
+           TargetType="TextBox">
+        <Style.Setters>
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="Background"
+                    Value="#94DBDF"/>
+
+            <Setter Property="Margin"
+                    Value="15 25"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="FontSize"
+                    Value="32"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="dPicBirthDate"
+           TargetType="DatePicker">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="32"/>
+
+            <Setter Property="Margin"
+                    Value="15 20"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="lViewMyAditionalInfo"
+           TargetType="ListView">
+        <Style.Setters>
+            <Setter Property="Background"
+                    Value="#94DBDF"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="tabItemInfo"
+           TargetType="TabItem">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="24"/>
+
+            <Setter Property="Foreground"
+                    Value="#000"/>
+
+            <Setter Property="Background"
+                    Value="#72A8AC"/>
+        </Style.Setters>
+
+        <!-- Сделать триггер который меняет цвет у выбранного TabItem -->
+        <!--<Style.Triggers>
+            <Trigger Property="IsTabStop"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#72A8AC"/>
+            </Trigger>
+        </Style.Triggers>-->
     </Style>
     <!--#endregion-->
 </ResourceDictionary>
