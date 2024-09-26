@@ -68,7 +68,7 @@ namespace KinoLunticksApp.Windows
 
         private void imgPhoto_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            BitmapImage photo = _image.GetImage(_imageData, _currentImage);
+            BitmapImage photo = GetImage();
 
             if (photo != null)
             {
@@ -176,6 +176,8 @@ namespace KinoLunticksApp.Windows
                     MessageBoxButton.OK,
                     MessageBoxImage.Error
                     );
+
+                return;
             }
 
             if (_movie != _currentMovie)
@@ -216,6 +218,19 @@ namespace KinoLunticksApp.Windows
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        /// <summary>
+        /// Получение изображения
+        /// </summary>
+        /// <param name="imageData">Массив байт для записи изображения</param>
+        /// <param name="currentImage">Загруженное изображение</param>
+        /// <returns>Загруженное изображение</returns>
+        private BitmapImage GetImage()
+        {
+            _image.OpenImage(ref _imageData, ref _currentImage);
+
+            return _currentImage;
         }
     }
 }

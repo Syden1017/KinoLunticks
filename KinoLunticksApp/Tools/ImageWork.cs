@@ -58,18 +58,5 @@ namespace KinoLunticksApp.Tools
                 ReadBitmapImageFromArray(new MemoryStream(imageData), out image);
             }
         }
-
-        /// <summary>
-        /// Получение изображения
-        /// </summary>
-        /// <param name="imageData">Массив байт для записи изображения</param>
-        /// <param name="currentImage">Загруженное изображение</param>
-        /// <returns>Загруженное изображение</returns>
-        public BitmapImage GetImage(byte[] imageData, BitmapImage currentImage)
-        {
-            OpenImage(ref imageData, ref currentImage);
-
-            return currentImage;
-        }
     }
 }

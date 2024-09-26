@@ -184,7 +184,7 @@
                                 <Binding Path="Preview">
                                     <Binding.TargetNullValue>
                                         <ImageSource>
-                                            /KinoLunticksApp;component/Images/luntik.jpg
+                                            /KinoLunticksApp;component/Images/DefaultPhoto.png
                                         </ImageSource>
                                     </Binding.TargetNullValue>
                                 </Binding>

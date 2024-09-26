@@ -1,11 +1,10 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
-using System.Text;
 
 namespace KinoLunticksApp.Pages
 {
@@ -24,6 +23,14 @@ namespace KinoLunticksApp.Pages
             InitializeComponent();
 
             _frame = frame;
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnSignIn_Click(null, null);
+            }
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)

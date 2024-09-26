@@ -5,23 +5,23 @@ namespace KinoLunticksApp.Models;
 
 public partial class Movie
 {
-    public string MovieCode { get; set; } = null!;          //Код фильма
+    public string MovieCode { get; set; } = null!;
 
-    public string MovieName { get; set; } = null!;          //Название фильма
+    public string MovieName { get; set; } = null!;
 
-    public string MovieDescription { get; set; } = null!;   //Описание фильма
+    public string MovieDescription { get; set; } = null!;
 
-    public string MovieGenre { get; set; } = null!;         //Жанр
+    public string MovieGenre { get; set; } = null!;
 
-    public double MovieRating { get; set; }                 //Рейтинг
+    public double MovieRating { get; set; }
 
-    public string MovieDuration { get; set; } = null!;      //Длительность
+    public string MovieDuration { get; set; } = null!;
 
-    public string AgeRestriction { get; set; } = null!;     //Возратные ограничения
+    public string? AgeRestriction { get; set; }
 
-    public decimal TicketPrice { get; set; }                //Цена
+    public decimal TicketPrice { get; set; }
 
-    public byte[]? Preview { get; set; }                    //Картиночка
+    public byte[]? Preview { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 }
