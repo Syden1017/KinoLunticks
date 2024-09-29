@@ -106,10 +106,6 @@ namespace KinoLunticksApp.Windows
             {
                 errors.AppendLine("Введите корректное название фильма!");
             }
-            else if (!Regex.IsMatch(_currentMovie.MovieName, @"^[А-ЯЁ][а-яё]+"))
-            {
-                errors.AppendLine("Название фильма должно начинаться с заглавной буквы!");
-            }
             #endregion
 
             #region Описание фильма

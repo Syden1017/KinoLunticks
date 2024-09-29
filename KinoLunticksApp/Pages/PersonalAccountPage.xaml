@@ -180,7 +180,7 @@
                 <ListView x:Name="lViewMyTCards"
           
                           Style="{DynamicResource lViewMyAditionalInfo}">
-
+                    
                 </ListView>
             </TabItem>
         </TabControl>

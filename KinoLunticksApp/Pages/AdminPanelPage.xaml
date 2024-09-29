@@ -42,20 +42,16 @@
 
             <Button Name="addButton"
                     Click="addButton_Click"
+                    Content="Добавить"
                     Style="{DynamicResource btnAdminPage}"
                     
-                    Margin="0 50"
-                    
-                    Template="{DynamicResource templateAdd}"
                     Grid.Row="2"/>
 
             <Button Name="deleteButton"
                     Click="deleteButton_Click"
+                    Content="Удалить"
                     Style="{DynamicResource btnAdminPage}"
                     
-                    Margin="0 50"
-                    
-                    Template="{DynamicResource templateDel}"
                     Grid.Row="4"/>
         </Grid>
 
@@ -66,13 +62,13 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.View>
-                <GridView>
+                <GridView AllowsColumnReorder="False">
                     <GridViewColumn Width="150"
                                     Header="Фото">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Width="150"
-                                       Height="150"
+                                <Image Width="170"
+                                       Height="170"
                                        Margin="30 0 0 0"
                                        HorizontalAlignment="Center">
                                     <Image.Source>
@@ -94,49 +90,37 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding MovieName}"
-                                           TextWrapping="Wrap"
-                                           FontSize="20"
-                                           Foreground="#FFF"
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="465"
+                    <GridViewColumn Width="500"
                                     Header="Описание фильма">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding MovieDescription}" 
-                                           TextWrapping="Wrap"
-                                           FontSize="20"
-                                           Foreground="#FFF"
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="190"
+                    <GridViewColumn Width="220"
                                     Header="Жанр">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding MovieGenre}"
-                                           TextWrapping="Wrap" 
-                                           FontSize="20"
-                                           Foreground="#FFF"
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="90"
+                    <GridViewColumn Width="100"
                                     Header="Длительность">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding MovieDuration}"
-                                           TextWrapping="Wrap"
-                                           FontSize="20"
-                                           Foreground="#FFF"
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -146,47 +130,38 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding MovieRating}"
-                                           TextWrapping="Wrap" 
-                                           FontSize="20"
-                                           Foreground="#FFF" 
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="150"
+                    <GridViewColumn Width="70"
                                     Header="Возрастные ограничения">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding AgeRestriction}"
-                                           TextWrapping="Wrap"
-                                           FontSize="20"
-                                           Foreground="#FFF"
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="110"
+                    <GridViewColumn Width="100"
                                     Header="Цена билета">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding TicketPrice}"
-                                           TextWrapping="Wrap" 
-                                           FontSize="20"
-                                           Foreground="#FFF" 
-                                           Margin="10,0,0,0"/>
+                                           Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="40">
+                    <GridViewColumn Width="45">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <Button x:Name="changeButton"
-                                        Style="{DynamicResource btnAdminPage}"
-                                        Template="{DynamicResource templateChange}"
-                                        Click="changeButton_Click"/>
+                                        Content="&#9999;"
+                                        Click="changeButton_Click"
+                                        Style="{DynamicResource btnEditMovie}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
