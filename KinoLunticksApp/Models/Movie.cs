@@ -17,11 +17,13 @@ public partial class Movie
 
     public string MovieDuration { get; set; } = null!;
 
-    public string? AgeRestriction { get; set; }
+    public string AgeRestriction { get; set; } = null!;
 
     public decimal TicketPrice { get; set; }
 
     public byte[]? Preview { get; set; }
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+    public virtual ICollection<Order> OrderMovieNavigations { get; set; } = new List<Order>();
+
+    public virtual ICollection<Order> OrderPreviewNavigations { get; set; } = new List<Order>();
 }

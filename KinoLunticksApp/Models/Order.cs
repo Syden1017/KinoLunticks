@@ -17,7 +17,11 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
+    public string? Preview { get; set; }
+
     public virtual Movie MovieNavigation { get; set; } = null!;
+
+    public virtual Movie? PreviewNavigation { get; set; }
 
     public virtual User UserNavigation { get; set; } = null!;
 }
