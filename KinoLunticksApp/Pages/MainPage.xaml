@@ -158,23 +158,20 @@
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                   Grid.Row="1"
                   Grid.Column="0"
-                  Grid.ColumnSpan="3">
-
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="3"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-
+                  Grid.ColumnSpan="3"
+                  Background="#2B2B2B">
+            
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Width="{Binding ActualWidth,
+                                  RelativeSource={RelativeSource AncestorType=ListView}}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -197,31 +194,45 @@
                             </Image.Source>
                         </Image>
 
-                        <TextBlock Text="{Binding MovieName}"
+                        <TextBlock x:Name="txtBlockMovieName"  
+                                   Text="{Binding MovieName}"
+                                   Style="{DynamicResource txtBlockMovieName}"
                                 
-                                       Grid.Row="0"
-                                       Grid.Column="1"/>
+                                   Grid.Row="0"
+                                   Grid.Column="1"/>
 
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1"
                                     Grid.Column="1">
-                            <TextBlock Text="{Binding MovieGenre}"/>
+                            
+                            <TextBlock x:Name="txtBlockGenre"
+                                       Text="{Binding MovieGenre}"
+                                       Style="{DynamicResource txtBlockAdditionalInfo}"
+                                       Margin="0,0,10,0"/>
 
-                            <TextBlock Text="{Binding AgeRestriction}"/>
+                            <TextBlock x:Name="txtBlockAgeRestriction"
+                                       Text="{Binding AgeRestriction}"
+                                       Style="{DynamicResource txtBlockAdditionalInfo}"/>
                         </StackPanel>
 
                         <TextBlock Text="{Binding MovieDuration}"
+                                   Style="{DynamicResource txtBlockAdditionalInfo}"
     
                                    Grid.Row="2"
                                    Grid.Column="1"/>
 
-                        
+                        <TextBlock x:Name="txtBlockMovieDescription"
+                                   Text="{Binding MovieDescription}"
+                                   Style="{DynamicResource txtBlockMovieDescription}"
+                                   
+                                   Grid.Row="3"
+                                   Grid.Column="1"/>
 
                         <TextBlock Text="{Binding MovieRating}"
+                                   Style="{DynamicResource txtBlockAdditionalInfo}"
     
                                    Grid.Row="4"
                                    Grid.Column="1"/>
-
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
