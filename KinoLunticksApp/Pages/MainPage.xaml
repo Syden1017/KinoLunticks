@@ -26,14 +26,14 @@
 
         <!-- Поиск -->
         <xctk:WatermarkTextBox x:Name="txtBoxSearch"
-               Watermark="Поиск &#128269;"
+                               Watermark="Поиск &#128269;"
+                                               
+                               Style="{DynamicResource txtBoxSearch}"
                                
-               Style="{DynamicResource txtBoxSearch}"
-               
-               Grid.Column="0"
-               Grid.Row="0"
-               
-               TextChanged="txtBoxSearch_TextChanged"/>
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               
+                               TextChanged="txtBoxSearch_TextChanged"/>
 
         <Grid Grid.Column="1"
               Grid.Row="0">
@@ -62,11 +62,11 @@
 
                 <ComboBox x:Name="cmbBoxFilterField"
                           SelectionChanged="cmbBoxFilterField_SelectionChanged"
+                          
+                          Style="{DynamicResource cmbBoxFilterSort}"
                    
                           Grid.Column="1"
-                          Grid.Row="0"
-                          
-                          >
+                          Grid.Row="0">
                     <ComboBox.Items>
                         <TextBlock Text="Не выбрано"/>
                         <TextBlock Text="Жанр"/>
@@ -81,6 +81,8 @@
 
                 <ComboBox x:Name="cmbBoxFilterType"
                           SelectionChanged="cmbBoxFilterType_SelectionChanged"
+                          
+                          Style="{DynamicResource cmbBoxFilterSort}"
                   
                           Grid.Column="3"
                           Grid.Row="0">
@@ -107,6 +109,8 @@
 
                 <ComboBox x:Name="cmbBoxSortField"
                           SelectionChanged="cmbBoxSortField_SelectionChanged"
+                          
+                          Style="{DynamicResource cmbBoxFilterSort}"
                   
                           Grid.Column="1"
                           Grid.Row="0">
@@ -126,6 +130,8 @@
 
                 <ComboBox x:Name="cmbBoxSortType"
                           SelectionChanged="cmbBoxSortType_SelectionChanged"
+                          
+                          Style="{DynamicResource cmbBoxFilterSort}"
                   
                           Grid.Column="3"
                           Grid.Row="0">
