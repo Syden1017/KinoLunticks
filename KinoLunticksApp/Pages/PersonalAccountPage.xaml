@@ -179,7 +179,27 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
+
+                        <Image x:Name="imgPreview"
+                               Grid.Column="0"
+                               Grid.Row="0"
+                               Grid.RowSpan="5">
+                            <Image.Source>
+                                <Binding Path="Preview">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>
+                                            /KinoLunticksApp;component/Images/DefaultPhoto.png
+                                        </ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                                
+                                
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
