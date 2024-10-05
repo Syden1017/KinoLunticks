@@ -17,7 +17,7 @@ public partial class Movie
 
     public string MovieDuration { get; set; } = null!;
 
-    public string AgeRestriction { get; set; } = null!;
+    public string? AgeRestriction { get; set; }
 
     public decimal TicketPrice { get; set; }
 

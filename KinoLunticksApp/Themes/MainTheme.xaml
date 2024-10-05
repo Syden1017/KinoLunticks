@@ -945,7 +945,10 @@
                     Value="0"/>
 
             <Setter Property="FontSize"
-                    Value="32"/>
+                    Value="26"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
         </Style.Setters>
     </Style>
 
@@ -1004,6 +1007,73 @@
                         Value="#72A8AC"/>
             </Trigger>
         </Style.Triggers>-->
+    </Style>
+
+    <Style x:Key="listViewSelect"
+           TargetType="ListViewItem">
+        <Style.Setters>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="BorderBrush"
+                    Value="DimGray"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="Grid">
+                            <Border x:Name="SimpleBackground"
+                                    Visibility="Visible"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{TemplateBinding Background}"/>
+                            <Border x:Name="OnSelectedBackground"
+                                    Visibility="Collapsed"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Background="{x:Null}"/>
+                            <ContentPresenter x:Name="ContentPresenter"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="OnSelectedBackground"
+                                        Property="Visibility"
+                                        Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="False">
+                                <Setter TargetName="OnSelectedBackground"
+                                        Property="Visibility"
+                                        Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockMyTickets"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="Margin"
+                    Value="15 50"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="stcPanelMyTickets"
+           TargetType="StackPanel">
+        <Style.Setters>
+            <Setter Property="Orientation"
+                    Value="Horizontal"/>
+
+            <Setter Property="Margin"
+                    Value="15 50"/>
+        </Style.Setters>
     </Style>
     <!--#endregion-->
 </ResourceDictionary>
