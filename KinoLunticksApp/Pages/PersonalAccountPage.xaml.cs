@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
@@ -49,6 +51,15 @@ namespace KinoLunticksApp.Pages
             }
 
             DataContext = _user;
+
+            UpdateOrdersList();
+        }
+
+        private void UpdateOrdersList()
+        {
+            _db.Orders.Include("MovieNavigation").Include("PreviewNavigation").Load();
+
+            lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

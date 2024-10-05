@@ -171,45 +171,79 @@
                      Style="{DynamicResource tabItemInfo}">
                 <ListView x:Name="lViewMyTickets"
                           
-                          Style="{DynamicResource lViewMyAditionalInfo}">
-                    <ListView.ItemTemplate>
+                          Style="{DynamicResource lViewMyAditionalInfo}"
+                          ItemContainerStyle="{DynamicResource listViewSelect}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="{Binding ActualWidth, 
-                                          RelativeSource={RelativeSource AncestorType=ListView}}">
+                            <Grid MaxHeight="500">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                        <Image x:Name="imgPreview"
-                               Grid.Column="0"
-                               Grid.Row="0"
-                               Grid.RowSpan="5">
-                            <Image.Source>
-                                <Binding Path="Preview">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>
-                                            /KinoLunticksApp;component/Images/DefaultPhoto.png
-                                        </ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-                                
-                                
+                                <Image Source="{Binding PreviewNavigation.Preview}"
+                                       Margin="10"
+                                       
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"/>
+
+                                <Grid Grid.Column="2"
+                                      Grid.ColumnSpan="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                    
+                                        <TextBlock Text="{Binding MovieNavigation.MovieName}"
+                                                   
+                                                   Style="{DynamicResource txtBlockMyTickets}"
+                                                   
+                                                   Grid.Column="0"
+                                                   Grid.Row="0"
+                                                   Grid.ColumnSpan="2"/>
+                                        
+                                        <StackPanel Style="{DynamicResource stcPanelMyTickets}"
+                                                    Grid.Column="0"
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="2">
+                                            <TextBlock Text="{Binding SessionTime}"
+                                                       Margin="5"/>
+
+                                            <TextBlock Text="{Binding Seats}"/>
+                                        </StackPanel>
+
+                                        <TextBlock Text="{Binding Amount}"
+                                                   
+                                                   Style="{DynamicResource txtBlockMyTickets}"
+                                                   
+                                                   Grid.Column="0"
+                                                   Grid.Row="2"
+                                                   Grid.ColumnSpan="2"/>
+                                </Grid>
                             </Grid>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
+                    </ItemsControl.ItemTemplate>
                 </ListView>
             </TabItem>
 
             <TabItem Header="Мои карты"
                      
                      Style="{DynamicResource tabItemInfo}">
-                <ListView x:Name="lViewMyTCards"
+                <ListView x:Name="lViewMyCards"
           
                           Style="{DynamicResource lViewMyAditionalInfo}">
                     
