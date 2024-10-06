@@ -65,7 +65,7 @@ namespace KinoLunticksApp.Pages
         /// <summary>
         /// Поиск студента по ФИО
         /// </summary>
-        /// <param name="students">Список студентов для поиска</param>
+        /// <param name="students">Список сеансов для поиска</param>
         /// <param name="request">Поисковый запрос</param>
         /// <returns>Результаты поиска</returns>
         private List<Movie> SearchMovies(List<Movie> movies, string request)

@@ -550,19 +550,7 @@
 
             <Setter Property="Margin"
                      Value="7"/>
-
-            <Setter Property="Template">
-                 <Setter.Value>
-                     <ControlTemplate TargetType="TextBox">
-                         <Border Background="{TemplateBinding Background}"
-                                 CornerRadius="10">
-                             <ContentPresenter HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"/>
-                         </Border>
-                     </ControlTemplate>
-                 </Setter.Value>
-             </Setter>
-         </Style.Setters>
+        </Style.Setters>
     </Style>
 
     <Style x:Key="txtBlockPoleFiltr"
@@ -577,6 +565,40 @@
              <Setter Property="HorizontalAlignment"
                      Value="Center"/>
          </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockMovieName"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="40"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockAdditionalInfo"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="FontSize"
+                    Value="20"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockMovieDescription"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="TextWrapping"
+                Value="Wrap"/>
+            <Setter Property="FontSize"
+                    Value="25"/>
+            <Setter Property="Foreground"
+                    Value="White"/>
+        </Style.Setters>
     </Style>
 
     <Style x:Key="FocusVisual">
