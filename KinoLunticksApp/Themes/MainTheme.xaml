@@ -894,7 +894,7 @@
                     Value="0"/>
 
             <Setter Property="FontSize"
-                    Value="18"/>
+                    Value="16"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -997,15 +997,18 @@
 
             <Setter Property="Background"
                     Value="#72A8AC"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
         </Style.Setters>
 
-        <!-- Сделать триггер который меняет цвет у выбранного TabItem -->
         <!--<Style.Triggers>
-            <Trigger Property="IsTabStop"
-                     Value="True">
+            <DataTrigger Binding="{Binding IsSelected, 
+                                   RelativeSource={RelativeSource Self}}"
+                         Value="True">
                 <Setter Property="Background"
                         Value="#72A8AC"/>
-            </Trigger>
+            </DataTrigger>
         </Style.Triggers>-->
     </Style>
 
@@ -1061,7 +1064,7 @@
                     Value="#FFF"/>
 
             <Setter Property="Margin"
-                    Value="15 50"/>
+                    Value="0 35"/>
         </Style.Setters>
     </Style>
 
@@ -1069,10 +1072,7 @@
            TargetType="StackPanel">
         <Style.Setters>
             <Setter Property="Orientation"
-                    Value="Horizontal"/>
-
-            <Setter Property="Margin"
-                    Value="15 50"/>
+                    Value="Vertical"/>
         </Style.Setters>
     </Style>
     <!--#endregion-->

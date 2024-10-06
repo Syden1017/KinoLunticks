@@ -181,7 +181,9 @@
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid MaxHeight="500">
+                            <Grid MaxHeight="350"
+                                  VerticalAlignment="Top"
+                                  HorizontalAlignment="Left">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -220,13 +222,16 @@
                                                     Grid.Column="0"
                                                     Grid.Row="1"
                                                     Grid.ColumnSpan="2">
-                                            <TextBlock Text="{Binding SessionTime}"
-                                                       Margin="5"/>
+                                            <TextBlock Text="{Binding SessionTime,
+                                                              StringFormat={}Время: {0:hh:mm},
+                                                              ConverterCulture=ru-Ru}"/>
 
-                                            <TextBlock Text="{Binding Seats}"/>
+                                            <TextBlock Text="{Binding Seats,
+                                                              StringFormat={}Места: {0}}"/>
                                         </StackPanel>
 
-                                        <TextBlock Text="{Binding Amount}"
+                                        <TextBlock Text="{Binding Amount,
+                                                          StringFormat={}Сумма: {0}}"
                                                    
                                                    Style="{DynamicResource txtBlockMyTickets}"
                                                    
