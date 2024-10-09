@@ -23,7 +23,5 @@ public partial class User
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual Role UserRoleNavigation { get; set; } = null!;
-
     public virtual ICollection<BankAccount> AccountNumbers { get; set; } = new List<BankAccount>();
 }
