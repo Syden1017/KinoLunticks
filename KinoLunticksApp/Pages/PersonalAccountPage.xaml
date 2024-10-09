@@ -191,11 +191,20 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image Source="{Binding PreviewNavigation.Preview}"
-                                       Margin="10"
+                                <Image Margin="10"
                                        
                                        Grid.Column="0"
-                                       Grid.ColumnSpan="2"/>
+                                       Grid.ColumnSpan="2">
+                                    <Image.Source>
+                                        <Binding Path="PreviewNavigation.Preview">
+                                            <Binding.TargetNullValue>
+                                                <ImageSource>
+                                                    /KinoLunticksApp;component/Images/default.jpg
+                                                </ImageSource>
+                                            </Binding.TargetNullValue>
+                                        </Binding>
+                                    </Image.Source>
+                                </Image>
 
                                 <Grid Grid.Column="2"
                                       Grid.ColumnSpan="2">
