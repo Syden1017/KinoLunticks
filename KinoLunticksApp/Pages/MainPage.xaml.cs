@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-//using KinoLunticksApp.Models;
+using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +11,9 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class MainPage : Page
     {
-        //KinoLunticsContext _db = new KinoLunticsContext();
-        //User _user = new User();
-        //List<Movie> _movies = new List<Movie>();
+        KinoLunticsContext _db = new KinoLunticsContext();
+        User _user = new User();
+        List<Movie> _movies = new List<Movie>();
 
         Frame _frame;
 
@@ -27,56 +27,56 @@ namespace KinoLunticksApp.Pages
         // Тип сортировки
         const int ASC_SORT = 0;                      // Сортировка по возрастанию
 
-        public MainPage(Frame frame/*, User user*/)
+        public MainPage(Frame frame, User user)
         {
             InitializeComponent();
 
             _frame = frame;
-            //_user = user;
+            _user = user;
 
             UpdateMovieList();
         }
 
         private void UpdateMovieList()
         {
-            //_db.Movies.Load();
-            //_movies = _db.Movies.ToList();
+            _db.Movies.Load();
+            _movies = _db.Movies.ToList();
 
-            //string request = txtBoxSearch.Text.
-            //                              Replace(" ", "").
-            //                              ToLower();
-            //int characteristics = 0;
+            string request = txtBoxSearch.Text.
+                                          Replace(" ", "").
+                                          ToLower();
+            int characteristics = 0;
 
-            //if (cmbBoxFilterType.SelectedIndex > 0)
-            //{
-            //    int.TryParse(cmbBoxFilterType.SelectedValue.ToString(), out characteristics);
-            //}
+            if (cmbBoxFilterType.SelectedIndex > 0)
+            {
+                int.TryParse(cmbBoxFilterType.SelectedValue.ToString(), out characteristics);
+            }
 
-            //// Список формировать в порядке
-            //// сортировка -> поиск -> фильтрация -> деление на страницы
-            //int filterField = cmbBoxFilterField.SelectedIndex,
-            //    sortField = cmbBoxSortField.SelectedIndex,
-            //    sortType = cmbBoxSortType.SelectedIndex;
+            // Список формировать в порядке
+            // сортировка -> поиск -> фильтрация
+            int filterField = cmbBoxFilterField.SelectedIndex,
+                sortField = cmbBoxSortField.SelectedIndex,
+                sortType = cmbBoxSortType.SelectedIndex;
 
-            //List<Movie> movieList = SearchMovies(_movies, request);
+            List<Movie> movieList = SearchMovies(_movies, request);
 
-            //lViewLuntiki.ItemsSource = movieList;
+            lViewLuntiki.ItemsSource = movieList;
         }
 
         #region Search
         /// <summary>
         /// Поиск студента по ФИО
         /// </summary>
-        /// <param name="students">Список сеансов для поиска</param>
-        /// <param name="request">Поисковый запрос</param>
+        /// <param name="movies"> Список сеансов для поиска</param>
+        /// <param name="request"> Поисковый запрос</param>
         /// <returns>Результаты поиска</returns>
-        //private List<Movie> SearchMovies(List<Movie> movies, string request)
-        //{
-        //    return movies.Where(s => (s.MovieName).
-        //                                     ToLower().
-        //                                     Contains(request)).
-        //                                     ToList();
-        //}
+        private List<Movie> SearchMovies(List<Movie> movies, string request)
+        {
+            return movies.Where(s => (s.MovieName).
+                                             ToLower().
+                                             Contains(request)).
+                                             ToList();
+        }
 
         /// <summary>
         /// Изменение поискового запроса

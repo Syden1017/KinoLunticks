@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-//using KinoLunticksApp.Models;
+using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
 
 namespace KinoLunticksApp.Pages
@@ -13,7 +13,7 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class RegistrationPage : Page
     {
-        //KinoLunticsContext _db = new KinoLunticsContext();
+        KinoLunticsContext _db = new KinoLunticsContext();
         UserWork _user = new UserWork();
 
         Frame _frame;
@@ -49,15 +49,15 @@ namespace KinoLunticksApp.Pages
                 errors.AppendLine("Пароли не совпадают. Повторите попытку");
             }
 
-            //if (_user.IsLoginExists(login))
-            //{
-            //    errors.AppendLine("Пользователь с данным логином зарегистрирован в системе.");
-            //}
+            if (_user.IsLoginExists(login))
+            {
+                errors.AppendLine("Пользователь с данным логином зарегистрирован в системе.");
+            }
 
-            //if (_user.IsEmailEsists(email))
-            //{
-            //    errors.AppendLine("Пользователь с данной электронной почтой зарегистрирован в системе.");
-            //}
+            if (_user.IsEmailEsists(email))
+            {
+                errors.AppendLine("Пользователь с данной электронной почтой зарегистрирован в системе.");
+            }
 
             if (errors.Length > 0)
             {
@@ -72,7 +72,7 @@ namespace KinoLunticksApp.Pages
             }
             else
             {
-                //_user.RegisterUser(login, password, userName, userLastName, email, _frame);
+                _user.RegisterUser(login, password, userName, userLastName, email, _frame);
             }
 
         }
