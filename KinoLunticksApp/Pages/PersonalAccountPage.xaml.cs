@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-using KinoLunticksApp.Models;
+//using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
 
 namespace KinoLunticksApp.Pages
@@ -16,8 +16,8 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class PersonalAccountPage : Page
     {
-        KinoLunticsContext _db = new KinoLunticsContext();
-        User _user = new User();
+        //KinoLunticsContext _db = new KinoLunticsContext();
+        //User _user = new User();
 
         Frame _frame;
 
@@ -37,29 +37,29 @@ namespace KinoLunticksApp.Pages
 
         byte[] _imageData;
 
-        public PersonalAccountPage(Frame frame, User user)
+        public PersonalAccountPage(Frame frame/*, User user*/)
         {
             InitializeComponent();
 
             _frame = frame;
-            _user = user;
-            _currentImage = _defaultImage;
+            //_user = user;
+            //_currentImage = _defaultImage;
 
-            if (_user.Photo != null)
-            {
-                _image.ReadBitmapImageFromArray(new MemoryStream(_user.Photo), out _currentImage);
-            }
+            //if (_user.Photo != null)
+            //{
+            //    _image.ReadBitmapImageFromArray(new MemoryStream(_user.Photo), out _currentImage);
+            //}
 
-            DataContext = _user;
+            //DataContext = _user;
 
             UpdateOrdersList();
         }
 
         private void UpdateOrdersList()
         {
-            _db.Orders.Include("MovieNavigation").Include("PreviewNavigation").Load();
+            //_db.Orders.Include("MovieNavigation").Include("PreviewNavigation").Load();
 
-            lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
+            //lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
