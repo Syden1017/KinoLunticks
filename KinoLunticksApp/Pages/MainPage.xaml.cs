@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Input;
+using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
 
@@ -123,9 +125,16 @@ namespace KinoLunticksApp.Pages
 
         }
 
-        private void btnPersonalAccount_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnPersonalAccount_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new PersonalAccountPage(_frame, _user));
+
+        private void lViewLuntiki_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //_frame.Navigate(new PersonalAccountPage(_frame, _user));
+            var selectedMovie = lViewLuntiki.SelectedItem as Movie;
+
+            if (selectedMovie != null)
+            {
+                _frame.Navigate(new MoviesPage(_frame, _user, selectedMovie));
+            }
         }
     }
 }

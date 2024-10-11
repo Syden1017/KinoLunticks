@@ -77,9 +77,6 @@ namespace KinoLunticksApp.Pages
 
         }
 
-        private void txtBlockAuthorization_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            _frame.Navigate(new AutorizationPage(_frame));
-        }
+        private void txtBlockAuthorization_MouseDown(object sender, MouseButtonEventArgs e) => _frame.Navigate(new AutorizationPage(_frame));
     }
 }

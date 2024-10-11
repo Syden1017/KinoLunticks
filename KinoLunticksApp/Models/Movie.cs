@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KinoLunticksApp.Models;
+﻿namespace KinoLunticksApp.Models;
 
 public partial class Movie
 {
