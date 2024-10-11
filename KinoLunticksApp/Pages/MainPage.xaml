@@ -156,6 +156,9 @@
 
         <ListView x:Name="lViewLuntiki"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  
+                  MouseDoubleClick="lViewLuntiki_MouseDoubleClick"
+                  
                   Grid.Row="1"
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
@@ -204,7 +207,6 @@
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1"
                                     Grid.Column="1">
-                            
                             <TextBlock x:Name="txtBlockGenre"
                                        Text="{Binding MovieGenre}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"

@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
+
+using KinoLunticksApp.Models;
 
 namespace KinoLunticksApp.Pages
 {
@@ -20,9 +9,21 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class MoviesPage : Page
     {
-        public MoviesPage()
+        User _user = new User();
+        Movie _movie = new Movie();
+
+        Frame _frame;
+
+        public MoviesPage(Frame frame, User user, Movie movie)
         {
             InitializeComponent();
+
+            _frame = frame;
+            _user = user;
+            _movie = movie;
+
+            DataContext = _user;
+            DataContext = _movie;
         }
     }
 }
