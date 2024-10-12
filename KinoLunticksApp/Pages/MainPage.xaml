@@ -75,6 +75,7 @@
                 </ComboBox>
 
                 <TextBlock Text="Значение: "
+                           Style="{DynamicResource txtBlockPoleFiltr}"
                    
                            Grid.Column="2"
                            Grid.Row="0"/>
@@ -103,6 +104,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Поле: "
+                           Style="{DynamicResource txtBlockPoleFiltr}"
                
                            Grid.Column="0"
                            Grid.Row="0"/>
@@ -124,6 +126,7 @@
                 </ComboBox>
 
                 <TextBlock Text="Тип: "
+                           Style="{DynamicResource txtBlockPoleFiltr}"
                    
                            Grid.Column="2"
                            Grid.Row="0"/>
@@ -155,10 +158,11 @@
 
 
         <ListView x:Name="lViewLuntiki"
-                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   
                   MouseDoubleClick="lViewLuntiki_MouseDoubleClick"
-                  
+
                   Grid.Row="1"
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
@@ -166,42 +170,74 @@
             
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{Binding ActualWidth,
-                                  RelativeSource={RelativeSource AncestorType=ListView}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="3*"/>
-                        </Grid.ColumnDefinitions>
+                    <Border BorderBrush="#92DBDF"
+                            BorderThickness="1">
+                        <Grid Width="{Binding ActualWidth,
+                                      RelativeSource={RelativeSource AncestorType=ListView}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="5.2*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Image x:Name="imgPhoto"
-                               Grid.Column="0"
-                               Grid.Row="0"
-                               Grid.RowSpan="5"
-                               Width="250">
-                            <Image.Source>
-                                <Binding Path="Preview">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>
-                                            /KinoLunticksApp;component/Images/DefaultPhoto.png
-                                        </ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-
-                        <TextBlock x:Name="txtBlockMovieName"  
-                                   Text="{Binding MovieName}"
-                                   Style="{DynamicResource txtBlockMovieName}"
-                                
+                            <Image x:Name="imgPhoto"
+                                   Grid.Column="0"
                                    Grid.Row="0"
+                                   Grid.RowSpan="5"
+                                   Width="250">
+                                <Image.Source>
+                                    <Binding Path="Preview">
+                                        <Binding.TargetNullValue>
+                                            <ImageSource>
+                                                /KinoLunticksApp;component/Images/DefaultPhoto.png
+                                            </ImageSource>
+                                        </Binding.TargetNullValue>
+                                    </Binding>
+                                </Image.Source>
+                            </Image>
+
+                            <TextBlock x:Name="txtBlockMovieName"  
+                                       Text="{Binding MovieName}"
+                                       Style="{DynamicResource txtBlockMovieName}"
+            
+                                       Grid.Row="0"
+                                       Grid.Column="1"/>
+
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="1"
+                                        Grid.Column="1">
+
+                                <TextBlock x:Name="txtBlockGenre"
+                                           Text="{Binding MovieGenre}"
+                                           Style="{DynamicResource txtBlockAdditionalInfo}"
+                                           Margin="0,0,10,0"/>
+
+                                <TextBlock x:Name="txtBlockAgeRestriction"
+                                           Text="{Binding AgeRestriction}"
+                                           Style="{DynamicResource txtBlockAdditionalInfo}"/>
+                            </StackPanel>
+
+                            <TextBlock Text="{Binding MovieDuration}"
+                                       Style="{DynamicResource txtBlockAdditionalInfo}"
+                                       
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+
+                            <TextBlock x:Name="txtBlockMovieDescription"
+                                       Text="{Binding MovieDescription}"
+                                       Style="{DynamicResource txtBlockMovieDescription}"
+                                       
+                                       Grid.Row="3"
+                                       Grid.Column="1"/>
+
+                            <TextBlock Text="{Binding MovieRating}"
                                    Grid.Column="1"/>
 
                         <StackPanel Orientation="Horizontal"
@@ -210,32 +246,11 @@
                             <TextBlock x:Name="txtBlockGenre"
                                        Text="{Binding MovieGenre}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"
-                                       Margin="0,0,10,0"/>
-
-                            <TextBlock x:Name="txtBlockAgeRestriction"
-                                       Text="{Binding AgeRestriction}"
-                                       Style="{DynamicResource txtBlockAdditionalInfo}"/>
-                        </StackPanel>
-
-                        <TextBlock Text="{Binding MovieDuration}"
-                                   Style="{DynamicResource txtBlockAdditionalInfo}"
-    
-                                   Grid.Row="2"
-                                   Grid.Column="1"/>
-
-                        <TextBlock x:Name="txtBlockMovieDescription"
-                                   Text="{Binding MovieDescription}"
-                                   Style="{DynamicResource txtBlockMovieDescription}"
-                                   
-                                   Grid.Row="3"
-                                   Grid.Column="1"/>
-
-                        <TextBlock Text="{Binding MovieRating}"
-                                   Style="{DynamicResource txtBlockAdditionalInfo}"
-    
-                                   Grid.Row="4"
-                                   Grid.Column="1"/>
-                    </Grid>
+                                       
+                                       Grid.Row="4"
+                                       Grid.Column="1"/>
+                        </Grid>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListView>

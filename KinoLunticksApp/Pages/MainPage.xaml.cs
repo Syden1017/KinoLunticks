@@ -51,7 +51,7 @@ namespace KinoLunticksApp.Pages
 
             if (cmbBoxFilterType.SelectedIndex > 0)
             {
-                int.TryParse(cmbBoxFilterType.SelectedValue.ToString(), out characteristics);
+                int.TryParse(cmbBoxFilterType.SelectedIndex.ToString(), out characteristics);
             }
 
             // Список формировать в порядке
@@ -60,7 +60,11 @@ namespace KinoLunticksApp.Pages
                 sortField = cmbBoxSortField.SelectedIndex,
                 sortType = cmbBoxSortType.SelectedIndex;
 
-            List<Movie> movieList = SearchMovies(_movies, request);
+            List<Movie> movieList = SearchMovies(
+                                        FilterMovies(_movies,
+                                                     filterField,
+                                                     characteristics),
+                                                 request);
 
             lViewLuntiki.ItemsSource = movieList;
         }
@@ -89,6 +93,7 @@ namespace KinoLunticksApp.Pages
         }
         #endregion
 
+        #region Filter
         /// <summary>
         /// Очистка данных из ComboBox
         /// </summary>
@@ -105,15 +110,108 @@ namespace KinoLunticksApp.Pages
             }
         }
 
+        /// <summary>
+        /// <para>Получение списка годов рождения студентов</para>
+        /// <para>Загрузка списка в ComboBox</para>
+        /// </summary>
+        /// <param name="filterType">ComboBox для загрузки</param>
+        private void LoadGenresInComboBox(ComboBox filterType)
+        {
+            List<string> genres = _db.Movies.Select(m => m.MovieGenre.ToString()).
+                                                                      Distinct().
+                                                                      OrderBy(y => y).
+                                                                      ToList();
+
+            genres.Insert(0, "Все жанры");
+
+            ClearComboBox(filterType);
+
+            filterType.ItemsSource = genres;
+            filterType.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// <para>Получение списка годов рождения студентов</para>
+        /// <para>Загрузка списка в ComboBox</para>
+        /// </summary>
+        /// <param name="filterType">ComboBox для загрузки</param>
+        private void LoadAgeRestrictionsInComboBox(ComboBox filterType)
+        
+        private void cmbBoxFilterField_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        {
+            List<string> ageRestriction = _db.Movies.Select(m => m.AgeRestriction.ToString()).
+                                                                      Distinct().
+                                                                      OrderBy(y => y).
+                                                                      ToList();
+
+            ageRestriction.Insert(0, "Все ограничения");
+
+            ClearComboBox(filterType);
+
+            filterType.ItemsSource = ageRestriction;
+            filterType.SelectedIndex = 0;
+        }
+
+        /// <summary>
+        /// Фильтрация списка студентов по году поступления / году рождения
+        /// </summary>
+        /// <param name="movies">Список студентов для фильтрации</param>
+        /// <param name="filterField">Номер поля для фильтрации</param>
+        /// <param name="characteristics">Значение года фильтрации</param>
+        /// <returns>Результаты фильтрации</returns>
+        private List<Movie> FilterMovies(List<Movie> movies, int filterField, int characteristics)
+        {
+            if (characteristics != 0)
+            {
+                switch (filterField)
+                {
+                    case FILTER_BY_MOVIE_GENRE:
+                        movies = movies.Where(m => m.MovieGenre.ToLower().Contains(characteristics.ToString().ToLower())).ToList();
+
+                        break;
+
+                    case FILTER_BY_AGE_RESTRICTION:
+                        movies = movies.Where(m => m.AgeRestriction.Contains(characteristics.ToString())).ToList();
+
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            return movies;
+        }
+
         private void cmbBoxFilterField_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            switch (cmbBoxFilterField.SelectedIndex)
+            {
+                // Фильтр по жанру
+                case FILTER_BY_MOVIE_GENRE:
+                    LoadGenresInComboBox(cmbBoxFilterType);
+                    break;
 
+                // Фильтр по возрастным ограничениям
+                case FILTER_BY_AGE_RESTRICTION:
+                    LoadAgeRestrictionsInComboBox(cmbBoxFilterType);
+                    break;
+
+                // Поле фильтра не выбрано
+                default:
+                    ClearComboBox(cmbBoxFilterType);
+                    cmbBoxFilterType.Items.Add("Не задано");
+                    cmbBoxFilterType.SelectedIndex = 0;
+                    break;
+            }
         }
 
         private void cmbBoxFilterType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            UpdateMovieList();
         }
+        #endregion
 
         private void cmbBoxSortField_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

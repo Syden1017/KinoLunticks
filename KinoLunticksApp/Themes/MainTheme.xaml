@@ -549,7 +549,22 @@
                      Value="#94DBDF"/>
 
             <Setter Property="Margin"
-                     Value="7"/>
+                    Value="7"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style.Setters>
     </Style>
 
@@ -563,8 +578,11 @@
                      Value="Center"/>
 
              <Setter Property="HorizontalAlignment"
-                     Value="Center"/>
-         </Style.Setters>
+                     Value="Right"/>
+
+            <Setter Property="Foreground"
+                    Value="#fff"/>
+        </Style.Setters>
     </Style>
 
     <Style x:Key="txtBlockMovieName"
@@ -593,9 +611,11 @@
            TargetType="TextBlock">
         <Style.Setters>
             <Setter Property="TextWrapping"
-                Value="Wrap"/>
+                    Value="Wrap"/>
+            
             <Setter Property="FontSize"
                     Value="25"/>
+            
             <Setter Property="Foreground"
                     Value="White"/>
         </Style.Setters>
@@ -605,7 +625,10 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    <Rectangle Margin="2" 
+                               StrokeDashArray="1 2"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" 
+                               SnapsToDevicePixels="true" StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
