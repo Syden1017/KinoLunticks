@@ -25,10 +25,7 @@ namespace KinoLunticksApp
             }
         }
 
-        private void btnMinimize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
-        }
+        private void btnMinimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
@@ -44,11 +41,6 @@ namespace KinoLunticksApp
             {
                 Close();
             }
-        }
-
-        private void frmMain_ContentRendered(object sender, EventArgs e)
-        {
-
         }
     }
 }

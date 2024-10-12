@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
@@ -8,6 +6,8 @@ using System.Windows.Media.Imaging;
 
 using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Pages
 {

@@ -5,7 +5,7 @@ namespace KinoLunticksApp.Models;
 
 public partial class Role
 {
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
 
     public string RoleName { get; set; } = null!;
 

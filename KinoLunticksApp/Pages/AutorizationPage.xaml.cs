@@ -5,8 +5,6 @@ using System.Windows.Controls;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace KinoLunticksApp.Pages
 {
@@ -55,7 +53,7 @@ namespace KinoLunticksApp.Pages
             }
             else
             {
-                if (user.UserRole == "002")
+                if (user.UserRole.ToString() == "2")
                 {
                     _frame.Navigate(new MainPage(_frame, user));
                 }
@@ -66,10 +64,7 @@ namespace KinoLunticksApp.Pages
             }
         }
 
-        private void txtBlockRegistration_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            _frame.Navigate(new RegistrationPage(_frame));
-        }
+        private void txtBlockRegistration_MouseDown(object sender, MouseButtonEventArgs e) => _frame.Navigate(new RegistrationPage(_frame));
 
         private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
         {

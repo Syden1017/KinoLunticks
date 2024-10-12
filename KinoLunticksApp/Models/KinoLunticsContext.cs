@@ -17,6 +17,8 @@ public partial class KinoLunticsContext : DbContext
 
     public virtual DbSet<BankAccount> BankAccounts { get; set; }
 
+    public virtual DbSet<Genre> Genres { get; set; }
+
     public virtual DbSet<Movie> Movies { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -27,15 +29,13 @@ public partial class KinoLunticsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAB30-04\\SQLEXPRESS; Database=KinoLuntics; User=ИСП-42; Password=1234567890; Encrypt=false");
+        => optionsBuilder.UseSqlServer("Server=Syden1810; Database=KinoLuntics; Integrated Security=true; Encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<BankAccount>(entity =>
         {
             entity.HasKey(e => e.AccountNumber).HasName("PK_BankAccount_AccountNumber");
-
-            entity.ToTable("BankAccount");
 
             entity.Property(e => e.AccountNumber)
                 .HasMaxLength(20)
@@ -62,8 +62,8 @@ public partial class KinoLunticsContext : DbContext
                         .HasConstraintName("FK_UserBankAccounts_AccountNumber"),
                     j =>
                     {
-                        j.HasKey("AccountNumber", "UserLogin");
-                        j.ToTable("UserBankAccounts");
+                        j.HasKey("AccountNumber", "UserLogin").HasName("PK_UserBankAccounts");
+                        j.ToTable("UserBankAccount");
                         j.IndexerProperty<string>("AccountNumber")
                             .HasMaxLength(20)
                             .IsUnicode(false)
@@ -72,18 +72,41 @@ public partial class KinoLunticsContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<Genre>(entity =>
+        {
+            entity.Property(e => e.GenreId)
+                .ValueGeneratedNever()
+                .HasColumnName("GenreID");
+            entity.Property(e => e.GenreName).HasMaxLength(25);
+
+            entity.HasMany(d => d.MovieCodes).WithMany(p => p.Genres)
+                .UsingEntity<Dictionary<string, object>>(
+                    "MovieGenre",
+                    r => r.HasOne<Movie>().WithMany()
+                        .HasForeignKey("MovieCode")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_MovieGenres_Movies"),
+                    l => l.HasOne<Genre>().WithMany()
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_MovieGenres_Genres"),
+                    j =>
+                    {
+                        j.HasKey("GenreId", "MovieCode");
+                        j.ToTable("MovieGenres");
+                        j.IndexerProperty<int>("GenreId").HasColumnName("GenreID");
+                    });
+        });
+
         modelBuilder.Entity<Movie>(entity =>
         {
             entity.HasKey(e => e.MovieCode).HasName("PK_Movies_MovieCode");
 
-            entity.Property(e => e.MovieCode)
-                .HasMaxLength(3)
-                .IsUnicode(false);
+            entity.Property(e => e.MovieCode).ValueGeneratedNever();
             entity.Property(e => e.AgeRestriction)
                 .HasMaxLength(3)
                 .IsUnicode(false);
             entity.Property(e => e.MovieDuration).HasMaxLength(10);
-            entity.Property(e => e.MovieGenre).HasMaxLength(50);
             entity.Property(e => e.MovieName).HasMaxLength(50);
             entity.Property(e => e.TicketPrice).HasColumnType("decimal(19, 2)");
         });
@@ -92,32 +115,18 @@ public partial class KinoLunticsContext : DbContext
         {
             entity.HasKey(e => e.OrderNumber).HasName("PK_Order_OrderNumber");
 
-            entity.ToTable("Order");
-
-            entity.Property(e => e.OrderNumber)
-                .HasMaxLength(3)
-                .IsUnicode(false);
-            entity.Property(e => e.Amount).HasColumnType("decimal(19, 2)");
-            entity.Property(e => e.Movie)
-                .HasMaxLength(3)
-                .IsUnicode(false);
-            entity.Property(e => e.Preview)
-                .HasMaxLength(3)
-                .IsUnicode(false);
+            entity.Property(e => e.OrderNumber).ValueGeneratedNever();
+            entity.Property(e => e.Amount).HasColumnType("decimal(8, 2)");
             entity.Property(e => e.Seats)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .IsFixedLength();
             entity.Property(e => e.User).HasMaxLength(25);
 
-            entity.HasOne(d => d.MovieNavigation).WithMany(p => p.OrderMovieNavigations)
+            entity.HasOne(d => d.MovieNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.Movie)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Order_Movies");
-
-            entity.HasOne(d => d.PreviewNavigation).WithMany(p => p.OrderPreviewNavigations)
-                .HasForeignKey(d => d.Preview)
-                .HasConstraintName("FK_Order_Preview");
 
             entity.HasOne(d => d.UserNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.User)
@@ -129,12 +138,8 @@ public partial class KinoLunticsContext : DbContext
         {
             entity.HasKey(e => e.RoleId).HasName("PK_Role_RoleID");
 
-            entity.ToTable("Role");
-
             entity.Property(e => e.RoleId)
-                .HasMaxLength(3)
-                .IsUnicode(false)
-                .IsFixedLength()
+                .ValueGeneratedNever()
                 .HasColumnName("RoleID");
             entity.Property(e => e.RoleName).HasMaxLength(25);
         });
@@ -154,10 +159,6 @@ public partial class KinoLunticsContext : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.UserLastName).HasMaxLength(25);
             entity.Property(e => e.UserName).HasMaxLength(25);
-            entity.Property(e => e.UserRole)
-                .HasMaxLength(3)
-                .IsUnicode(false)
-                .IsFixedLength();
 
             entity.HasOne(d => d.UserRoleNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.UserRole)

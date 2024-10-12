@@ -40,8 +40,8 @@ namespace KinoLunticksApp.Tools
         /// <param name="userEmail">Электронная почта пользователя</param>
         /// <param name="frame">Фрейм для навигации на страницу авторизации</param>
         /// <param name="birthDate">Дата рождения пользователя (необязательный параметр)</param>
-        public void RegisterUser(string userLogin, string password, 
-                                 string userName, string userLastName, 
+        public void RegisterUser(string userLogin, string password,
+                                 string userName, string userLastName,
                                  string userEmail, Frame frame,
                                  DateOnly? birthDate = null)
         {

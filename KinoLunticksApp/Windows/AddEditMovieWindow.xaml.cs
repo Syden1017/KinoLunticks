@@ -88,8 +88,8 @@ namespace KinoLunticksApp.Windows
             StringBuilder errors = new StringBuilder();
 
             #region Код фильма
-            if (string.IsNullOrWhiteSpace(_currentMovie.MovieCode) ||
-                string.IsNullOrEmpty(_currentMovie.MovieCode))
+            if (string.IsNullOrWhiteSpace(_currentMovie.MovieCode.ToString()) ||
+                string.IsNullOrEmpty(_currentMovie.MovieCode.ToString()))
             {
                 errors.AppendLine("Введите корректный код фильма!");
             }
@@ -117,18 +117,6 @@ namespace KinoLunticksApp.Windows
             else if (!Regex.IsMatch(_currentMovie.MovieDescription, @"^[А-ЯЁ][а-яё]+"))
             {
                 errors.AppendLine("Описание фильма должно начинаться с заглавной буквы!");
-            }
-            #endregion
-
-            #region Жанр фильма
-            if (string.IsNullOrWhiteSpace(_currentMovie.MovieGenre) ||
-                string.IsNullOrEmpty(_currentMovie.MovieGenre))
-            {
-                errors.AppendLine("Введите корректный жанр фильма!");
-            }
-            else if (!Regex.IsMatch(_currentMovie.MovieGenre, @"^[А-ЯЁ][а-яё]+"))
-            {
-                errors.AppendLine("Жанр фильма должен начинаться с заглавной буквы!");
             }
             #endregion
 
@@ -211,10 +199,7 @@ namespace KinoLunticksApp.Windows
             }
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e) => Close();
 
         /// <summary>
         /// Получение изображения

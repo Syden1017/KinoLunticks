@@ -71,7 +71,6 @@
             </Button>
 
             <Frame x:Name="frmMain"
-                   ContentRendered="frmMain_ContentRendered"
                    NavigationUIVisibility="Hidden"
                    Grid.Column="0"
                    Grid.Row="1"

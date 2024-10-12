@@ -5,11 +5,11 @@ namespace KinoLunticksApp.Models;
 
 public partial class Order
 {
-    public string OrderNumber { get; set; } = null!;
+    public int OrderNumber { get; set; }
 
     public string User { get; set; } = null!;
 
-    public string Movie { get; set; } = null!;
+    public int Movie { get; set; }
 
     public TimeOnly SessionTime { get; set; }
 
@@ -17,11 +17,7 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
-    public string? Preview { get; set; }
-
     public virtual Movie MovieNavigation { get; set; } = null!;
-
-    public virtual Movie? PreviewNavigation { get; set; }
 
     public virtual User UserNavigation { get; set; } = null!;
 }

@@ -160,6 +160,9 @@
         <ListView x:Name="lViewLuntiki"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  
+                  MouseDoubleClick="lViewLuntiki_MouseDoubleClick"
+
                   Grid.Row="1"
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
@@ -235,6 +238,13 @@
                                        Grid.Column="1"/>
 
                             <TextBlock Text="{Binding MovieRating}"
+                                   Grid.Column="1"/>
+
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="1"
+                                    Grid.Column="1">
+                            <TextBlock x:Name="txtBlockGenre"
+                                       Text="{Binding MovieGenre}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"
                                        
                                        Grid.Row="4"

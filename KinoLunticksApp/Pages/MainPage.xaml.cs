@@ -1,6 +1,10 @@
-﻿using KinoLunticksApp.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
+
+using KinoLunticksApp.Models;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Pages
 {
@@ -51,7 +55,7 @@ namespace KinoLunticksApp.Pages
             }
 
             // Список формировать в порядке
-            // сортировка -> поиск -> фильтрация -> деление на страницы
+            // сортировка -> поиск -> фильтрация
             int filterField = cmbBoxFilterField.SelectedIndex,
                 sortField = cmbBoxSortField.SelectedIndex,
                 sortType = cmbBoxSortType.SelectedIndex;
@@ -69,8 +73,8 @@ namespace KinoLunticksApp.Pages
         /// <summary>
         /// Поиск студента по ФИО
         /// </summary>
-        /// <param name="students">Список сеансов для поиска</param>
-        /// <param name="request">Поисковый запрос</param>
+        /// <param name="movies"> Список сеансов для поиска</param>
+        /// <param name="request"> Поисковый запрос</param>
         /// <returns>Результаты поиска</returns>
         private List<Movie> SearchMovies(List<Movie> movies, string request)
         {
@@ -132,6 +136,9 @@ namespace KinoLunticksApp.Pages
         /// </summary>
         /// <param name="filterType">ComboBox для загрузки</param>
         private void LoadAgeRestrictionsInComboBox(ComboBox filterType)
+        
+        private void cmbBoxFilterField_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
         {
             List<string> ageRestriction = _db.Movies.Select(m => m.AgeRestriction.ToString()).
                                                                       Distinct().
@@ -216,9 +223,16 @@ namespace KinoLunticksApp.Pages
 
         }
 
-        private void btnPersonalAccount_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnPersonalAccount_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new PersonalAccountPage(_frame, _user));
+
+        private void lViewLuntiki_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            _frame.Navigate(new PersonalAccountPage(_frame, _user));
+            var selectedMovie = lViewLuntiki.SelectedItem as Movie;
+
+            if (selectedMovie != null)
+            {
+                _frame.Navigate(new MoviesPage(_frame, _user, selectedMovie));
+            }
         }
     }
 }

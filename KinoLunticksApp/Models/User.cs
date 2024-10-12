@@ -17,7 +17,7 @@ public partial class User
 
     public DateOnly? BirthDate { get; set; }
 
-    public string UserRole { get; set; } = null!;
+    public int UserRole { get; set; }
 
     public byte[]? Photo { get; set; }
 
