@@ -1,39 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
-    <!--#region Gradients -->
-    <Style x:Key="gradientBack"
-           TargetType="Grid">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="1,0"
-                                     MappingMode="RelativeToBoundingBox"
-                                     StartPoint="0,1">
-                    <GradientStop Color="#56C2B6"/>
-                    <GradientStop Color="#94DBDF" Offset="0.5"/>
-                    <GradientStop Color="#34A8A2" Offset="1"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="gradientAddEditWindow"
-           TargetType="Grid">
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="1,0"
-                                     MappingMode="RelativeToBoundingBox"
-                                     StartPoint="0,1">
-                    <GradientStop Color="#1D1D1D"/>
-                    <GradientStop Color="#2B2B2B" Offset="0.5"/>
-                    <GradientStop Color="#666666" Offset="1"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <!--#endregion-->
     
-    <!--#region Admin Panel Page-->
     <Style x:Key="btnAdminPage"
            TargetType="Button">
         <Style.Setters>
@@ -41,16 +9,16 @@
                     Value="50"/>
 
             <Setter Property="Background"
-                    Value="#41C0C7"/>
+                    Value="#3A3A3A"/>
 
             <Setter Property="Foreground"
-                    Value="#000"/>
+                    Value="#FFF"/>
 
             <Setter Property="FontSize"
                     Value="24"/>
 
             <Setter Property="BorderBrush"
-                    Value="#28767A"/>
+                    Value="#000"/>
 
             <Setter Property="BorderThickness"
                     Value="0.5"/>
@@ -77,10 +45,10 @@
             <Trigger Property="IsMouseOver"
                      Value="True">
                 <Setter Property="Background"
-                        Value="#489BA0"/>
+                        Value="#747474"/>
 
                 <Setter Property="BorderBrush"
-                        Value="#255053"/>
+                        Value="#FFF"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -104,21 +72,24 @@
 
     <Style x:Key="lViewItemContainerStyle"
            TargetType="ListViewItem">
-        <Style.Resources>
-            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                             Color="LightGray" />
-        </Style.Resources>
         <Style.Setters>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListViewItem">
-                        <Grid>
-                            <GridViewRowPresenter/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Background"
+                    Value="#3A3A3A"/>
         </Style.Setters>
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#747474"/>
+
+                <Setter Property="BorderBrush"
+                        Value="#000"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="templateTxtBlock"
@@ -142,7 +113,7 @@
            TargetType="Button">
         <Style.Setters>
             <Setter Property="Background"
-                    Value="#41C0C7"/>
+                    Value="#747474"/>
 
             <Setter Property="Foreground"
                     Value="#000"/>
@@ -151,7 +122,7 @@
                     Value="14"/>
 
             <Setter Property="BorderBrush"
-                    Value="#28767A"/>
+                    Value="#000"/>
 
             <Setter Property="BorderThickness"
                     Value="0.5"/>
@@ -177,10 +148,10 @@
             <Trigger Property="IsMouseOver"
                      Value="True">
                 <Setter Property="Background"
-                        Value="#489BA0"/>
+                        Value="#D0D0D0"/>
 
                 <Setter Property="BorderBrush"
-                        Value="#255053"/>
+                        Value="#000"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -193,6 +164,9 @@
             <Setter Property="Foreground"
                     Value="#FFF"/>
 
+            <Setter Property="Background"
+                    Value="#3A3A3A"/>
+
             <Setter Property="FontSize"
                     Value="16"/>
 
@@ -201,6 +175,9 @@
 
             <Setter Property="Margin"
                     Value="5 0 0 0"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
         </Style.Setters>
     </Style>
 
@@ -231,7 +208,7 @@
                     Value="30 5"/>
 
             <Setter Property="Background"
-                    Value="#41C0C7"/>
+                    Value="#3A3A3A"/>
 
             <Setter Property="BorderThickness"
                     Value="0"/>
@@ -261,7 +238,7 @@
             <Trigger Property="IsMouseOver"
                      Value="True">
                 <Setter Property="Background"
-                        Value="#489BA0"/>
+                        Value="#747474"/>
             </Trigger>
         </Style.Triggers>
     </Style>

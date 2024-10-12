@@ -173,7 +173,7 @@
                     <Border BorderBrush="#92DBDF"
                             BorderThickness="1">
                         <Grid Width="{Binding ActualWidth,
-                                      RelativeSource={RelativeSource AncestorType=ListView}}">
+                            RelativeSource={RelativeSource AncestorType=ListView}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="5.2*"/>
@@ -206,7 +206,6 @@
                             <TextBlock x:Name="txtBlockMovieName"  
                                        Text="{Binding MovieName}"
                                        Style="{DynamicResource txtBlockMovieName}"
-            
                                        Grid.Row="0"
                                        Grid.Column="1"/>
 
@@ -216,6 +215,7 @@
 
                                 <TextBlock x:Name="txtBlockGenre"
                                            Text="{Binding MovieGenre}"
+
                                            Style="{DynamicResource txtBlockAdditionalInfo}"
                                            Margin="0,0,10,0"/>
 
@@ -238,6 +238,7 @@
                                        Grid.Column="1"/>
 
                             <TextBlock Text="{Binding MovieRating}"
+                                       Style="{DynamicResource txtBlockAdditionalInfo}"
                                    Grid.Column="1"/>
 
                         <StackPanel Orientation="Horizontal"
@@ -246,7 +247,6 @@
                             <TextBlock x:Name="txtBlockGenre"
                                        Text="{Binding MovieGenre}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"
-                                       
                                        Grid.Row="4"
                                        Grid.Column="1"/>
                         </Grid>
