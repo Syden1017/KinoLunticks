@@ -45,14 +45,9 @@
                     Content="Добавить"
                     Style="{DynamicResource btnAdminPage}"
                     
-                    Grid.Row="2"/>
+                    Grid.Row="3"/>
 
-            <Button Name="deleteButton"
-                    Click="deleteButton_Click"
-                    Content="Удалить"
-                    Style="{DynamicResource btnAdminPage}"
-                    
-                    Grid.Row="4"/>
+            
         </Grid>
 
         <ListView Name="tableView"
@@ -60,7 +55,8 @@
                   Grid.Column="1"
                   Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  ItemContainerStyle="{DynamicResource lViewItemContainerStyle}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridViewColumn Width="150"
@@ -158,10 +154,19 @@
                     <GridViewColumn Width="45">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="changeButton"
-                                        Content="&#9999;"
-                                        Click="changeButton_Click"
-                                        Style="{DynamicResource btnEditMovie}"/>
+                                <StackPanel Orientation="Vertical">
+                                    <Button x:Name="changeButton"
+                                            Content="&#9999;"
+                                            Click="changeButton_Click"
+                                            Style="{DynamicResource btnEditMovie}"
+                                            Margin="0,0,0,15"/>
+
+                                    <Button Name="deleteButton"
+                                            Click="deleteButton_Click"
+                                            Content="&#10006;"
+                                            Style="{DynamicResource btnEditMovie}"/>
+                                </StackPanel>
+
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

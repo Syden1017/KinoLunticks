@@ -57,7 +57,9 @@
                                    Style="{DynamicResource txtBoxAuth}"
                                    
                                    Grid.Column="1"
-                                   Grid.Row="0">
+                                   Grid.Row="0"
+                                   
+                                   Text="Pdgrsk">
                 <xctk:WatermarkTextBox.WatermarkTemplate>
                     <DataTemplate>
                         <ContentControl Content="{Binding}"
@@ -77,7 +79,9 @@
                                            Watermark="пароль"
                                            PasswordChar="*"
                                            
-                                           Style="{DynamicResource pBoxPasswordAuth}">
+                                           Style="{DynamicResource pBoxPasswordAuth}"
+                                           
+                                           Password="Araxys">
                     <xctk:WatermarkPasswordBox.WatermarkTemplate>
                         <DataTemplate>
                             <ContentControl Content="{Binding}"
