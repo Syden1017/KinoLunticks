@@ -1,4 +1,7 @@
-﻿namespace KinoLunticksApp.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace KinoLunticksApp.Models;
 
 public partial class Genre
 {
