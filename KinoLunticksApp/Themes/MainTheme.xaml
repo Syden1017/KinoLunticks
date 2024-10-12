@@ -526,7 +526,22 @@
                      Value="#94DBDF"/>
 
             <Setter Property="Margin"
-                     Value="7"/>
+                    Value="7"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="10">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style.Setters>
     </Style>
 
@@ -540,8 +555,11 @@
                      Value="Center"/>
 
              <Setter Property="HorizontalAlignment"
-                     Value="Center"/>
-         </Style.Setters>
+                     Value="Right"/>
+
+            <Setter Property="Foreground"
+                    Value="#fff"/>
+        </Style.Setters>
     </Style>
 
     <Style x:Key="txtBlockMovieName"
@@ -570,9 +588,11 @@
            TargetType="TextBlock">
         <Style.Setters>
             <Setter Property="TextWrapping"
-                Value="Wrap"/>
+                    Value="Wrap"/>
+            
             <Setter Property="FontSize"
                     Value="25"/>
+            
             <Setter Property="Foreground"
                     Value="White"/>
         </Style.Setters>
@@ -582,7 +602,10 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    <Rectangle Margin="2" 
+                               StrokeDashArray="1 2"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" 
+                               SnapsToDevicePixels="true" StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -1072,6 +1095,256 @@
         <Style.Setters>
             <Setter Property="Orientation"
                     Value="Vertical"/>
+        </Style.Setters>
+    </Style>
+    <!--#endregion-->
+    
+    <!--#region Film Page -->
+    <Style x:Key="GreenArmchairButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="White"/>
+        
+        <Setter Property="BorderBrush"
+                Value="White"/>
+        
+        <Setter Property="Margin"
+                Value="35,28,35,28"/>
+        
+        <Setter Property="Padding"
+                Value="5"/>
+        
+        <Setter Property="HorizontalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+        
+        <Setter Property="FontSize"
+                Value="30"/>
+        
+        <Setter Property="Foreground"
+                Value="#2B2B2B"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="//Images/Chairs/ArmchairGreen.png"
+                               Stretch="Fill"/>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        <Rectangle x:Name="rectangle"
+                                   Fill="#489BA0"
+                                   Opacity="0.5"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="rectangle"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="PurpleArmchairButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="White"/>
+        
+        <Setter Property="BorderBrush"
+                Value="White"/>
+        
+        <Setter Property="Margin"
+                Value="35,28,35,28"/>
+        
+        <Setter Property="Padding"
+                Value="5"/>
+        
+        <Setter Property="HorizontalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+        
+        <Setter Property="FontSize"
+                Value="30"/>
+        
+        <Setter Property="Foreground"
+                Value="#2B2B2B"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="//Images/Chairs/ArmchairPurple.png"
+                               Stretch="Fill"/>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        <Rectangle x:Name="rectangle"
+                                   Fill="#489BA0"
+                                   Opacity="0.5"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="rectangle"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GreyArmchairButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="White"/>
+        
+        <Setter Property="BorderBrush"
+                Value="White"/>
+        
+        <Setter Property="Margin"
+                Value="35,28,35,28"/>
+        
+        <Setter Property="Padding"
+                Value="5"/>
+        
+        <Setter Property="HorizontalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+        
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+        
+        <Setter Property="FontSize"
+                Value="30"/>
+        
+        <Setter Property="Foreground"
+                Value="#2B2B2B"/>
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Image Source="//Images/Chairs/ArmchairGrey.png"
+                               Stretch="Fill"/>
+                        <TextBlock Text="{TemplateBinding Content}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Center"/>
+                        <Rectangle x:Name="rectangle"
+                                   Fill="#489BA0"
+                                   Opacity="0.5"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="rectangle"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="BuyingTicketButtonStyle"
+           TargetType="{x:Type Button}">
+        <Setter Property="Background"
+                Value="#5BB4C6"/>
+
+        <Setter Property="BorderBrush"
+                Value="#307989"/>
+
+        <Setter Property="BorderThickness"
+                Value="2"/>
+
+        <Setter Property="Margin"
+                Value="15,55,15,55"/>
+
+        <Setter Property="Padding"
+                Value="5,0"/>
+
+        <Setter Property="FontWeight"
+                Value="Bold"/>
+
+        <Setter Property="FontSize"
+                Value="16"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+                            <Rectangle x:Name="rectangle2"
+                                       Fill="Gray"
+                                       Opacity="0.5"
+                                       Visibility="Collapsed"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="rectangle2"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="txtBlockTicketBuying"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+        </Style.Setters>
+    </Style>
+
+    <Style x:Key="txtBlockRowCount"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Left"/>
+
+            <Setter Property="FontWeight"
+                    Value="Bold"/>
+
+            <Setter Property="FontSize"
+                    Value="20"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
         </Style.Setters>
     </Style>
     <!--#endregion-->

@@ -10,6 +10,10 @@
 
   <ItemGroup>
     <None Remove="Fonts\Montserrat-VariableFont_wght.ttf" />
+    <None Remove="Images\Chairs\ArmchairGreen.png" />
+    <None Remove="Images\Chairs\ArmchairGrey.png" />
+    <None Remove="Images\Chairs\ArmchairPurple.png" />
+    <None Remove="Images\Chairs\Screen3.png" />
     <None Remove="Images\default.JPG" />
     <None Remove="Images\DefaultPhoto.png" />
     <None Remove="Images\exit.png" />
@@ -31,6 +35,18 @@
 
   <ItemGroup>
     <Resource Include="Fonts\Montserrat-VariableFont_wght.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Chairs\ArmchairGreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Chairs\ArmchairGrey.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Chairs\ArmchairPurple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Chairs\Screen3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\DefaultPhoto.png">
