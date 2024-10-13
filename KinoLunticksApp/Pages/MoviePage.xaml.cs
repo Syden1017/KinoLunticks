@@ -2,13 +2,14 @@
 using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
+using KinoLunticksApp.Windows;
 
 namespace KinoLunticksApp.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для MoviesPage.xaml
+    /// Interaction logic for MoviePage.xaml
     /// </summary>
-    public partial class MoviesPage : Page
+    public partial class MoviePage : Page
     {
         User _user = new User();
         Movie _movie = new Movie();
@@ -18,9 +19,9 @@ namespace KinoLunticksApp.Pages
         private bool[,] _hallLayout = new bool[3, 10];
         private List<Button> _armchairButtons;
         private List<string> _selectedPlaces;
-        private int _ticketAmount;
+        private decimal _ticketAmount;
 
-        public MoviesPage(Frame frame, User user, Movie movie)
+        public MoviePage(Frame frame, User user, Movie movie)
         {
             InitializeComponent();
 
@@ -36,6 +37,7 @@ namespace KinoLunticksApp.Pages
             };
             _selectedPlaces = new List<string>();
             _ticketAmount = 0;
+
             UpdateSelectedPlacesTextBox();
             UpdateTicketAmountTextBox();
 
@@ -50,7 +52,7 @@ namespace KinoLunticksApp.Pages
             DataContext = _movie;
         }
 
-        private void btnBack_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void btnBack_Click(object sender, RoutedEventArgs e)
         {
             _frame.GoBack();
         }
@@ -63,13 +65,13 @@ namespace KinoLunticksApp.Pages
             {
                 btn.Style = (Style)FindResource("PurpleArmchairButtonStyle");
                 _selectedPlaces.Add(btn.Content.ToString());
-                _ticketAmount += 100;
+                _ticketAmount += _movie.TicketPrice;
             }
             else if (btn.Style == (Style)FindResource("PurpleArmchairButtonStyle"))
             {
                 btn.Style = (Style)FindResource("GreenArmchairButtonStyle");
                 _selectedPlaces.Remove(btn.Content.ToString());
-                _ticketAmount -= 100;
+                _ticketAmount -= _movie.TicketPrice;
             }
 
             UpdateSelectedPlacesTextBox();
@@ -88,8 +90,8 @@ namespace KinoLunticksApp.Pages
 
         private void btnBuyingTicket_Click(object sender, RoutedEventArgs e)
         {
-            // Add your logic for buying ticket here
-            MessageBox.Show("Покупка билета на места: " + string.Join(", ", _selectedPlaces) + "\nСумма: " + _ticketAmount);
+            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user);
+            paymentWindow.ShowDialog();
         }
 
         private void btn1Place1_Click(object sender, RoutedEventArgs e)
