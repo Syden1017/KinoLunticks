@@ -55,10 +55,10 @@
                 <TextBlock x:Name="txtBlockPoleFiltr"
                            Text="Поле: "
                            
-                           Grid.Column="0"
-                           Grid.Row="0"
+                           Style="{DynamicResource txtBlockPoleFiltr}"
                            
-                           Style="{DynamicResource txtBlockPoleFiltr}"/>
+                           Grid.Column="0"
+                           Grid.Row="0"/>
 
                 <ComboBox x:Name="cmbBoxFilterField"
                           SelectionChanged="cmbBoxFilterField_SelectionChanged"
@@ -75,6 +75,7 @@
                 </ComboBox>
 
                 <TextBlock Text="Значение: "
+                           
                            Style="{DynamicResource txtBlockPoleFiltr}"
                    
                            Grid.Column="2"
@@ -104,6 +105,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Text="Поле: "
+                           
                            Style="{DynamicResource txtBlockPoleFiltr}"
                
                            Grid.Column="0"
@@ -117,15 +119,16 @@
                           Grid.Column="1"
                           Grid.Row="0">
                     <ComboBox.Items>
-                        <TextBlock Text="Ретинг"/>
-                        <TextBlock Text="Фамилия"/>
-                        <TextBlock Text="Имя"/>
-                        <TextBlock Text="Отчество"/>
-                        <TextBlock Text="Дата рождения"/>
+                        <TextBlock Text="Рейтинг"/>
+                        <TextBlock Text="Название"/>
+                        <TextBlock Text="Длительность"/>
+                        <TextBlock Text="Возрастные ограничения"/>
+                        <TextBlock Text="Цена билета"/>
                     </ComboBox.Items>
                 </ComboBox>
 
                 <TextBlock Text="Тип: "
+                           
                            Style="{DynamicResource txtBlockPoleFiltr}"
                    
                            Grid.Column="2"
@@ -173,13 +176,14 @@
                     <Border BorderBrush="#92DBDF"
                             BorderThickness="1">
                         <Grid Width="{Binding ActualWidth,
-                            RelativeSource={RelativeSource AncestorType=ListView}}">
+                                      RelativeSource={RelativeSource AncestorType=ListView}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="5.2*"/>
                             </Grid.ColumnDefinitions>
 
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="*"/>
@@ -203,18 +207,16 @@
                                 </Image.Source>
                             </Image>
 
-                            <TextBlock x:Name="txtBlockMovieName"  
-                                       Text="{Binding MovieName}"
+                            <TextBlock Text="{Binding MovieName}"
                                        Style="{DynamicResource txtBlockMovieName}"
-                                       Grid.Row="0"
-                                       Grid.Column="1"/>
+                                       Grid.Column="1"
+                                       Grid.Row="0"/>
 
                             <StackPanel Orientation="Horizontal"
-                                        Grid.Row="1"
-                                        Grid.Column="1">
-
+                                        Grid.Column="1"
+                                        Grid.Row="1">
                                 <TextBlock x:Name="txtBlockGenre"
-                                           Text="{Binding MovieGenre}"
+                                           Text="{Binding Genres.GenreName}"
 
                                            Style="{DynamicResource txtBlockAdditionalInfo}"
                                            Margin="0,0,10,0"/>
@@ -227,28 +229,20 @@
                             <TextBlock Text="{Binding MovieDuration}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"
                                        
-                                       Grid.Row="2"
-                                       Grid.Column="1"/>
+                                       Grid.Column="1"
+                                       Grid.Row="2"/>
 
                             <TextBlock x:Name="txtBlockMovieDescription"
                                        Text="{Binding MovieDescription}"
                                        Style="{DynamicResource txtBlockMovieDescription}"
                                        
-                                       Grid.Row="3"
-                                       Grid.Column="1"/>
+                                       Grid.Column="1"
+                                       Grid.Row="3"/>
 
                             <TextBlock Text="{Binding MovieRating}"
                                        Style="{DynamicResource txtBlockAdditionalInfo}"
-                                   Grid.Column="1"/>
-
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Row="1"
-                                    Grid.Column="1">
-                            <TextBlock x:Name="txtBlockGenre"
-                                       Text="{Binding MovieGenre}"
-                                       Style="{DynamicResource txtBlockAdditionalInfo}"
-                                       Grid.Row="4"
-                                       Grid.Column="1"/>
+                                       Grid.Column="1"
+                                       Grid.Row="4"/>
                         </Grid>
                     </Border>
                 </DataTemplate>

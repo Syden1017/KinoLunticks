@@ -24,7 +24,11 @@ namespace KinoLunticksApp.Pages
         const int FILTER_BY_AGE_RESTRICTION = 2;     // Фильтр по возрастному ограничению
 
         // Поле сортировки  MovieRating
-        const int SORT_BY_MOVIE_RATING = 0;          // Сортировка по рейтингу
+        const int SORT_BY_MOVIE_RATING      = 0,    // Сортировка по рейтингу
+                  SORT_BY_MOVIE_NAME        = 1,    // Сортировка по названию
+                  SORT_BY_MOVIE_DURATION    = 2,    // Сортировка по длительности
+                  SORT_BY_AGE_RESTRICTIONS  = 3,    // Сортировка по возрастным ограничениям
+                  SORT_BY_TICKET_PRICE      = 4;    // Сортировка по цене билета
 
         // Тип сортировки
         const int ASC_SORT = 0;                      // Сортировка по возрастанию
@@ -35,6 +39,11 @@ namespace KinoLunticksApp.Pages
 
             _frame = frame;
             _user = user;
+
+            cmbBoxFilterField.SelectedIndex = 0;
+            cmbBoxFilterType.SelectedIndex = 0;
+            cmbBoxSortField.SelectedIndex = 0;
+            cmbBoxSortType.SelectedIndex = 0;
 
             UpdateMovieList();
         }
@@ -60,11 +69,14 @@ namespace KinoLunticksApp.Pages
                 sortField = cmbBoxSortField.SelectedIndex,
                 sortType = cmbBoxSortType.SelectedIndex;
 
-            List<Movie> movieList = SearchMovies(
-                                         FilterMovies(_movies,
-                                                      filterField,
-                                                      characteristics),
-                                                  request);
+            List<Movie> movieList = SortMovies(
+                                        SearchMovies(
+                                            FilterMovies(_movies,
+                                                         filterField,
+                                                         characteristics),
+                                                     request),
+                                               sortField,
+                                               sortType);
 
             lViewLuntiki.ItemsSource = movieList;
         }
@@ -111,94 +123,14 @@ namespace KinoLunticksApp.Pages
         }
 
         /// <summary>
-        /// <para>Получение списка годов рождения студентов</para>
+        /// <para>Получение списка жанров фильмов</para>
         /// <para>Загрузка списка в ComboBox</para>
         /// </summary>
         /// <param name="filterType">ComboBox для загрузки</param>
         private void LoadGenresInComboBox(ComboBox filterType)
         {
-            //List<string> genres = _db.Movies.Select(m => m.MovieGenre.ToString()).
-            //                                                          Distinct().
-            //                                                          OrderBy(y => y).
-            //                                                          ToList();
-
-            //genres.Insert(0, "Все жанры");
-
-            //ClearComboBox(filterType);
-
-            //filterType.ItemsSource = genres;
-            //filterType.SelectedIndex = 0;
-        }
-
-        private void LoadAgeRestrictionsInComboBox(ComboBox filterType)
-        {
-            List<string> ageRestriction = _db.Movies.Select(m => m.AgeRestriction.ToString()).
-                                                                      Distinct().
-                                                                      OrderBy(y => y).
-                                                                      ToList();
-
-            ageRestriction.Insert(0, "Все ограничения");
-
-            ClearComboBox(filterType);
-
-            filterType.ItemsSource = ageRestriction;
-            filterType.SelectedIndex = 0;
-        }
-
-        /// <summary>
-        /// Фильтрация списка студентов по году поступления / году рождения
-        /// </summary>
-        /// <param name="movies">Список студентов для фильтрации</param>
-        /// <param name="filterField">Номер поля для фильтрации</param>
-        /// <param name="characteristics">Значение года фильтрации</param>
-        /// <returns>Результаты фильтрации</returns>
-        private List<Movie> FilterMovies(List<Movie> movies, int filterField, int characteristics)
-        {
-            if (characteristics != 0)
-            {
-                switch (filterField)
-                {
-                    case FILTER_BY_AGE_RESTRICTION:
-                        movies = movies.Where(m => m.AgeRestriction.Contains(characteristics.ToString())).ToList();
-
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            return movies;
-        }
-
-        private void cmbBoxFilterField_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            switch (cmbBoxFilterField.SelectedIndex)
-            {
-                // Фильтр по жанру
-                case FILTER_BY_MOVIE_GENRE:
-                    LoadGenresInComboBox(cmbBoxFilterType);
-                    break;
-
-                // Фильтр по возрастным ограничениям
-                case FILTER_BY_AGE_RESTRICTION:
-                    LoadAgeRestrictionsInComboBox(cmbBoxFilterType);
-                    break;
-
-                // Поле фильтра не выбрано
-                default:
-                    ClearComboBox(cmbBoxFilterType);
-                    cmbBoxFilterType.Items.Add("Не задано");
-                    cmbBoxFilterType.SelectedIndex = 0;
-                    break;
-            }
-        }
-
-        {
-            List<string> genres = _db.Movies.Select(m => m.MovieGenre.ToString()).
-                                                                      Distinct().
-                                                                      OrderBy(y => y).
-                                                                      ToList();
+            List<string> genres = _db.Genres.Select(g => g.GenreName.ToString()).
+                                                                     ToList();
 
             genres.Insert(0, "Все жанры");
 
@@ -209,19 +141,15 @@ namespace KinoLunticksApp.Pages
         }
 
         /// <summary>
-        /// <para>Получение списка годов рождения студентов</para>
+        /// <para>Получение списка возрастных ограничений фильмов</para>
         /// <para>Загрузка списка в ComboBox</para>
         /// </summary>
         /// <param name="filterType">ComboBox для загрузки</param>
         private void LoadAgeRestrictionsInComboBox(ComboBox filterType)
-        
-        private void cmbBoxFilterField_SelectionChanged(object sender, SelectionChangedEventArgs e)
-
         {
             List<string> ageRestriction = _db.Movies.Select(m => m.AgeRestriction.ToString()).
-                                                                      Distinct().
-                                                                      OrderBy(y => y).
-                                                                      ToList();
+                                                                                  Distinct().
+                                                                                  ToList();
 
             ageRestriction.Insert(0, "Все ограничения");
 
@@ -232,11 +160,11 @@ namespace KinoLunticksApp.Pages
         }
 
         /// <summary>
-        /// Фильтрация списка студентов по году поступления / году рождения
+        /// Фильтрация списка фильмов по жанрам / возрастным ограничениям
         /// </summary>
-        /// <param name="movies">Список студентов для фильтрации</param>
+        /// <param name="movies">Список фильмов для фильтрации</param>
         /// <param name="filterField">Номер поля для фильтрации</param>
-        /// <param name="characteristics">Значение года фильтрации</param>
+        /// <param name="characteristics">Значение фильтрации</param>
         /// <returns>Результаты фильтрации</returns>
         private List<Movie> FilterMovies(List<Movie> movies, int filterField, int characteristics)
         {
@@ -244,14 +172,12 @@ namespace KinoLunticksApp.Pages
             {
                 switch (filterField)
                 {
-                    case FILTER_BY_MOVIE_GENRE:
-                        movies = movies.Where(m => m.MovieGenre.ToLower().Contains(characteristics.ToString().ToLower())).ToList();
-
+                    case FILTER_BY_AGE_RESTRICTION:
+                        movies = movies.Where(m => m.AgeRestriction == characteristics.ToString()).ToList();
                         break;
 
-                    case FILTER_BY_AGE_RESTRICTION:
-                        movies = movies.Where(m => m.AgeRestriction.Contains(characteristics.ToString())).ToList();
-
+                    case FILTER_BY_MOVIE_GENRE:
+                        movies = movies.Where(m => m.Genres.Any(g => g.GenreId == characteristics)).ToList();
                         break;
 
                     default:
@@ -291,15 +217,59 @@ namespace KinoLunticksApp.Pages
         }
         #endregion
 
+        #region Sort
+        /// <summary>
+        /// Сортировка списка студентов
+        /// </summary>
+        /// <param name="movies">Список фильмов для сортировки</param>
+        /// <param name="sortField">Номер поля сортировки</param>
+        /// <param name="sortType">Номер типа сортировки</param>
+        /// <returns>Отсортированный список</returns>
+        private List<Movie> SortMovies(List<Movie> movies, int sortField, int sortType)
+        {
+            Func<Movie, object> sortExpression;
+
+            switch (sortField)
+            {
+                case SORT_BY_MOVIE_RATING:
+                    sortExpression = m => m.MovieRating;
+                    break;
+
+                case SORT_BY_MOVIE_NAME:
+                    sortExpression = m => m.MovieName;
+                    break;
+
+                case SORT_BY_MOVIE_DURATION:
+                    sortExpression = m => m.MovieDuration;
+                    break;
+
+                case SORT_BY_AGE_RESTRICTIONS:
+                    sortExpression = m => m.AgeRestriction;
+                    break;
+
+                case SORT_BY_TICKET_PRICE:
+                    sortExpression = m => m.TicketPrice;
+                    break;
+
+                default:
+                    sortExpression = m => m.MovieRating;
+                    break;
+            }
+
+            return sortType == ASC_SORT ? movies.OrderBy(sortExpression).ToList() :
+                                          movies.OrderByDescending(sortExpression).ToList();
+        }
+
         private void cmbBoxSortField_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            UpdateMovieList();
         }
 
         private void cmbBoxSortType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            UpdateMovieList();
         }
+        #endregion
 
         private void btnPersonalAccount_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new PersonalAccountPage(_frame, _user));
 
@@ -309,7 +279,7 @@ namespace KinoLunticksApp.Pages
 
             if (selectedMovie != null)
             {
-                _frame.Navigate(new MoviesPage(_frame, _user, selectedMovie));
+                _frame.Navigate(new MoviePage(_frame, _user, selectedMovie));
             }
         }
     }

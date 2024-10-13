@@ -1,4 +1,4 @@
-﻿<Page x:Class="KinoLunticksApp.Pages.MoviesPage"
+﻿<Page x:Class="KinoLunticksApp.Pages.MoviePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -467,40 +467,32 @@
         </StackPanel>
 
         <TextBox x:Name="txtBoxSelected"
+                 
+                 Style="{DynamicResource txtBoxSelectedPlaces}"
+                 
                  Grid.Column="3"
-                 Grid.Row="3"
-                 Margin="15,55,15,55"
-                 IsReadOnly="True"
-                 IsHitTestVisible="False"
-                 Background="#5BB4C6"
-                 BorderBrush="#307989"
-                 BorderThickness="2"
-                 TextWrapping="Wrap"/>
+                 Grid.Row="3"/>
 
-        <TextBlock Grid.Column="4"
-                   Grid.Row="3"
-                   Text="Сумма:"
-                   Margin="0,55,0,55"
-                   FontWeight="Bold"
-                   FontSize="15"
-                   VerticalAlignment="Center" 
-                   HorizontalAlignment="Right"
-                   Foreground="#FFF"/>
+        <TextBlock Text="Сумма:"
+                   
+                   Style="{DynamicResource txtBlockAmount}"
+                   
+                   Grid.Column="4"
+                   Grid.Row="3"/>
 
         <TextBox x:Name="txtBoxTicketAmount"
+                 
+                 Style="{DynamicResource txtBoxTicketAmount}"
+                 
                  Grid.Column="5"
-                 Grid.Row="3"
-                 Margin="15,55,15,55"
-                 IsReadOnly="True"
-                 IsHitTestVisible="False"
-                 Background="#5BB4C6"
-                 BorderBrush="#307989"
-                 BorderThickness="2"/>
+                 Grid.Row="3"/>
 
         <Button x:Name="btnBuyingTicket"
-                Click="btnBuyingTicket_Click"
                 Content="Оплатить"
+                Click="btnBuyingTicket_Click"
+                
                 Style="{StaticResource BuyingTicketButtonStyle}"
+                
                 Grid.Column="6"
                 Grid.Row="3"/>
     </Grid>
