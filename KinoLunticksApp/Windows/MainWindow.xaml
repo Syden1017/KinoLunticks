@@ -23,7 +23,16 @@
         WindowStyle="None"
         MouseDown="Window_MouseDown">
 
-    <Border Background="#41C0C7">
+    <Window.Resources>
+        <LinearGradientBrush x:Key="gradient" StartPoint="0,0" EndPoint="1,1">
+            
+            <GradientStop Color="#41C0C7" Offset="0.1" />
+            <GradientStop Color="#94DBDF" Offset="0.5" />
+            <GradientStop Color="#FFF" Offset="1.0" />
+        </LinearGradientBrush>
+    </Window.Resources>
+
+    <Border Background="{StaticResource gradient}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

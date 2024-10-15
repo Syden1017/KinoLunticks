@@ -34,11 +34,17 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Кинотеатр 'Лунтики'"
+            <TextBlock Text="Кинотеатр"
                        
                        Style="{DynamicResource txtBlockTheaterName}"
                        
                        Grid.Row="0"/>
+
+            <TextBlock Text="KinoLuntiks"
+                       
+                       Style="{DynamicResource txtBlockTheaterName}"
+                       
+                       Grid.Row="1"/>
 
             <Button Name="addButton"
                     Click="addButton_Click"
