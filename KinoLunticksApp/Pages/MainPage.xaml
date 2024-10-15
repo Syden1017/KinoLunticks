@@ -165,6 +165,7 @@
         <ListView x:Name="lViewLuntiki"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                  Cursor="Hand"
                   
                   MouseDoubleClick="lViewLuntiki_MouseDoubleClick"
 

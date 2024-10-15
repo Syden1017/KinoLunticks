@@ -69,4 +69,8 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Images\showhide\" />
+  </ItemGroup>
+
 </Project>

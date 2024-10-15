@@ -121,6 +121,12 @@
                    Source="\Images\Chairs\Screen3.png"
                    Stretch="Fill"
                    Margin="10"/>
+            <TextBlock Text="Экран"
+                       Grid.Column="5"
+                       Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       FontSize="50"
+                       HorizontalAlignment="Center"/>
 
             <TextBlock Text="1"
                        

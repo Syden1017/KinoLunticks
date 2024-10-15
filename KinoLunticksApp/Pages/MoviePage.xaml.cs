@@ -90,7 +90,10 @@ namespace KinoLunticksApp.Pages
 
         private void btnBuyingTicket_Click(object sender, RoutedEventArgs e)
         {
-            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user);
+            string seats = txtBoxSelected.Text;
+            string fullAmount = txtBoxTicketAmount.Text;
+
+            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user, seats, fullAmount);
             paymentWindow.ShowDialog();
         }
 

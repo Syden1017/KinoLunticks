@@ -50,7 +50,7 @@ namespace KinoLunticksApp.Pages
 
         private void UpdateMovieList()
         {
-            _db.Movies.Load();
+            _db.Movies.Include(m => m.Genres).Load();
             _movies = _db.Movies.ToList();
 
             string request = txtBoxSearch.Text.
@@ -168,7 +168,7 @@ namespace KinoLunticksApp.Pages
         /// <returns>Результаты фильтрации</returns>
         private List<Movie> FilterMovies(List<Movie> movies, int filterField, int characteristics)
         {
-            if (characteristics != 0)
+            if (characteristics > 0)
             {
                 switch (filterField)
                 {
@@ -177,7 +177,7 @@ namespace KinoLunticksApp.Pages
                         break;
 
                     case FILTER_BY_MOVIE_GENRE:
-                        movies = movies.Where(m => m.Genres.Any(g => g.GenreId == characteristics)).ToList();
+                        movies = movies.Where(m => m.Genres.Contains(cmbBoxFilterField.SelectedItem as Genre)).ToList();
                         break;
 
                     default:

@@ -160,6 +160,16 @@
                     Grid.Column="5"
                     Grid.Row="2"/>
 
+        <Button x:Name="btnSave"
+                Content="Сохранить"
+                Click="btnSave_Click"
+                
+                Style="{DynamicResource btnSavePersonalInfo}"
+                
+                Grid.Column="4"
+                Grid.Row="4"
+                Grid.ColumnSpan="2"/>
+
         <TabControl x:Name="tabControlInfo"
                     
                     BorderThickness="0"

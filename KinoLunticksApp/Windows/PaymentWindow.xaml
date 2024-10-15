@@ -9,7 +9,9 @@
         Title="Оплата забронированных билетов"
         
         Height="300"
-        Width="500">
+        Width="500"
+        
+        WindowStartupLocation="CenterScreen">
 
     <Grid>
         <Grid.ColumnDefinitions>

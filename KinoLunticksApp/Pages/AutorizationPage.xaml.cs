@@ -81,15 +81,5 @@ namespace KinoLunticksApp.Pages
                 passBoxPassword.PasswordChar = '*';
             }
         }
-
-        private void txtBoxLogin_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void txtBoxLogin_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-
-        }
     }
 }

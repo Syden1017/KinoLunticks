@@ -77,7 +77,28 @@ namespace KinoLunticksApp.Pages
 
         private void imgPhoto_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            BitmapImage photo = GetImage();
 
+            if (photo != null)
+            {
+                imgPhoto.Source = photo;
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Получение изображения
+        /// </summary>
+        /// <returns>Загруженное изображение</returns>
+        private BitmapImage GetImage()
+        {
+            _image.OpenImage(ref _imageData, ref _currentImage);
+
+            return _currentImage;
         }
     }
 }
