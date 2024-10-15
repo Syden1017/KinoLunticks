@@ -65,5 +65,21 @@ namespace KinoLunticksApp.Pages
         }
 
         private void txtBlockRegistration_MouseDown(object sender, MouseButtonEventArgs e) => _frame.Navigate(new RegistrationPage(_frame));
+
+        private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
+        {
+            if (cBoxShowHidePassword.IsChecked == true)
+            {
+                passBoxPassword.PasswordChar = '\0';
+            }
+        }
+
+        private void cBoxShowHidePassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (cBoxShowHidePassword.IsChecked == false)
+            {
+                passBoxPassword.PasswordChar = '*';
+            }
+        }
     }
 }

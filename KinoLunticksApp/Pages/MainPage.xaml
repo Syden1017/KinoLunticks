@@ -153,7 +153,9 @@
                 Grid.Column="2"
                 Grid.Row="0"
                 Margin="5"
-                Click="btnPersonalAccount_Click">
+                Click="btnPersonalAccount_Click"
+                
+                Style="{DynamicResource btnPersonalAccount}">
             <Button.Content>
                 <Image Source="/Images/personal account.png"/>
             </Button.Content>

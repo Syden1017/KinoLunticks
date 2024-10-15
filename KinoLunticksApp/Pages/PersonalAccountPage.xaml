@@ -52,7 +52,9 @@
                     Style="{DynamicResource btnBack}"
                     
                     Grid.Column="0"
-                    Grid.Row="0"/>
+                    Grid.Row="0"
+                    
+                    Grid.ColumnSpan="2"/>
         </Grid>
 
         <TextBlock Text="ПРОФИЛЬ"
