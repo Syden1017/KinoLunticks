@@ -1097,6 +1097,48 @@
                     Value="Vertical"/>
         </Style.Setters>
     </Style>
+
+    <Style x:Key="btnSavePersonalInfo"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Margin"
+                    Value="10 20"/>
+
+            <Setter Property="Background"
+                    Value="#41C0C7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="FontSize"
+                    Value="28"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="15">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                    Value="True">
+                <Setter Property="Background"
+                        Value="#489BA0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--#endregion-->
     
     <!--#region Film Page -->
@@ -1133,7 +1175,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Image Source="//Images/Chairs/ArmchairGreen.png"
+                        <Image Source="/Images/Chairs/ArmchairGreen.png"
                                Stretch="Fill"/>
                         <TextBlock Text="{TemplateBinding Content}"
                                    VerticalAlignment="Center"
@@ -1189,7 +1231,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Image Source="//Images/Chairs/ArmchairPurple.png"
+                        <Image Source="/Images/Chairs/ArmchairPurple.png"
                                Stretch="Fill"/>
                         <TextBlock Text="{TemplateBinding Content}"
                                    VerticalAlignment="Center"
@@ -1245,7 +1287,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Image Source="//Images/Chairs/ArmchairGrey.png"
+                        <Image Source="/Images/Chairs/ArmchairGrey.png"
                                Stretch="Fill"/>
                         <TextBlock Text="{TemplateBinding Content}"
                                    VerticalAlignment="Center"

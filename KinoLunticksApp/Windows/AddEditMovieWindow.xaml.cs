@@ -204,8 +204,6 @@ namespace KinoLunticksApp.Windows
         /// <summary>
         /// Получение изображения
         /// </summary>
-        /// <param name="imageData">Массив байт для записи изображения</param>
-        /// <param name="currentImage">Загруженное изображение</param>
         /// <returns>Загруженное изображение</returns>
         private BitmapImage GetImage()
         {

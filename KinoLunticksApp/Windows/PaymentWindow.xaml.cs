@@ -12,12 +12,17 @@ namespace KinoLunticksApp.Windows
         User _user = new User();
         Movie _movie = new Movie();
 
-        public PaymentWindow(Movie selectedMovie, User user)
+        string _seats;
+        string _fullAmount;
+
+        public PaymentWindow(Movie selectedMovie, User user, string seats, string fullAmount)
         {
             InitializeComponent();
 
             _movie = selectedMovie;
             _user = user;
+            _seats = seats;
+            _fullAmount = fullAmount;
         }
     }
 }

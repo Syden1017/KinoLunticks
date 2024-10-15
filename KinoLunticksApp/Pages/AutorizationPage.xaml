@@ -67,35 +67,22 @@
                 </xctk:WatermarkTextBox.WatermarkTemplate>
             </xctk:WatermarkTextBox>
 
-            <Grid Grid.Column="1"
-                  Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="20*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
-                                           Watermark="пароль"
-                                           PasswordChar="*"
-                                           Password="Petrov123"
-                                           
-                                           Style="{DynamicResource pBoxPasswordAuth}">
-                    <xctk:WatermarkPasswordBox.WatermarkTemplate>
-                        <DataTemplate>
-                            <ContentControl Content="{Binding}"
-                                            Foreground="#696969"/>
-                        </DataTemplate>
-                    </xctk:WatermarkPasswordBox.WatermarkTemplate>
-                </xctk:WatermarkPasswordBox>
-
-                <CheckBox x:Name="cBoxShowHidePassword"
-                          Checked="cBoxShowHidePassword_Checked"
-                          Unchecked="cBoxShowHidePassword_Unchecked"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Center"
-                          ToolTip="Показать/скрыть пароль"
-                          Grid.Column="1"/>
-            </Grid>
+            <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
+                                       Watermark="пароль"
+                                       PasswordChar="*"
+                                       Password="Petrov123"
+                                       
+                                       Style="{DynamicResource pBoxPasswordAuth}"
+                                       
+                                       Grid.Column="1"
+                                       Grid.Row="1">
+                <xctk:WatermarkPasswordBox.WatermarkTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}"
+                            Foreground="#696969"/>
+                    </DataTemplate>
+                </xctk:WatermarkPasswordBox.WatermarkTemplate>
+            </xctk:WatermarkPasswordBox>
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"
