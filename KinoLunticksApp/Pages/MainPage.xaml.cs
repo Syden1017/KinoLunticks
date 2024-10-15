@@ -50,8 +50,7 @@ namespace KinoLunticksApp.Pages
 
         private void UpdateMovieList()
         {
-            _db.Movies.Include(m => m.Genres).Load();
-            _movies = _db.Movies.ToList();
+            _movies = _db.Movies.Include(m => m.Genres).ToList();
 
             string request = txtBoxSearch.Text.
                                           Replace(" ", "").
