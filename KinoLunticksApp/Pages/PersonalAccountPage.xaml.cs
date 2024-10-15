@@ -8,6 +8,8 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
 
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
+using System.Text;
 
 namespace KinoLunticksApp.Pages
 {
@@ -37,13 +39,16 @@ namespace KinoLunticksApp.Pages
 
         byte[] _imageData;
 
-        public PersonalAccountPage(Frame frame, User user)
+        public PersonalAccountPage(Frame frame, User authorizedUser)
         {
             InitializeComponent();
 
             _frame = frame;
-            _user = user;
+            _user = authorizedUser;
+
             _currentImage = _defaultImage;
+
+            _imageData = _user.Photo;
 
             if (_user.Photo != null)
             {
@@ -87,7 +92,30 @@ namespace KinoLunticksApp.Pages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                _db.Entry(_user).State = EntityState.Modified;
 
+                _user.Photo = _imageData;
+
+                _db.SaveChanges();
+
+                MessageBox.Show(
+                    "Информация сохранена",
+                    "Сохранение",
+                     MessageBoxButton.OK,
+                     MessageBoxImage.Information
+                    );
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message.ToString(),
+                    "Системная ошибка",
+                     MessageBoxButton.OK,
+                     MessageBoxImage.Error
+                    );
+            }
         }
 
         /// <summary>
