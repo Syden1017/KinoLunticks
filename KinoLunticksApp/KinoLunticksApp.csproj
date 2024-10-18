@@ -19,6 +19,7 @@
     <None Remove="Images\exit.png" />
     <None Remove="Images\flip.png" />
     <None Remove="Images\luntik.jpg" />
+    <None Remove="Images\luntikcard.png" />
     <None Remove="Images\minimize.png" />
     <None Remove="Images\personal account.png" />
   </ItemGroup>
@@ -59,6 +60,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\flip.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\luntikcard.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\minimize.png">

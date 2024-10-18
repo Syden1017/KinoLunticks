@@ -272,7 +272,92 @@
                 <ListView x:Name="lViewMyCards"
           
                           Style="{DynamicResource lViewMyAditionalInfo}">
-                    
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="4"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Width="350"
+                                    Height="220"
+                                    CornerRadius="5">
+
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1"
+                                                         StartPoint="0.5,0">
+                                        <GradientStop Color="#5E0878"
+                                                      Offset="0"/>
+                                        <GradientStop Color="#F3BFFF"
+                                                      Offset="1"/>
+                                        <GradientStop Color="#DA2FEC"
+                                                      Offset="0.3"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+
+                                <Grid>
+                                    <Image Height="40"
+                                           HorizontalAlignment="Right"
+                                           VerticalAlignment="Top"
+                                           Margin="20"
+                                           Source="/Images/luntikcard.png"/>
+
+                                    <Grid Width="300"
+                                          VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Text="{Binding AccountNumber}"
+                                                   
+                                                   HorizontalAlignment="Center" 
+                                                   Foreground="#35006A" 
+                                                   FontFamily="Global Monospace"
+                                                   
+                                                   Grid.Column="0"
+                                                   Grid.ColumnSpan="4"/>
+
+                                    </Grid>
+
+                                    <Grid VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Margin="20"
+                                                    Grid.Column="0">
+
+                                            <TextBlock Text="MONTH/YEAR" 
+                                                       FontSize="7"
+                                                       Foreground="#35006A"/>
+
+                                            <TextBlock Text="{Binding ExpirationDate}" 
+                                                       FontSize="12"
+                                                       Foreground="#35006A" 
+                                                       FontFamily="Global Monospace" />
+                                        </StackPanel>
+
+                                        <StackPanel Margin="20"
+                                                    Grid.Column="1">
+                                            <TextBlock Text="CVC" 
+                                                       FontSize="7"
+                                                       Foreground="#35006A"/>
+
+                                            <TextBlock Text="{Binding Cvccode}" 
+                                                       FontSize="12"
+                                                       Foreground="#35006A" 
+                                                       FontFamily="Global Monospace"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
                 </ListView>
             </TabItem>
         </TabControl>

@@ -549,17 +549,8 @@
             <Setter Property="VerticalContentAlignment"
                     Value="Center"/>
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="10">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+            <Setter Property="BorderThickness"
+                    Value="0"/>
         </Style.Setters>
     </Style>
 
@@ -568,6 +559,7 @@
         <Style.Setters>
             <Setter Property="Background"
                     Value="#41C0C7"/>
+            
             <Setter Property="Cursor"
                     Value="Hand"/>
         </Style.Setters>
@@ -722,7 +714,6 @@
                             Background="#94DBDF"
                             BorderThickness="0"
                             SnapsToDevicePixels="true"
-                            CornerRadius="10"
                             Margin="10">
                         <Border x:Name="splitBorder"
                                 BorderBrush="Transparent"

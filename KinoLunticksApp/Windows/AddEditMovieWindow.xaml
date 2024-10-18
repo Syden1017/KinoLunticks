@@ -68,14 +68,13 @@
                    Grid.Column="2"
                    Grid.Row="0"/>
 
-        <xctk:MaskedTextBox x:Name="txtBoxMovieCode"
-                            Text="{Binding MovieCode}"
-                            Mask="000"
-                            
-                            Style="{DynamicResource txtBoxAddEdit}"
-                            
-                            Grid.Column="3"
-                            Grid.Row="0"/>
+        <TextBox x:Name="txtBoxMovieCode"
+                 Text="{Binding MovieCode}"
+                 
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="3"
+                 Grid.Row="0"/>
 
         <TextBlock Text="Название:"
                    
