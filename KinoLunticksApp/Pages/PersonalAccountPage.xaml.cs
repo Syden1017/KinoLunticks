@@ -58,6 +58,7 @@ namespace KinoLunticksApp.Pages
             DataContext = _user;
 
             UpdateOrdersList();
+            UpdateCardsList();
         }
 
         private void UpdateOrdersList()
@@ -65,6 +66,11 @@ namespace KinoLunticksApp.Pages
             _db.Orders.Include("MovieNavigation").Load();
 
             lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
+        }
+
+        private void UpdateCardsList()
+        {
+            
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
