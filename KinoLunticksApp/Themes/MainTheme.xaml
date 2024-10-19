@@ -1368,7 +1368,7 @@
                 Value="Bold"/>
 
         <Setter Property="FontSize"
-                Value="16"/>
+                Value="30"/>
 
         <Setter Property="Template">
             <Setter.Value>
@@ -1447,6 +1447,12 @@
 
             <Setter Property="BorderThickness"
                     Value="2"/>
+
+            <Setter Property="FontSize"
+                    Value="25"/>
+
+            <Setter Property="TextAlignment"
+                    Value="Center"/>
         </Style.Setters>
     </Style>
 
@@ -1496,6 +1502,9 @@
 
             <Setter Property="TextWrapping"
                     Value="Wrap"/>
+
+            <Setter Property="FontSize"
+                    Value="16"/>
         </Style.Setters>
     </Style>
     <!--#endregion-->

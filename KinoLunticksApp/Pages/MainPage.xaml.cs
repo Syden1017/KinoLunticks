@@ -172,7 +172,7 @@ namespace KinoLunticksApp.Pages
                 switch (filterField)
                 {
                     case FILTER_BY_AGE_RESTRICTION:
-                        movies = movies.Where(m => m.AgeRestriction == characteristics.ToString()).ToList();
+                        movies = movies.Where(m => m.AgeRestriction == cmbBoxFilterType.SelectedValue.ToString()).ToList();
                         break;
 
                     case FILTER_BY_MOVIE_GENRE:

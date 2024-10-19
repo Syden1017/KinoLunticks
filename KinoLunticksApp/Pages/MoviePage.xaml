@@ -89,6 +89,13 @@
                        Style="{DynamicResource txtBlockTicketBuying}"
                        FontSize="30"
                        FontWeight="Bold"/>
+
+            <TextBlock Text="{Binding TicketPrice,
+                              StringFormat={}{0} ₽}"
+                       
+                       Style="{DynamicResource txtBlockTicketBuying}"
+                       FontSize="30"
+                       FontWeight="Bold"/>
         </StackPanel>
 
         <Grid Grid.Column="0"
@@ -494,7 +501,7 @@
                  Grid.Row="3"/>
 
         <Button x:Name="btnBuyingTicket"
-                Content="Оплатить"
+                Content="ОПЛАТИТЬ"
                 Click="btnBuyingTicket_Click"
                 
                 Style="{StaticResource BuyingTicketButtonStyle}"
