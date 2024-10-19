@@ -65,37 +65,30 @@
                     Orientation="Vertical">
             <TextBlock Text="{Binding MovieName}"
                        
-                       Style="{DynamicResource txtBlockTicketBuying}"
-                       FontSize="30"
-                       FontWeight="Bold"/>
+                       Style="{DynamicResource txtBlockTicketBuying}"/>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Здесь мог бы быть ваш жанр"
                            
                            Style="{DynamicResource txtBlockTicketBuying}"
-                           FontSize="30"
-                           FontWeight="Bold"
                            Margin="0 0 10 0"/>
 
                 <TextBlock Text="{Binding AgeRestriction}"
                            
-                           Style="{DynamicResource txtBlockTicketBuying}"
-                           FontSize="30"
-                           FontWeight="Bold"/>
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
             </StackPanel>
 
             <TextBlock Text="{Binding MovieDuration}"
                        
-                       Style="{DynamicResource txtBlockTicketBuying}"
-                       FontSize="30"
-                       FontWeight="Bold"/>
+                       Style="{DynamicResource txtBlockTicketBuying}"/>
 
             <TextBlock Text="{Binding TicketPrice,
                               StringFormat={}{0} ₽}"
                        
-                       Style="{DynamicResource txtBlockTicketBuying}"
-                       FontSize="30"
-                       FontWeight="Bold"/>
+                       Style="{DynamicResource txtBlockTicketBuying}"/>
+
+            <TextBlock Text="12:00:00"
+                       Style="{DynamicResource txtBlockTicketBuying}"/>
         </StackPanel>
 
         <Grid Grid.Column="0"
