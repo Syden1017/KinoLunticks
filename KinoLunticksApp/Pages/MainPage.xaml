@@ -174,8 +174,8 @@
                   Grid.ColumnSpan="3"
                   Background="#2B2B2B">
             
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
+            <!--<ItemsControl.ItemTemplate>
+                <DataTemplate>-->
                     <Border BorderBrush="#92DBDF"
                             BorderThickness="1">
                         <Grid Width="{Binding ActualWidth,
@@ -218,11 +218,28 @@
                             <StackPanel Orientation="Horizontal"
                                         Grid.Column="1"
                                         Grid.Row="1">
-                                <TextBlock x:Name="txtBlockGenre"
-                                           Text="{Binding Genres.GenreName}"
-
-                                           Style="{DynamicResource txtBlockAdditionalInfo}"
-                                           Margin="0,0,10,0"/>
+                                <DataGrid x:Name="dGridGenres"
+                                          
+                                          IsReadOnly="True"
+                  
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          CanUserResizeRows="False"
+                                          CanUserReorderColumns="False"
+                                          CanUserResizeColumns="False"
+                                          CanUserSortColumns="False"
+                                          Margin="0,0,10,0">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding GenreName}"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
 
                                 <TextBlock x:Name="txtBlockAgeRestriction"
                                            Text="{Binding AgeRestriction}"
@@ -248,8 +265,8 @@
                                        Grid.Row="4"/>
                         </Grid>
                     </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+                <!--</DataTemplate>
+            </ItemsControl.ItemTemplate>-->
         </ListView>
     </Grid>
 </Page>

@@ -16,6 +16,7 @@ namespace KinoLunticksApp.Pages
         KinoLunticsContext _db = new KinoLunticsContext();
         User _user = new User();
         List<Movie> _movies = new List<Movie>();
+        List<Genre> _genres = new List<Genre>();
 
         Frame _frame;
 
@@ -50,7 +51,8 @@ namespace KinoLunticksApp.Pages
 
         private void UpdateMovieList()
         {
-            _movies = _db.Movies.Include(m => m.Genres).ToList();
+            _db.Movies.Load();
+            _movies = _db.Movies.ToList();
 
             string request = txtBoxSearch.Text.
                                           Replace(" ", "").
