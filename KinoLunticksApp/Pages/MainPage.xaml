@@ -174,8 +174,8 @@
                   Grid.ColumnSpan="3"
                   Background="#2B2B2B">
             
-            <!--<ItemsControl.ItemTemplate>
-                <DataTemplate>-->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
                     <Border BorderBrush="#92DBDF"
                             BorderThickness="1">
                         <Grid Width="{Binding ActualWidth,
@@ -265,8 +265,8 @@
                                        Grid.Row="4"/>
                         </Grid>
                     </Border>
-                <!--</DataTemplate>
-            </ItemsControl.ItemTemplate>-->
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
         </ListView>
     </Grid>
 </Page>
