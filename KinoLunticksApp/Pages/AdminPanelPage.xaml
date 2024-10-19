@@ -56,7 +56,7 @@
             
         </Grid>
 
-        <ListView Name="tableView"
+        <ListView x:Name="tableView"
                   Grid.Row="1"
                   Grid.Column="1"
                   Background="Transparent"
@@ -172,7 +172,6 @@
                                             Content="&#10006;"
                                             Style="{DynamicResource btnEditMovie}"/>
                                 </StackPanel>
-
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
