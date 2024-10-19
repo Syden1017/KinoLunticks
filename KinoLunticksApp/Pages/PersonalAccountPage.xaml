@@ -208,7 +208,7 @@
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2">
                                     <Image.Source>
-                                        <Binding Path="PreviewNavigation.Preview">
+                                        <Binding Path="MovieNavigation.Preview">
                                             <Binding.TargetNullValue>
                                                 <ImageSource>
                                                     /KinoLunticksApp;component/Images/default.jpg

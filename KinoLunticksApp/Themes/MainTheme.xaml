@@ -1367,6 +1367,9 @@
         <Setter Property="FontWeight"
                 Value="Bold"/>
 
+        <Setter Property="Cursor"
+                Value="Hand"/>
+
         <Setter Property="FontSize"
                 Value="30"/>
 
@@ -1397,14 +1400,27 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                
+                <Setter Property="Background"
+                        Value="#3C7884"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="txtBlockTicketBuying"
            TargetType="TextBlock">
-        <Style.Setters>
             <Setter Property="Foreground"
                     Value="#FFF"/>
-        </Style.Setters>
+
+            <Setter Property="FontSize"
+                    Value="30"/>
+
+            <Setter Property="FontWeight"
+                    Value="Bold"/>
     </Style>
 
     <Style x:Key="txtBlockRowCount"
@@ -1514,7 +1530,10 @@
            TargetType="Button">
         <Style.Setters>
             <Setter Property="Margin"
-                    Value="5"/>
+                    Value="5 25"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
 
             <Setter Property="Background"
                     Value="#41C0C7"/>
@@ -1524,6 +1543,9 @@
 
             <Setter Property="Cursor"
                     Value="Hand"/>
+
+            <Setter Property="FontSize"
+                    Value="20"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -1548,5 +1570,94 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="txtBlockYoursSeats"
+           TargetType="TextBlock">
+        <Style.Setters>
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="FontSize"
+                    Value="20"/>
+
+            <Setter Property="TextAlignment"
+                    Value="Left"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Margin"
+                    Value="10 0 120 0"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
+        </Style.Setters>
+        
+
+    </Style>
+
+    <Style x:Key="txtBlockSeats"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#FFF"/>
+
+        <Setter Property="TextWrapping"
+                Value="Wrap"/>
+
+        <Setter Property="Margin"
+                Value="130 0 0 0"/>
+
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+    </Style>
+
+    <Style x:Key="txtBlockSum"
+           TargetType="TextBlock">
+        <Setter Property="Foreground"
+                Value="#FFF"/>
+
+        <Setter Property="FontSize"
+                Value="25"/>
+
+        <Setter Property="TextAlignment"
+                Value="Right"/>
+
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+    </Style>
+
+    <Style x:Key="txtBlockfullAmount"
+           TargetType="TextBlock">
+
+        <Setter Property="Foreground"
+                Value="#FFF"/>
+
+        <Setter Property="FontSize"
+                Value="20"/>
+
+        <Setter Property="VerticalAlignment"
+                Value="Center"/>
+
+        <Setter Property="HorizontalAlignment"
+                Value="Right"/>
+
+    </Style>
+
+    <Style x:Key="txtBlockCards"
+           TargetType="TextBlock">
+
+        <Setter Property="Foreground"
+            Value="#FFF"/>
+
+        <Setter Property="FontSize"
+            Value="15"/>
+
+        <Setter Property="HorizontalAlignment"
+                Value="Center"/>
+
+    </Style>
+
     <!--#endregion-->
 </ResourceDictionary>

@@ -9,6 +9,7 @@ namespace KinoLunticksApp.Windows
     /// </summary>
     public partial class PaymentWindow : Window
     {
+        KinoLunticsContext _db = new KinoLunticsContext();
         User _user = new User();
         Movie _movie = new Movie();
 
@@ -37,12 +38,39 @@ namespace KinoLunticksApp.Windows
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
         {
+            TimeOnly sessionTime = TimeOnly.Parse(txtBlockSessionTime.Text);
 
-        }
+            var order = new Order
+            {
+                User = _user.Login,
+                Movie = _movie.MovieCode,
+                SessionTime = sessionTime,
+                Seats = _seats,
+                Amount = Convert.ToDecimal(_fullAmount)
+            };
 
-        private void btnPrint_Click(object sender, RoutedEventArgs e)
-        {
+            try
+            {
+                _db.Orders.Add(order);
+                _db.SaveChanges();
 
+                MessageBox.Show(
+                    "Оплата прошла успешно!",
+                    "Проведение транзакции",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message.ToString(),
+                    "Системная ошибка",
+                     MessageBoxButton.OK,
+                     MessageBoxImage.Error
+                     );
+            }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
