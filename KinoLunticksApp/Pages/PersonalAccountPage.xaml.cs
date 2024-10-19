@@ -65,7 +65,7 @@ namespace KinoLunticksApp.Pages
 
         private void UpdateOrdersList()
         {
-            _db.Orders.Include("MovieNavigation").Load();
+            _db.Orders.Include("MovieNavigation").Where(o => o.UserNavigation.Login == _user.Login).Load();
 
             lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
         }
