@@ -12,19 +12,9 @@
         Width="800"
         
         WindowStartupLocation="CenterScreen"
-        
-        Background="{StaticResource gradient}">
-
-    <Window.Resources>
-        <LinearGradientBrush x:Key="gradient" StartPoint="0,0" EndPoint="1,1">
-
-            <GradientStop Color="#41C0C7" Offset="0.1" />
-            <GradientStop Color="#94DBDF" Offset="0.5" />
-            <GradientStop Color="#FFF" Offset="1.0" />
-        </LinearGradientBrush>
-    </Window.Resources>
-
-    <Grid>
+        WindowStyle="None">
+    
+    <Grid Background="#2B2B2B">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="7*"/>
@@ -36,9 +26,9 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Column="0" 
-           Grid.Row="0">
+               Grid.Row="0">
             <Image.Source>
-                <Binding Path="Preview">
+                <Binding Path="moviePreview">
                     <Binding.TargetNullValue>
                         <ImageSource>
                             /KinoLunticksApp;component/Images/DefaultPhoto.png
@@ -51,7 +41,7 @@
         <StackPanel Grid.Column="1"
                 Grid.Row="0"
                 Orientation="Vertical">
-            <TextBlock Text="{Binding MovieName}"
+            <TextBlock Text="{Binding movieName}"
                    
                    Style="{DynamicResource txtBlockTicketBuying}"
                    FontSize="30"
@@ -65,14 +55,14 @@
                        FontWeight="Bold"
                        Margin="0 0 10 0"/>
 
-                <TextBlock Text="{Binding AgeRestriction}"
+                <TextBlock Text="{Binding movieAgeRestriction}"
                        
                        Style="{DynamicResource txtBlockTicketBuying}"
                        FontSize="30"
                        FontWeight="Bold"/>
             </StackPanel>
 
-            <TextBlock Text="{Binding MovieDuration}"
+            <TextBlock Text="{Binding movieDuration}"
                    
                    Style="{DynamicResource txtBlockTicketBuying}"
                    FontSize="30"
@@ -82,25 +72,41 @@
         <Grid Grid.Row="2"
               Grid.Column="0"
               Grid.ColumnSpan="7">
-
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
+
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="4*"/>
             </Grid.RowDefinitions>
-            
-            
 
-            <TextBlock Text="Ваши места"
+            <TextBlock Text="Ваши места:"
                        Grid.Column="0"
                        Grid.Row="0"/>
 
-            <TextBlock Text="Выберите карту"
+            <TextBlock Text="{Binding seats}"
+                       
+                       HorizontalAlignment="Right"
+                       TextWrapping="Wrap"
+                       MaxWidth="200"
+                       
+                       Grid.Column="0"
+                       Grid.Row="0"/>
+
+            <TextBlock Text="Сумма:"
+                       Grid.Column="2"
+                       Grid.Row="0"/>
+
+            <TextBlock Text="{Binding fullAmount}"
+                       
+                       HorizontalAlignment="Right"
+                       TextWrapping="Wrap"
+                       MinWidth="200"
+                       MaxWidth="200"
+                       
                        Grid.Column="2"
                        Grid.Row="0"/>
 
@@ -114,7 +120,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="1">
+                <StackPanel Grid.Column="1"
+                            Margin="5 0 5 0">
                     <Border BorderBrush="#000">
                         <Grid>
                             <Grid.RowDefinitions>
@@ -126,11 +133,23 @@
                                        Grid.Row="0"/>
 
                             <ListView x:Name="lViewCard"
+                                      
+                                      ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                      
                                       Grid.Row="1">
-                                
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="False">
+                                        <GridViewColumn>
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding AccountNumber}"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
                             </ListView>
-                            
-                            
                         </Grid>
                     </Border>
                 </StackPanel>
@@ -145,23 +164,28 @@
                         </Grid.RowDefinitions>
 
                         <Button x:Name="btnPay"
-                                Grid.Row="0"
-                                Content="ОПЛАТИТЬ"/>
+                                Content="ОПЛАТИТЬ"
+                                Click="btnPay_Click"
+                                Style="{DynamicResource btnPaymentWindow}"
+                                
+                                Grid.Row="0"/>
+
                         <Button x:Name="btnPrint"
-                                Grid.Row="1"
-                                Content="НАПЕЧАТАТЬ БИЛЕТ"/>
+                                Content="НАПЕЧАТАТЬ БИЛЕТ"
+                                Click="btnPrint_Click"
+                                Style="{DynamicResource btnPaymentWindow}"
+                                
+                                Grid.Row="1"/>
+
                         <Button x:Name="btnCancel"
-                                Grid.Row="2"
-                                Content="ОТМЕНА"/>
+                                Content="ОТМЕНА"
+                                Click="btnCancel_Click"
+                                Style="{DynamicResource btnPaymentWindow}"
+                                
+                                Grid.Row="2"/>
                     </Grid>
                 </StackPanel>
             </Grid>
-            
-            
         </Grid>
-
-        
-
-        
     </Grid>
 </Window>

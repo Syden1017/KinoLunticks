@@ -37,19 +37,10 @@ namespace KinoLunticksApp.Pages
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var moviesForRemoving = tableView.SelectedItems.Cast<Movie>().ToList();
-
-            if (moviesForRemoving.Count == 0)
-            {
-                MessageBox.Show(
-                    "Выберите, пожалуйста, фильм, который хотите удалить",
-                    "Внимание",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning);
-            }
+            var movieForRemove = (sender as Button).DataContext as Movie;
 
             MessageBoxResult result = MessageBox.Show(
-                                          $"Вы точно хотите удалить записи в количестве {moviesForRemoving.Count()} элементов?",
+                                          "Вы точно хотите удалить запись?",
                                           "Внимание",
                                           MessageBoxButton.YesNo,
                                           MessageBoxImage.Question);
@@ -58,7 +49,7 @@ namespace KinoLunticksApp.Pages
             {
                 try
                 {
-                    _db.Movies.RemoveRange(moviesForRemoving);
+                    _db.Movies.Remove(movieForRemove);
 
                     MessageBox.Show(
                         "Запись удалена",
