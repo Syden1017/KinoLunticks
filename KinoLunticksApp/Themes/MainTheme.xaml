@@ -1176,6 +1176,31 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="btnPrint"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Background"
+                    Value="#41C0C7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Margin"
+                    Value="250 10"/>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#489BA0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--#endregion-->
     
     <!--#region Film Page -->

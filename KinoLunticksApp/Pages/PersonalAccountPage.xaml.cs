@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -8,8 +10,8 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
 
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
-using System.Text;
+using QRCoder;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace KinoLunticksApp.Pages
 {
@@ -20,10 +22,10 @@ namespace KinoLunticksApp.Pages
     {
         KinoLunticsContext _db = new KinoLunticsContext();
         User _user = new User();
+        ImageWork _image = new ImageWork();
+        PDFPrint _print = new PDFPrint();
 
         Frame _frame;
-
-        ImageWork _image = new ImageWork();
 
         static string _workingDirectory = Directory.GetParent(
                                     Directory.GetParent(
@@ -122,6 +124,13 @@ namespace KinoLunticksApp.Pages
                      MessageBoxImage.Error
                     );
             }
+        }
+
+        private void btnPrint_Click(object sender, RoutedEventArgs e)
+        {
+            var ticket = (sender as Button).DataContext as Order;
+
+            _print.PrintToPDF(ticket);
         }
 
         /// <summary>

@@ -16,7 +16,6 @@ namespace KinoLunticksApp.Pages
         KinoLunticsContext _db = new KinoLunticsContext();
         User _user = new User();
         List<Movie> _movies = new List<Movie>();
-        List<Genre> _genres = new List<Genre>();
 
         Frame _frame;
 

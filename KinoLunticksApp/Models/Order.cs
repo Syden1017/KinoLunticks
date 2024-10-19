@@ -5,6 +5,8 @@ namespace KinoLunticksApp.Models;
 
 public partial class Order
 {
+    public int OrderNumber { get; set; }
+
     public string User { get; set; } = null!;
 
     public int Movie { get; set; }
@@ -14,8 +16,6 @@ public partial class Order
     public string Seats { get; set; } = null!;
 
     public decimal Amount { get; set; }
-
-    public int OrderNumber { get; set; }
 
     public virtual Movie MovieNavigation { get; set; } = null!;
 
