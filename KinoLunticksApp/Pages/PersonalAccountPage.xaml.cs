@@ -1,17 +1,14 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
+using KinoLunticksApp.Models;
+using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
-using QRCoder;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace KinoLunticksApp.Pages
 {
@@ -72,8 +69,10 @@ namespace KinoLunticksApp.Pages
 
         private void UpdateCardsList()
         {
-            
-        }
+            _db.Users.Include(u => u.AccountNumbers).FirstOrDefault(u => u.Login == _user.Login);
+
+            lViewMyCards.ItemsSource = _db.BankAccounts.Local.ToList();
+       }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -131,6 +130,14 @@ namespace KinoLunticksApp.Pages
             var ticket = (sender as Button).DataContext as Order;
 
             _print.PrintToPDF(ticket);
+        }
+
+        private void btnAddCard_Click(object sender, RoutedEventArgs e)
+        {
+            AddCardWindow addCard = new AddCardWindow(_user);
+            addCard.ShowDialog();
+
+            UpdateCardsList();
         }
 
         /// <summary>

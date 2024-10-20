@@ -212,8 +212,6 @@
                     Value="Center"/>
         </Style.Setters>
     </Style>
-    
-    
 
     <Style x:Key="btnSaveChanges"
            TargetType="Button">
@@ -257,8 +255,6 @@
         </Style.Triggers>
     </Style>
     
-    
-
     <Style x:Key="btnCancel"
            TargetType="Button">
         <Style.Setters>
@@ -1201,6 +1197,50 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <Style x:Key="btnAddCard"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Background"
+                    Value="#41C0C7"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFF"/>
+
+            <Setter Property="FontSize"
+                    Value="26"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#489BA0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--#endregion-->
     
     <!--#region Film Page -->
@@ -1684,5 +1724,91 @@
 
     </Style>
 
+    <!--#endregion-->
+    
+    <!--#region Add card window-->
+    <Style x:Key="btnSaveCard"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Margin"
+                    Value="10 7"/>
+
+            <Setter Property="Background"
+                    Value="#53F6FF"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="FontSize"
+                    Value="16"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#42C4CC"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="btnCancelChanges"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Margin"
+                    Value="10 7"/>
+
+            <Setter Property="Background"
+                    Value="#41C0C7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="FontSize"
+                    Value="16"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#489BA0"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <!--#endregion-->
 </ResourceDictionary>

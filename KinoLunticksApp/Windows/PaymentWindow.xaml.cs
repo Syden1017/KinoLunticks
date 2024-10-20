@@ -1,6 +1,9 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Windows
 {
@@ -34,6 +37,13 @@ namespace KinoLunticksApp.Windows
                 seats = _seats,
                 fullAmount = _fullAmount
             };
+        }
+
+        private void LoadUserCards()
+        {
+            _db.Users.Include(u => u.AccountNumbers).FirstOrDefault(u => u.Login == _user.Login);
+
+            lViewCards.ItemsSource = _db.BankAccounts.Local.ToList();
         }
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
@@ -84,6 +94,20 @@ namespace KinoLunticksApp.Windows
             if (result == MessageBoxResult.Yes)
             {
                 Close();
+            }
+        }
+
+        private void lViewCards_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedCard = lViewCards.SelectedItem;
+
+            if (selectedCard == null)
+            {
+                btnPay.IsEnabled = false;
+            }
+            else
+            {
+                btnPay.IsEnabled = true;
             }
         }
     }
