@@ -138,7 +138,8 @@
                                        
                                         Style="{DynamicResource txtBlockCards}"/>
 
-                            <ListView x:Name="lViewCard"
+                            <ListView x:Name="lViewCards"
+                                      SelectionChanged="lViewCards_SelectionChanged"
                                       
                                       ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                       ScrollViewer.VerticalScrollBarVisibility="Auto"

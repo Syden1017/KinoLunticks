@@ -66,9 +66,9 @@ namespace KinoLunticksApp.Tools
                 string filePath = saveFileDialog.FileName; // Получаем полный путь к файлу
                 document.Save(filePath);
                 MessageBox.Show(
-                    $"Документ успешно сохранен по пути: {filePath}", 
-                    "Сохранение", 
-                    MessageBoxButtons.OK, 
+                    $"Документ успешно сохранен по пути: {filePath}",
+                    "Сохранение",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                     );
 
@@ -76,9 +76,9 @@ namespace KinoLunticksApp.Tools
 
                 try
                 {
-                    Process.Start(new ProcessStartInfo(filePath) 
-                    { 
-                        UseShellExecute = true 
+                    Process.Start(new ProcessStartInfo(filePath)
+                    {
+                        UseShellExecute = true
                     });
                 }
                 catch (Exception ex)
