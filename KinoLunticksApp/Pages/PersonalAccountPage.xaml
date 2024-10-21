@@ -188,98 +188,105 @@
                           ItemContainerStyle="{DynamicResource listViewSelect}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="2"/>
+                            <UniformGrid Columns="3"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid MaxHeight="350"
-                                  VerticalAlignment="Top"
-                                  HorizontalAlignment="Left">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                            <Border BorderBrush="#000"
+                                    BorderThickness="0.7"
+                                    Margin="7">
+                                <StackPanel>
+                                    <Button x:Name="btnPrint"
+                                            Click="btnPrint_Click"
+                                            Style="{DynamicResource btnPrint}"
+                                            
+                                            Grid.Column="1"
+                                            Grid.Row="0">
+                                        <materialDesign:PackIcon Kind="Printer"
+                                                                 Foreground="#000"/>
+                                    </Button>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-
-                                <Button x:Name="btnPrint"
-                                        Click="btnPrint_Click"
-                                        Style="{DynamicResource btnPrint}"
-                                        
-                                        Grid.Column="3"
-                                        Grid.Row="0">
-                                    <materialDesign:PackIcon Kind="Printer"
-                                                             Foreground="#000"/>
-                                </Button>
-
-                                <Image Margin="10"
-                                       
-                                       Grid.Column="0"
-                                       Grid.Row="0"
-                                       Grid.ColumnSpan="2"
-                                       Grid.RowSpan="2">
-                                    <Image.Source>
-                                        <Binding Path="MovieNavigation.Preview">
-                                            <Binding.TargetNullValue>
-                                                <ImageSource>
-                                                    /KinoLunticksApp;component/Images/default.jpg
-                                                </ImageSource>
-                                            </Binding.TargetNullValue>
-                                        </Binding>
-                                    </Image.Source>
-                                </Image>
-
-                                <Grid Grid.Column="2"
-                                      Grid.Row="1"
-                                      Grid.ColumnSpan="2">
+                                    <Grid MaxWidth="900"
+                                          MaxHeight="350"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="50"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                    
-                                        <TextBlock Text="{Binding MovieNavigation.MovieName}"
-                                                   
-                                                   Style="{DynamicResource txtBlockMyTickets}"
-                                                   
-                                                   Grid.Column="0"
-                                                   Grid.Row="0"
-                                                   Grid.ColumnSpan="2"/>
-                                        
-                                        <StackPanel Style="{DynamicResource stcPanelMyTickets}"
-                                                    Grid.Column="0"
-                                                    Grid.Row="1"
-                                                    Grid.ColumnSpan="2">
-                                            <TextBlock Text="{Binding SessionTime,
-                                                              StringFormat={}Время: {0:hh:mm},
-                                                              ConverterCulture=ru-Ru}"/>
 
-                                            <TextBlock Text="{Binding Seats,
-                                                              StringFormat={}Места: {0}}"/>
-                                        </StackPanel>
+                                        <Image Margin="10"
+                                               
+                                               Grid.Column="0"
+                                               Grid.Row="0"
+                                               Grid.ColumnSpan="2"
+                                               Grid.RowSpan="2">
+                                            <Image.Source>
+                                                <Binding Path="MovieNavigation.Preview">
+                                                    <Binding.TargetNullValue>
+                                                        <ImageSource>
+                                                            /KinoLunticksApp;component/Images/default.jpg
+                                                        </ImageSource>
+                                                    </Binding.TargetNullValue>
+                                                </Binding>
+                                            </Image.Source>
+                                        </Image>
 
-                                        <TextBlock Text="{Binding Amount,
-                                                          StringFormat={}Сумма: {0}}"
-                                                   
-                                                   Style="{DynamicResource txtBlockMyTickets}"
-                                                   
-                                                   Grid.Column="0"
-                                                   Grid.Row="2"
-                                                   Grid.ColumnSpan="2"/>
-                                </Grid>
-                            </Grid>
+                                        <Grid Grid.Column="2"
+                                              Grid.Row="1"
+                                              Grid.ColumnSpan="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Text="{Binding MovieNavigation.MovieName}"
+                                                       
+                                                       Style="{DynamicResource txtBlockMyTickets}"
+                                                       
+                                                       Grid.Column="0"
+                                                       Grid.Row="0"
+                                                       Grid.ColumnSpan="2"/>
+
+                                            <StackPanel Style="{DynamicResource stcPanelMyTickets}"
+                                                                Grid.Column="0"
+                                                                Grid.Row="1"
+                                                                Grid.ColumnSpan="2">
+                                                <TextBlock Text="{Binding SessionTime,
+                                                                  StringFormat={}Время: {0:hh:mm},
+                                                                  ConverterCulture=ru-Ru}"/>
+
+                                                <TextBlock Text="{Binding Seats,
+                                                                  StringFormat={}Места: {0}}"
+                                                           TextWrapping="Wrap"/>
+                                            </StackPanel>
+
+                                            <TextBlock Text="{Binding Amount,
+                                                              StringFormat={}Сумма: {0}}"
+                                                       
+                                                       Style="{DynamicResource txtBlockMyTickets}"
+                                                       
+                                                       Grid.Column="0"
+                                                       Grid.Row="2"
+                                                       Grid.ColumnSpan="2"/>
+                                        </Grid>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ListView>
@@ -323,11 +330,9 @@
 
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border MaxWidth="350"
-                                        MaxHeight="220"
-                                        CornerRadius="5"
-                                        VerticalAlignment="Top"
-                                        HorizontalAlignment="Left">
+                                <Border Width="350"
+                                        Height="220"
+                                        CornerRadius="5">
                                     <Border.Background>
                                         <LinearGradientBrush EndPoint="0.5,1"
                                                              StartPoint="0.5,0">

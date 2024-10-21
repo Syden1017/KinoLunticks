@@ -10,6 +10,23 @@
         <GradientStop Color="LimeGreen" Offset="1.0" />
     </LinearGradientBrush>
     
+    <!--#region Font for UI elements -->
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily"
+                Value="pack://application:,,,/KinoLunticksApp;component/Fonts/Montserrat-VariableFont_wght.ttf#Montserrat"/>
+    </Style>
+    
+    <Style TargetType="TextBox">
+        <Setter Property="FontFamily"
+                Value="pack://application:,,,/KinoLunticksApp;component/Fonts/Montserrat-VariableFont_wght.ttf#Montserrat"/>
+    </Style>
+
+    <Style TargetType="Button">
+        <Setter Property="FontFamily"
+                Value="pack://application:,,,/KinoLunticksApp;component/Fonts/Montserrat-VariableFont_wght.ttf#Montserrat"/>
+    </Style>
+    <!--#endregion-->
+    
     <!--#region Admin Page -->
     <Style x:Key="btnAdminPage"
            TargetType="Button">
@@ -1120,6 +1137,9 @@
 
             <Setter Property="Margin"
                     Value="0 35"/>
+            
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
         </Style.Setters>
     </Style>
 
@@ -1186,7 +1206,22 @@
                     Value="Hand"/>
 
             <Setter Property="Margin"
-                    Value="250 10"/>
+                    Value="0 7 10 0"/>
+
+            <Setter Property="Height"
+                    Value="25"/>
+
+            <Setter Property="Width"
+                    Value="25"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Right"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Top"/>
+
+            <Setter Property="FontSize"
+                    Value="22"/>
         </Style.Setters>
 
         <Style.Triggers>
@@ -1592,6 +1627,51 @@
     
     <!--#region Payment Window -->
     <Style x:Key="btnPaymentWindow"
+           TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Margin"
+                    Value="5 25"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Background"
+                    Value="#53F6FF"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="FontSize"
+                    Value="20"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver"
+                     Value="True">
+                <Setter Property="Background"
+                        Value="#42C4CC"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    <Style x:Key="btnCancelPayment"
            TargetType="Button">
         <Style.Setters>
             <Setter Property="Margin"

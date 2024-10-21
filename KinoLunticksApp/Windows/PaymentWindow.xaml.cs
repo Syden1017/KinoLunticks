@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 
+using KinoLunticksApp.Pages;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +18,12 @@ namespace KinoLunticksApp.Windows
         User _user = new User();
         Movie _movie = new Movie();
 
+        Frame _frame;
+
         string _seats;
         string _fullAmount;
 
-        public PaymentWindow(Movie selectedMovie, User user, string seats, string fullAmount)
+        public PaymentWindow(Movie selectedMovie, User user, string seats, string fullAmount, Frame frame)
         {
             InitializeComponent();
 
@@ -27,6 +31,7 @@ namespace KinoLunticksApp.Windows
             _user = user;
             _seats = seats;
             _fullAmount = fullAmount;
+            _frame = frame;
 
             DataContext = new
             {
@@ -37,6 +42,8 @@ namespace KinoLunticksApp.Windows
                 seats = _seats,
                 fullAmount = _fullAmount
             };
+
+            LoadUserCards();
         }
 
         private void LoadUserCards()
@@ -48,13 +55,11 @@ namespace KinoLunticksApp.Windows
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
         {
-            TimeOnly sessionTime = TimeOnly.Parse(txtBlockSessionTime.Text);
-
             var order = new Order
             {
                 User = _user.Login,
                 Movie = _movie.MovieCode,
-                SessionTime = sessionTime,
+                SessionTime = TimeOnly.Parse(txtBlockSessionTime.Text),
                 Seats = _seats,
                 Amount = Convert.ToDecimal(_fullAmount)
             };
@@ -71,25 +76,26 @@ namespace KinoLunticksApp.Windows
                     MessageBoxImage.Information);
 
                 Close();
+                _frame.Navigate(new MainPage(_frame, _user));
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
                     ex.Message.ToString(),
                     "Системная ошибка",
-                     MessageBoxButton.OK,
-                     MessageBoxImage.Error
-                     );
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error
+                    );
             }
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show(
-                                                    "Вы действительно хотите отменить операцию?",
-                                                    "Отмена оплаты",
-                                                    MessageBoxButton.YesNo,
-                                                    MessageBoxImage.Question);
+                                          "Вы действительно хотите отменить операцию?",
+                                          "Отмена оплаты",
+                                          MessageBoxButton.YesNo,
+                                          MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -99,16 +105,27 @@ namespace KinoLunticksApp.Windows
 
         private void lViewCards_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedCard = lViewCards.SelectedItem;
-
-            if (selectedCard == null)
+            if (lViewCards.SelectedItem != null)
             {
-                btnPay.IsEnabled = false;
+                btnPay.IsEnabled = true;
+                rectTransparent.Visibility = Visibility.Collapsed;
             }
             else
             {
-                btnPay.IsEnabled = true;
+                btnPay.IsEnabled = false;
+                rectTransparent.Visibility = Visibility.Visible;
             }
+        }
+
+        private void rectTransparent_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.No;
+            rectTransparent.ToolTip = "Выберите способ оплаты";
+        }
+
+        private void rectTransparent_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
         }
     }
 }

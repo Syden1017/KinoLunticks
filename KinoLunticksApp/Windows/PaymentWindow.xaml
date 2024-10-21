@@ -175,14 +175,26 @@
                         <Button x:Name="btnPay"
                                 Content="ОПЛАТИТЬ"
                                 Click="btnPay_Click"
+                                
                                 Style="{DynamicResource btnPaymentWindow}"
+                                IsEnabled="False"
                                 
                                 Grid.Row="0"/>
+
+                        <Rectangle x:Name="rectTransparent"
+                                   MouseEnter="rectTransparent_MouseEnter"
+                                   MouseLeave="rectTransparent_MouseLeave"
+                                   
+                                   Fill="Transparent"
+                                   Height="40"
+                                   Margin="5 25"
+                                   
+                                   Grid.Row="0"/>
 
                         <Button x:Name="btnCancel"
                                 Content="ОТМЕНА"
                                 Click="btnCancel_Click"
-                                Style="{DynamicResource btnPaymentWindow}"
+                                Style="{DynamicResource btnCancelPayment}"
                                 
                                 Grid.Row="2"/>
                     </Grid>
