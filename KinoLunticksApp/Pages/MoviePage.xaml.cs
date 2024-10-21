@@ -93,7 +93,7 @@ namespace KinoLunticksApp.Pages
             string seats = txtBoxSelected.Text;
             string fullAmount = txtBoxTicketAmount.Text;
 
-            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user, seats, fullAmount);
+            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user, seats, fullAmount, _frame);
             paymentWindow.ShowDialog();
         }
 

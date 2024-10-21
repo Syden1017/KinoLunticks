@@ -56,6 +56,8 @@ namespace KinoLunticksApp.Pages
 
             DataContext = _user;
 
+            _db.Users.Attach(_user);
+
             UpdateOrdersList();
             UpdateCardsList();
         }
@@ -99,10 +101,10 @@ namespace KinoLunticksApp.Pages
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+            _db.Entry(_user).State = EntityState.Modified;
+
             try
             {
-                _db.Entry(_user).State = EntityState.Modified;
-
                 _user.Photo = _imageData;
 
                 _db.SaveChanges();
