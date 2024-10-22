@@ -173,7 +173,6 @@
                   Grid.Column="0"
                   Grid.ColumnSpan="3"
                   Background="#2B2B2B">
-            
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border BorderBrush="#92DBDF"
@@ -221,16 +220,10 @@
                                 <DataGrid x:Name="dGridGenres"
                                           ItemsSource="{Binding Genres}"
                                           
-                                          IsReadOnly="True"
-                                                  
-                                          AutoGenerateColumns="False"
-                                          CanUserAddRows="False"
-                                          CanUserDeleteRows="False"
-                                          CanUserResizeRows="False"
-                                          CanUserReorderColumns="False"
-                                          CanUserResizeColumns="False"
-                                          CanUserSortColumns="False"
-                                          Margin="0,0,10,0">
+                                          Style="{DynamicResource dGridGenres}"
+                                          ColumnHeaderStyle="{DynamicResource dGridColumnHeader}"
+                                          RowHeaderStyle="{DynamicResource dGridRowHeader}"
+                                          CellStyle="{DynamicResource dGridCell}">
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn>
                                             <DataGridTemplateColumn.CellTemplate>

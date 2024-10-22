@@ -71,16 +71,10 @@
                 <DataGrid x:Name="dGridGenres"
                           ItemsSource="{Binding Genres}"
                           
-                          IsReadOnly="True"
-                                  
-                          AutoGenerateColumns="False"
-                          CanUserAddRows="False"
-                          CanUserDeleteRows="False"
-                          CanUserResizeRows="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeColumns="False"
-                          CanUserSortColumns="False"
-                          Margin="0,0,10,0">
+                          Style="{DynamicResource dGridGenres}"
+                          ColumnHeaderStyle="{DynamicResource dGridColumnHeader}"
+                          RowHeaderStyle="{DynamicResource dGridRowHeader}"
+                          CellStyle="{DynamicResource dGridCell}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn>
                             <DataGridTemplateColumn.CellTemplate>
@@ -106,7 +100,7 @@
                        
                        Style="{DynamicResource txtBlockTicketBuying}"/>
 
-            <TextBlock Text="12:00:00"
+            <TextBlock Text="Время сеанса: 12:00:00"
                        Style="{DynamicResource txtBlockTicketBuying}"/>
         </StackPanel>
 
