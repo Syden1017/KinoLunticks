@@ -29,7 +29,6 @@ namespace KinoLunticksApp.Tools
             XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
             XFont fontRegular = new XFont("Verdana", 20, XFontStyleEx.Regular);
 
-            // Печатаем заголовок
             gfx.DrawString(ticket.MovieNavigation.MovieName, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopLeft);
 
             int yPoint = 30;

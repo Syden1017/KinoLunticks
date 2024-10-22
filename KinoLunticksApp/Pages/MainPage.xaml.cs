@@ -178,7 +178,7 @@ namespace KinoLunticksApp.Pages
                         break;
 
                     case FILTER_BY_MOVIE_GENRE:
-                        movies = movies.Where(m => m.Genres.Any(g => g.GenreName == (cmbBoxFilterType.SelectedValue.ToString()))).ToList();
+                        movies = movies.Where(m => m.Genres.Any(g => g.GenreName == cmbBoxFilterType.SelectedValue.ToString())).ToList();
                         break;
 
                     default:
