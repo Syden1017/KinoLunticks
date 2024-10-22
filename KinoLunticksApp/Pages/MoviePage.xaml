@@ -68,10 +68,29 @@
                        Style="{DynamicResource txtBlockTicketBuying}"/>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Здесь мог бы быть ваш жанр"
-                           
-                           Style="{DynamicResource txtBlockTicketBuying}"
-                           Margin="0 0 10 0"/>
+                <DataGrid x:Name="dGridGenres"
+                          ItemsSource="{Binding Genres}"
+                          
+                          IsReadOnly="True"
+                                  
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          CanUserResizeRows="False"
+                          CanUserReorderColumns="False"
+                          CanUserResizeColumns="False"
+                          CanUserSortColumns="False"
+                          Margin="0,0,10,0">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding GenreName}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
 
                 <TextBlock Text="{Binding AgeRestriction}"
                            

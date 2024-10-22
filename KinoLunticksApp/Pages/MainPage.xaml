@@ -219,9 +219,10 @@
                                         Grid.Column="1"
                                         Grid.Row="1">
                                 <DataGrid x:Name="dGridGenres"
+                                          ItemsSource="{Binding Genres}"
                                           
                                           IsReadOnly="True"
-                  
+                                                  
                                           AutoGenerateColumns="False"
                                           CanUserAddRows="False"
                                           CanUserDeleteRows="False"

@@ -319,6 +319,8 @@
                               
                               Style="{DynamicResource lViewMyAditionalInfo}"
                               
+                              ItemContainerStyle="{DynamicResource listViewSelect}"
+                              
                               Grid.Column="0"
                               Grid.Row="1"
                               Grid.ColumnSpan="2">
@@ -332,7 +334,10 @@
                             <DataTemplate>
                                 <Border Width="350"
                                         Height="220"
-                                        CornerRadius="5">
+                                        CornerRadius="5"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="5 0 0 0">
                                     <Border.Background>
                                         <LinearGradientBrush EndPoint="0.5,1"
                                                              StartPoint="0.5,0">

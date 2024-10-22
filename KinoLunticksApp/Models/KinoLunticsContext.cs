@@ -29,7 +29,7 @@ public partial class KinoLunticsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAB30-04\\SQLEXPRESS; Database=KinoLuntics; User=ИСП-42; Password=1234567890; Encrypt=false");
+        => optionsBuilder.UseSqlServer("Server=SYDEN1810\\SYDEN1810; Database=KinoLuntics; Integrated Security=true; Encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -113,10 +113,13 @@ public partial class KinoLunticsContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderNumber).HasName("PK_Orders_OrderNumber");
+            entity.HasKey(e => e.OrderNumber).HasName("PK_Order_OrderNumber");
 
             entity.Property(e => e.Amount).HasColumnType("decimal(8, 2)");
-            entity.Property(e => e.Seats).HasMaxLength(150);
+            entity.Property(e => e.Seats)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .IsFixedLength();
             entity.Property(e => e.User).HasMaxLength(25);
 
             entity.HasOne(d => d.MovieNavigation).WithMany(p => p.Orders)
