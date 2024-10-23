@@ -32,15 +32,23 @@ namespace KinoLunticksApp.Tools
             gfx.DrawString(ticket.MovieNavigation.MovieName, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopLeft);
 
             int yPoint = 30;
+            gfx.DrawString("Места: ", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
+
+            yPoint += 30;
             gfx.DrawString(ticket.Seats, fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
 
             yPoint += 30;
             gfx.DrawString("Время сеанса: ", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString(ticket.SessionTime.ToString(), fontRegular, XBrushes.Black, new XRect(170, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
+
+            yPoint += 30;
+            gfx.DrawString(ticket.SessionTime.ToString(), fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
 
             yPoint += 30;
             gfx.DrawString("Оплачено:", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString(ticket.Amount.ToString(), fontRegular, XBrushes.Black, new XRect(130, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
+
+            yPoint += 30;
+            gfx.DrawString(ticket.Amount.ToString(), fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
+            gfx.DrawString("₽", fontRegular, XBrushes.Black, new XRect(100, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
 
             // Генерируем QR-код и получаем путь к файлу
             string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.MovieNavigation.MovieName);

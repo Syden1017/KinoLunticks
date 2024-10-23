@@ -209,7 +209,7 @@
                                     </Button>
 
                                     <Grid MaxWidth="900"
-                                          MaxHeight="350"
+                                          MaxHeight="450"
                                           VerticalAlignment="Top"
                                           HorizontalAlignment="Left">
                                         <Grid.ColumnDefinitions>

@@ -54,8 +54,6 @@
             <xctk:WatermarkTextBox x:Name="txtBoxLogin"
                                    Watermark="логин"
                                    
-                                   Text="Lion"
-                                   
                                    Style="{DynamicResource txtBoxAuth}"
                                    
                                    Grid.Column="1"
@@ -72,8 +70,6 @@
                                        Watermark="пароль"
                                        PasswordChar="*"
                                        
-                                       Password="Petrov123"
-                                       
                                        Style="{DynamicResource pBoxPasswordAuth}"
                                        
                                        Grid.Column="1"
@@ -88,6 +84,8 @@
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"
+                    MouseEnter="btnLogIn_MouseEnter"
+                    MouseLeave="btnLogIn_MouseLeave"
                     Content="Войти"
                     
                     Style="{DynamicResource btnAutorization}"

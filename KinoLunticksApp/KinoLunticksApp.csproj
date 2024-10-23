@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Cursors\luntikCursor.cur" />
+    <None Remove="Cursors\luntikPointer.cur" />
     <None Remove="Fonts\Montserrat-VariableFont_wght.ttf" />
     <None Remove="Images\Chairs\ArmchairGreen.png" />
     <None Remove="Images\Chairs\ArmchairGrey.png" />
@@ -38,6 +40,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Cursors\luntikCursor.cur">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Cursors\luntikPointer.cur">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fonts\Montserrat-VariableFont_wght.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

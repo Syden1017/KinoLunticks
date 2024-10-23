@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace KinoLunticksApp.Pages
 {
@@ -16,8 +17,6 @@ namespace KinoLunticksApp.Pages
         KinoLunticsContext _db = new KinoLunticsContext();
 
         Frame _frame;
-
-        private bool isPasswordVisible = false;
 
         public AutorizationPage(Frame frame)
         {
