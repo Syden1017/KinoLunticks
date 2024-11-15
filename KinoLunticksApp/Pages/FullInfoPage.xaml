@@ -103,12 +103,9 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Foreground="#FFF"
-                                   FontSize="25">
-                            <TextBlock.Text>
-                                <Binding Path="GenreName"/>
-                            </TextBlock.Text>
-                        </TextBlock>
+                        <TextBlock Text="{Binding GenreName}"
+                                   Foreground="#FFF"
+                                   FontSize="25"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListView>
@@ -182,12 +179,8 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Foreground="#FFF"
-                                   FontSize="25">
-                            <TextBlock.Text>
-                                <Binding Path="LastName"/>
-                            </TextBlock.Text>
-                        </TextBlock>
+                        <TextBlock Text="{Binding ActorName}"
+                                   Foreground="#FFF"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ListView>

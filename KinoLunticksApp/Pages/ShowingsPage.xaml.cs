@@ -3,52 +3,52 @@ using System.Windows.Controls;
 
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
-using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Pages
 {
     /// <summary>
-    /// Interaction logic for AdminPanelPage.xaml
+    /// Логика взаимодействия для ShowingsPage.xaml
     /// </summary>
-    public partial class AdminPanelPage : Page
+    public partial class ShowingsPage : Page
     {
         KinoLunticsContext _db = new KinoLunticsContext();
-        MovieImportService import = new MovieImportService();
+        ShowingImportService import = new ShowingImportService();
 
         Frame _frame;
 
-        public AdminPanelPage(Frame frame)
+        public ShowingsPage(Frame frame)
         {
             InitializeComponent();
 
             _frame = frame;
-            _db.Movies.Load();
 
-            tableView.ItemsSource = _db.Movies.ToList();
+            _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
+
+            tableView.ItemsSource = _db.Showings.ToList();
         }
-
-        private void btnImportFilms_Click(object sender, RoutedEventArgs e)
-        {
-            import.ImportMoviesFromExcelAsync();
-
-            tableView.ItemsSource = _db.Movies.ToList();
-        }
-
-        private void btnShowings_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new ShowingsPage(_frame));
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            var addEditMovieWindow = new AddEditMovieWindow(null);
-            addEditMovieWindow.ShowDialog();
 
-            tableView.ItemsSource = _db.Movies.ToList();
+        }
+
+        private void btnImportShowings_Click(object sender, RoutedEventArgs e)
+        {
+            import.ImportShowingsFromExcelAsync();
+
+            tableView.ItemsSource = _db.Showings.ToList();
+        }
+
+        private void changeButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var movieForRemove = (sender as Button).DataContext as Movie;
+            var showingForRemove = (sender as Button).DataContext as Showing;
 
             MessageBoxResult result = MessageBox.Show(
                                           "Вы точно хотите удалить запись?",
@@ -60,7 +60,7 @@ namespace KinoLunticksApp.Pages
             {
                 try
                 {
-                    _db.Movies.Remove(movieForRemove);
+                    _db.Showings.Remove(showingForRemove);
 
                     MessageBox.Show(
                         "Запись удалена",
@@ -77,15 +77,7 @@ namespace KinoLunticksApp.Pages
                 }
             }
 
-            tableView.ItemsSource = _db.Movies.ToList();
-        }
-
-        private void changeButton_Click(object sender, RoutedEventArgs e)
-        {
-            var changeMovie = new AddEditMovieWindow((sender as Button).DataContext as Movie);
-            changeMovie.ShowDialog();
-
-            tableView.ItemsSource = _db.Movies.ToList();
+            tableView.ItemsSource = _db.Showings.ToList();
         }
     }
 }

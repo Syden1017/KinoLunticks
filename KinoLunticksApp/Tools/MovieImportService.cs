@@ -112,7 +112,7 @@ namespace KinoLunticksApp.Tools
                 var lastName = actorDetails[1].Trim();
                 var photoPath = row["Photo"].ToString();
 
-                var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName && 
+                var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName &&
                                                                       a.ActorLastName == lastName);
 
                 if (actor == null)
@@ -126,7 +126,8 @@ namespace KinoLunticksApp.Tools
                     _db.Actors.Add(actor);
                 }
 
-                if (!movie.Actors.Contains(actor))
+                if (!movie.Actors.Any(a => a.ActorName == actor.ActorName &&
+                                           a.ActorLastName == actor.ActorLastName))
                 {
                     movie.Actors.Add(actor);
                 }
@@ -139,18 +140,21 @@ namespace KinoLunticksApp.Tools
 
             foreach (var genreName in genreNames)
             {
-                var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == genreName.Trim());
+                var trimmedGenreName = genreName.Trim();
+
+                var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == trimmedGenreName);
 
                 if (genre == null)
                 {
                     genre = new Genre
-                    { 
-                        GenreName = genreName.Trim()
+                    {
+                        GenreName = trimmedGenreName
                     };
+
                     _db.Genres.Add(genre);
                 }
 
-                if (!movie.Genres.Contains(genre))
+                if (!movie.Genres.Any(g => g.GenreName == genre.GenreName))
                 {
                     movie.Genres.Add(genre);
                 }

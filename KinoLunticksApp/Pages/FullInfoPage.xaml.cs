@@ -32,7 +32,6 @@ namespace KinoLunticksApp.Pages
 
             DataContext = _movie;
             LoadShowings(_movie.MovieCode);
-            LoadActors();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -70,16 +69,6 @@ namespace KinoLunticksApp.Pages
 
         #region Methods
         /// <summary>
-        /// Загружает актеров переданного фильма
-        /// </summary>
-        private void LoadActors()
-        {
-            _db.Movies.Include(m => m.Actors).FirstOrDefault(m => m.MovieCode == _movie.MovieCode);
-
-            lViewActors.ItemsSource = _db.Movies.Local.ToList();
-        }
-
-        /// <summary>
         /// Загружает показы по выбранному фильму
         /// </summary>
         /// <param name="movieId">Код фильма</param>
@@ -100,14 +89,14 @@ namespace KinoLunticksApp.Pages
                         AddDateButton(date);
                     }
                 }
-                
+
                 var defaultDate = (DateOnly)((Button)stcPanelDates.Children[0]).Tag;
                 LoadShowingsByDate(defaultDate);
                 HighlightSelectedDate((Button)stcPanelDates.Children[0]);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при загрузке показов: {ex.Message}");
+                AddTextBlock();
             }
         }
 
@@ -265,6 +254,22 @@ namespace KinoLunticksApp.Pages
             defaultTemplate.VisualTree = defaultBorder;
 
             button.Template = defaultTemplate;
+        }
+        
+        /// <summary>
+        /// Добавляет на форму текстовую метку
+        /// </summary>
+        private void AddTextBlock()
+        {
+            var textBlock = new TextBlock
+            {
+                Text = "У данного фильма нет сеансов",
+                Background = new SolidColorBrush(Colors.Transparent),
+                Foreground = new SolidColorBrush(Colors.White),
+                FontSize = 18
+            };
+
+            stcPanelDates.Children.Add(textBlock);
         }
 
         private Showing GetShowingById(int showId)
