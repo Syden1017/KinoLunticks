@@ -35,7 +35,6 @@ namespace KinoLunticksApp.Windows
 
             DataContext = new
             {
-                moviePreview = _movie.Preview,
                 movieName = _movie.MovieName,
                 movieAgeRestriction = _movie.AgeRestriction,
                 movieDuration = _movie.MovieDuration,
@@ -57,10 +56,6 @@ namespace KinoLunticksApp.Windows
         {
             var order = new Order
             {
-                User = _user.Login,
-                Movie = _movie.MovieCode,
-                SessionTime = TimeOnly.Parse(txtBlockSessionTime.Text),
-                Seats = _seats,
                 Amount = Convert.ToDecimal(_fullAmount)
             };
 

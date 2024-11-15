@@ -29,28 +29,21 @@ namespace KinoLunticksApp.Tools
             XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
             XFont fontRegular = new XFont("Verdana", 20, XFontStyleEx.Regular);
 
-            gfx.DrawString(ticket.MovieNavigation.MovieName, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopLeft);
-
             int yPoint = 30;
-            gfx.DrawString(ticket.Seats, fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString("Время сеанса: ", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString(ticket.SessionTime.ToString(), fontRegular, XBrushes.Black, new XRect(170, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
 
             yPoint += 30;
             gfx.DrawString("Оплачено:", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
             gfx.DrawString(ticket.Amount.ToString(), fontRegular, XBrushes.Black, new XRect(130, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
 
-            // Генерируем QR-код и получаем путь к файлу
-            string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.MovieNavigation.MovieName);
+            //// Генерируем QR-код и получаем путь к файлу
+            //string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.MovieNavigation.MovieName);
 
-            XImage xImage = XImage.FromFile(qrCodeFilePath);
+            //XImage xImage = XImage.FromFile(qrCodeFilePath);
 
-            // Определяем позицию для QR-кода
-            double qrCodeX = (page.Width - xImage.PixelWidth * 72 / xImage.HorizontalResolution) / 2; // Центрируем по горизонтали
-            double qrCodeY = yPoint + 30;                                                             // Позиция ниже последнего текста с отступом
-            gfx.DrawImage(xImage, qrCodeX, qrCodeY, 100, 100);                                        // Рисуем QR-код на странице
+            //// Определяем позицию для QR-кода
+            //double qrCodeX = (page.Width - xImage.PixelWidth * 72 / xImage.HorizontalResolution) / 2; // Центрируем по горизонтали
+            //double qrCodeY = yPoint + 30;                                                             // Позиция ниже последнего текста с отступом
+            //gfx.DrawImage(xImage, qrCodeX, qrCodeY, 100, 100);                                        // Рисуем QR-код на странице
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
@@ -71,7 +64,7 @@ namespace KinoLunticksApp.Tools
                     MessageBoxIcon.Information
                     );
 
-                File.Delete(qrCodeFilePath);
+                //File.Delete(qrCodeFilePath);
 
                 try
                 {

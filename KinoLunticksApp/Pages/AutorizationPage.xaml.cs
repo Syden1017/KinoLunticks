@@ -17,8 +17,6 @@ namespace KinoLunticksApp.Pages
 
         Frame _frame;
 
-        private bool isPasswordVisible = false;
-
         public AutorizationPage(Frame frame)
         {
             InitializeComponent();
@@ -36,22 +34,20 @@ namespace KinoLunticksApp.Pages
 
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
-            string login = txtBoxLogin.Text;
-            string password = passBoxPassword.Password;
-
-            var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == login && user.Password == password);
+            var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == txtBoxLogin.Text);
 
             if (user == null)
             {
                 MessageBox.Show(
-                    "Неверный логин или пароль. " +
+                    "Неверный логин. " +
                     "Повторите попытку.",
                     "Ошибка авторизации",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning
                     );
             }
-            else
+
+            if (BCrypt.Net.BCrypt.Verify(passBoxPassword.Password, user.Password))
             {
                 if (user.UserRole.ToString() == "2")
                 {
@@ -61,6 +57,16 @@ namespace KinoLunticksApp.Pages
                 {
                     _frame.Navigate(new AdminPanelPage(_frame));
                 }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Неверный пароль. " +
+                    "Повторите попытку.",
+                    "Ошибка авторизации",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                    );
             }
         }
 

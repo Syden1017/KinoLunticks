@@ -580,6 +580,9 @@
             
             <Setter Property="Cursor"
                     Value="Hand"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
         </Style.Setters>
 
         <Style.Triggers>

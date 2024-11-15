@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:KinoLunticksApp.Pages"
+      xmlns:controls="clr-namespace:KinoLunticksApp.Controls"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d"
       
@@ -16,7 +17,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"/>
             <ColumnDefinition Width="1.3*"/>
-            <ColumnDefinition Width="0.8*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -28,8 +30,8 @@
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.7*"/>
             <RowDefinition Height="0.7*"/>
-            <RowDefinition Height="0.7*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="0.7*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -63,13 +65,14 @@
                    Style="{DynamicResource txtBlockTitle}"
                    
                    Grid.Column="3"
-                   Grid.Row="0"/>
+                   Grid.Row="0"
+                   Grid.ColumnSpan="2"/>
 
         <Image x:Name="imgPhoto"
                
                MouseLeftButtonDown="imgPhoto_MouseLeftButtonDown"
                
-               Margin="0 0 0 20"
+               Margin="0 0 10 20"
                
                Grid.Column="0"
                Grid.Row="1"
@@ -116,50 +119,35 @@
                  Grid.Column="3"
                  Grid.Row="2"/>
 
-        <TextBlock Text="Логин: "
+        <TextBlock Text="Дата рождения: "
                    
                    Style="{DynamicResource txtBlockPersonalInfo}"
                    
                    Grid.Column="2"
                    Grid.Row="3"/>
-        
-        <TextBox x:Name="txtBoxLogin"
-                 Text="{Binding Login}"
-                 
-                 Style="{DynamicResource txtBoxPersonalInfo}"
-                 
-                 Grid.Column="3"
-                 Grid.Row="3"/>
-
-        <TextBlock Text="Электронная почта: "
-                   
-                   Style="{DynamicResource txtBlockPersonalInfo}"
-                   
-                   Grid.Column="4"
-                   Grid.Row="1"/>
-
-        <TextBox x:Name="txtBoxEmailAddress"
-                 Text="{Binding EmailAddress}"
-                 
-                 Style="{DynamicResource txtBoxPersonalInfo}"
-                 
-                 Grid.Column="5"
-                 Grid.Row="1"/>
-
-        <TextBlock Text="Дата рождения: "
-                   
-                   Style="{DynamicResource txtBlockPersonalInfo}"
-                   
-                   Grid.Column="4"
-                   Grid.Row="2"/>
 
         <DatePicker x:Name="dPicBirthDate"
                     SelectedDate="{Binding BirthDate}"
                     
                     Style="{DynamicResource dPicBirthDate}"
                     
-                    Grid.Column="5"
-                    Grid.Row="2"/>
+                    Grid.Column="3"
+                    Grid.Row="3"/>
+
+        <TextBlock Text="Эл. почта: "
+                   
+                   Style="{DynamicResource txtBlockPersonalInfo}"
+                   
+                   Grid.Column="2"
+                   Grid.Row="4"/>
+
+        <TextBox x:Name="txtBoxEmailAddress"
+                 Text="{Binding EmailAddress}"
+                 
+                 Style="{DynamicResource txtBoxPersonalInfo}"
+                 
+                 Grid.Column="3"
+                 Grid.Row="4"/>
 
         <Button x:Name="btnSave"
                 Content="Сохранить"
@@ -167,18 +155,19 @@
                 
                 Style="{DynamicResource btnSavePersonalInfo}"
                 
-                Grid.Column="4"
-                Grid.Row="4"
+                Grid.Column="1"
+                Grid.Row="6"
                 Grid.ColumnSpan="2"/>
 
         <TabControl x:Name="tabControlInfo"
                     
                     BorderThickness="0"
+                    Margin="10 0 0 5"
                     
-                    Grid.Column="0"
-                    Grid.Row="5"
-                    Grid.ColumnSpan="6"
-                    Grid.RowSpan="4">
+                    Grid.Column="4"
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Grid.RowSpan="8">
             <TabItem Header="Мои билеты"
                      
                      Style="{DynamicResource tabItemInfo}">
@@ -188,10 +177,10 @@
                           ItemContainerStyle="{DynamicResource listViewSelect}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="3"/>
+                            <UniformGrid Columns="2"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    
+
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="#000"
@@ -208,83 +197,14 @@
                                                                  Foreground="#000"/>
                                     </Button>
 
-                                    <Grid MaxWidth="900"
-                                          MaxHeight="350"
-                                          VerticalAlignment="Top"
-                                          HorizontalAlignment="Left">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="50"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-
-                                        <Image Margin="10"
-                                               
-                                               Grid.Column="0"
-                                               Grid.Row="0"
-                                               Grid.ColumnSpan="2"
-                                               Grid.RowSpan="2">
-                                            <Image.Source>
-                                                <Binding Path="MovieNavigation.Preview">
-                                                    <Binding.TargetNullValue>
-                                                        <ImageSource>
-                                                            /KinoLunticksApp;component/Images/default.jpg
-                                                        </ImageSource>
-                                                    </Binding.TargetNullValue>
-                                                </Binding>
-                                            </Image.Source>
-                                        </Image>
-
-                                        <Grid Grid.Column="2"
-                                              Grid.Row="1"
-                                              Grid.ColumnSpan="2">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-
-                                            <TextBlock Text="{Binding MovieNavigation.MovieName}"
-                                                       
-                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                       
-                                                       Grid.Column="0"
-                                                       Grid.Row="0"
-                                                       Grid.ColumnSpan="2"/>
-
-                                            <StackPanel Style="{DynamicResource stcPanelMyTickets}"
-                                                                Grid.Column="0"
-                                                                Grid.Row="1"
-                                                                Grid.ColumnSpan="2">
-                                                <TextBlock Text="{Binding SessionTime,
-                                                                  StringFormat={}Время: {0:hh:mm},
-                                                                  ConverterCulture=ru-Ru}"/>
-
-                                                <TextBlock Text="{Binding Seats,
-                                                                  StringFormat={}Места: {0}}"
-                                                           TextWrapping="Wrap"/>
-                                            </StackPanel>
-
-                                            <TextBlock Text="{Binding Amount,
-                                                              StringFormat={}Сумма: {0}}"
-                                                       
-                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                       
-                                                       Grid.Column="0"
-                                                       Grid.Row="2"
-                                                       Grid.ColumnSpan="2"/>
-                                        </Grid>
-                                    </Grid>
+                                    <ListView x:Name="TicketsListView"
+                                              ItemsSource="{Binding Tickets}">
+                                        <!--<ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <controls:TicketItem/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>-->
+                                    </ListView>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -356,7 +276,7 @@
                                                    VerticalAlignment="Top"
                                                    Margin="10"
                                                    Foreground="#FFF"/>
-                                        
+
                                         <Image Height="40"
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Top"
@@ -395,9 +315,9 @@
                                                            Foreground="#35006A"/>
 
                                                 <TextBlock Text="{Binding ExpirationDate}" 
-                                                                FontSize="12"
-                                                                Foreground="#35006A" 
-                                                                FontFamily="Global Monospace" />
+                                                           FontSize="12"
+                                                           Foreground="#35006A" 
+                                                           FontFamily="Global Monospace" />
                                             </StackPanel>
 
                                             <StackPanel Margin="20"

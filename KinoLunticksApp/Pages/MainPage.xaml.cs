@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
-using System.Windows.Media;
 
 namespace KinoLunticksApp.Pages
 {
@@ -282,7 +281,7 @@ namespace KinoLunticksApp.Pages
 
             if (selectedMovie != null)
             {
-                _frame.Navigate(new MoviePage(_frame, _user, selectedMovie));
+                _frame.Navigate(new FullInfoPage(_frame, _user, selectedMovie));
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
+using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
@@ -75,6 +76,13 @@ namespace KinoLunticksApp.Pages
             changeMovie.ShowDialog();
 
             tableView.ItemsSource = _db.Movies.ToList();
+        }
+
+        private void btnImportFilms_Click(object sender, RoutedEventArgs e)
+        {
+            MovieImportService import = new MovieImportService();
+
+            import.ImportMoviesFromExcelAsync();
         }
     }
 }

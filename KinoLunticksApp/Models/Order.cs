@@ -7,17 +7,17 @@ public partial class Order
 {
     public int OrderNumber { get; set; }
 
-    public string User { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public int Movie { get; set; }
-
-    public TimeOnly SessionTime { get; set; }
-
-    public string Seats { get; set; } = null!;
+    public int Showing { get; set; }
 
     public decimal Amount { get; set; }
 
-    public virtual Movie MovieNavigation { get; set; } = null!;
+    public int SelectedRow { get; set; }
 
-    public virtual User UserNavigation { get; set; } = null!;
+    public virtual Row SelectedRowNavigation { get; set; } = null!;
+
+    public virtual Showing ShowingNavigation { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }

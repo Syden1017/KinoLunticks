@@ -49,12 +49,12 @@ namespace KinoLunticksApp.Windows
             {
                 _currentMovie = selectedMovie;
 
-                _imageData = _currentMovie.Preview;
+                //_imageData = _currentMovie.Preview;
 
-                if (_currentMovie.Preview != null)
-                {
-                    _image.ReadBitmapImageFromArray(new MemoryStream(_currentMovie.Preview), out _currentImage);
-                }
+                //if (_currentMovie.Preview != null)
+                //{
+                //    _image.ReadBitmapImageFromArray(new MemoryStream(_currentMovie.Preview), out _currentImage);
+                //}
 
                 txtBoxMovieCode.IsEnabled = false;
             }
@@ -175,7 +175,7 @@ namespace KinoLunticksApp.Windows
 
             try
             {
-                _currentMovie.Preview = _imageData;
+                //_currentMovie.Preview = _imageData;
 
                 _db.SaveChanges();
 

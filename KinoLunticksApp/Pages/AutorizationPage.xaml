@@ -54,8 +54,6 @@
             <xctk:WatermarkTextBox x:Name="txtBoxLogin"
                                    Watermark="логин"
                                    
-                                   Text="Lion"
-                                   
                                    Style="{DynamicResource txtBoxAuth}"
                                    
                                    Grid.Column="1"
@@ -71,8 +69,6 @@
             <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
                                        Watermark="пароль"
                                        PasswordChar="*"
-                                       
-                                       Password="Petrov123"
                                        
                                        Style="{DynamicResource pBoxPasswordAuth}"
                                        

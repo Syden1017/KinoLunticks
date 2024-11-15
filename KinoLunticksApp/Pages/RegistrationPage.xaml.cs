@@ -3,8 +3,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
+using KinoLunticksApp.Models;
 
 namespace KinoLunticksApp.Pages
 {
@@ -44,37 +44,99 @@ namespace KinoLunticksApp.Pages
             string userLastName = txtBoxLastName.Text;
             string email = txtBoxEmail.Text;
 
-            if (password != confirmPassword)
+            if (login.Length > 0)
             {
-                errors.AppendLine("Пароли не совпадают. Повторите попытку");
-            }
+                if (_user.IsLoginExists(login))
+                {
+                    errors.AppendLine("Пользователь с данным логином зарегистрирован в системе. " +
+                                      "Если вы уже зарегистрированы, войдите в систему.");
+                }
 
-            if (_user.IsLoginExists(login))
-            {
-                errors.AppendLine("Пользователь с данным логином зарегистрирован в системе.");
-            }
+                if (_user.IsEmailEsists(email))
+                {
+                    errors.AppendLine("Пользователь с данной электронной почтой зарегистрирован в системе. " +
+                                      "Если вы уже зарегистрированы, войдите в систему.");
+                }
 
-            if (_user.IsEmailEsists(email))
-            {
-                errors.AppendLine("Пользователь с данной электронной почтой зарегистрирован в системе.");
-            }
 
-            if (errors.Length > 0)
-            {
-                MessageBox.Show(
-                    errors.ToString(),
-                    "Ошибка регистрации",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                    );
+                if (errors.Length > 0)
+                {
+                    MessageBox.Show(
+                        errors.ToString(),
+                        "Ошибка регистрации",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Error
+                        );
 
-                return;
+                    return;
+                }
+
+                if (password.Length > 0)
+                {
+                    if (password.Length > 6)
+                    {
+                        if (password == confirmPassword)
+                        {
+                            bool en = true;
+                            bool number = false;
+
+                            for (int i = 0; i < password.Length; i++)
+                            {
+                                if (password[i] >= 'А' && password[i] <= 'Я') en = false;
+                                if (password[i] >= '0' && password[i] <= '9') number = true;
+                            }
+                            if (!en) MessageBox.Show("Пароль должен состоять только из английских букв");
+                            else if (!number) MessageBox.Show("Пароль должен содержать хотя бы одну цифру");
+                            else if (!_user.isValidMail(email))
+                                MessageBox.Show("Введите корректный e-mail.", "Ошибка!", MessageBoxButton.OK);
+
+                            if (en && number && _user.isValidMail(email))
+                            {
+                                _user.RegisterUser(login, BCrypt.Net.BCrypt.HashPassword(password),
+                                                   userName, userLastName,
+                                                   email, _frame);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Пароли не совпадают. " +
+                                "Повторите попытку",
+                                "Ошибка регистрации",
+                                MessageBoxButton.OK,
+                                MessageBoxImage.Warning
+                                );
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Пароль должен быть не короче 6 символов",
+                            "Ошибка регистрации",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                            );
+                    }
+                }
+                else
+                {
+                    MessageBox.Show(
+                            "Введите пароль",
+                            "Ошибка регистрации",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Warning
+                            );
+                }
             }
             else
             {
-                _user.RegisterUser(login, password, userName, userLastName, email, _frame);
+                MessageBox.Show(
+                        "Введите логин",
+                        "Ошибка регистрации",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                        );
             }
-
         }
 
         private void txtBlockAuthorization_MouseDown(object sender, MouseButtonEventArgs e) => _frame.Navigate(new AutorizationPage(_frame));

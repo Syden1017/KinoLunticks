@@ -1,8 +1,10 @@
 ﻿using System.Windows;
+using System.Net.Mail;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Pages;
+using KinoLunticksApp.Models;
 
 namespace KinoLunticksApp.Tools
 {
@@ -28,6 +30,28 @@ namespace KinoLunticksApp.Tools
         public bool IsEmailEsists(string email)
         {
             return _db.Users.Any(user => user.EmailAddress == email);
+        }
+
+        /// <summary>
+        /// Проверяет правильность введенной электронной почты
+        /// </summary>
+        /// <param name="mail">Почта для проверки</param>
+        /// <returns>Результат проверки</returns>
+        public bool isValidMail(string mail)
+        {
+            var regex = new Regex(@"^(\w+\@\w+\.\w+)$");
+
+            try
+            {
+                MailAddress m = new MailAddress(mail);
+                if (!regex.IsMatch(mail))
+                    return false;
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
         }
 
         /// <summary>

@@ -2,7 +2,9 @@
 using System.Windows.Controls;
 
 using KinoLunticksApp.Models;
+using KinoLunticksApp.Tools;
 using KinoLunticksApp.Windows;
+using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Pages
 {
@@ -11,8 +13,12 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class MoviePage : Page
     {
+        KinoLunticsContext _db = new KinoLunticsContext();
+
         User _user = new User();
         Movie _movie = new Movie();
+
+        SessionDetails _sessionDetails;
 
         Frame _frame;
 
@@ -21,25 +27,18 @@ namespace KinoLunticksApp.Pages
         private List<string> _selectedPlaces;
         private decimal _ticketAmount;
 
-        public MoviePage(Frame frame, User user, Movie movie)
+        public MoviePage(SessionDetails details)
         {
             InitializeComponent();
 
-            _frame = frame;
-            _user = user;
-            _movie = movie;
+            _sessionDetails = details;
 
-            _armchairButtons = new List<Button>
-            {
-                btn1Place1, btn1Place2, btn1Place3, btn1Place4, btn1Place5, btn1Place6, btn1Place7, btn1Place8, btn1Place9,
-                btn2Place1, btn2Place2, btn2Place3, btn2Place4, btn2Place5, btn2Place6, btn2Place7, btn2Place8, btn2Place9,
-                btn3Place1, btn3Place2, btn3Place3, btn3Place4, btn3Place5, btn3Place6, btn3Place7, btn3Place8, btn3Place9, btn3Place10
-            };
             _selectedPlaces = new List<string>();
             _ticketAmount = 0;
 
             UpdateSelectedPlacesTextBox();
             UpdateTicketAmountTextBox();
+            LoadHallScheme();
 
             for (int i = 0; i < 3; i++)
             {
@@ -49,7 +48,62 @@ namespace KinoLunticksApp.Pages
                 }
             }
 
-            DataContext = _movie;
+            DataContext = _sessionDetails.selectedMovie;
+        }
+
+        private async void LoadHallScheme()
+        {
+            var showing = await GetShowingByTimeAndMovie(_sessionDetails.selectedMovie.MovieCode, _sessionDetails.selectedShowing.ShowingTime);
+
+            if (showing != null)
+            {
+                var hall = await GetHallByShowingId(showing.ShowingId);
+                if (hall != null)
+                {
+                    // Получаем места
+                    var seats = await GetSeatsByHallId(hall.HallId);
+                    DisplaySeats(seats);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Показ не найден.");
+            }
+        }
+
+        private async Task<Showing> GetShowingByTimeAndMovie(int movieId, TimeOnly showingTime)
+        {
+            return await _db.Showings
+                .FirstOrDefaultAsync(s => s.MovieId == movieId && s.ShowingTime == showingTime);
+        }
+
+        private async Task<Hall> GetHallByShowingId(int showingId)
+        {
+            var showing = await _db.Showings.FindAsync(showingId);
+            return showing?.Hall;
+        }
+
+        private async Task<List<Seat>> GetSeatsByHallId(int hallId)
+        {
+            return await _db.Seats.Include(s => s.Row).Where(seat => seat.Row.HallId == hallId).ToListAsync();
+        }
+
+        private void DisplaySeats(List<Seat> seats)
+        {
+            listViewSeats.Items.Clear();
+
+            foreach (var seat in seats)
+            {
+                var button = new Button
+                {
+                    Content = seat.SeatNumber,
+                    IsEnabled = !seat.IsAvailable
+                };
+
+                button.Click += Button_Click;
+
+                listViewSeats.Items.Add(button);
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)

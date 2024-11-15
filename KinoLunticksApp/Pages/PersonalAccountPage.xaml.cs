@@ -9,6 +9,8 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Globalization;
 
 namespace KinoLunticksApp.Pages
 {
@@ -21,6 +23,8 @@ namespace KinoLunticksApp.Pages
         User _user = new User();
         ImageWork _image = new ImageWork();
         PDFPrint _print = new PDFPrint();
+
+        public List<Ticket> Tickets { get; set; }
 
         Frame _frame;
 
@@ -56,17 +60,27 @@ namespace KinoLunticksApp.Pages
 
             DataContext = _user;
 
-            _db.Users.Attach(_user);
-
-            UpdateOrdersList();
+            LoadTickets();
             UpdateCardsList();
         }
 
-        private void UpdateOrdersList()
+        private void LoadTickets()
         {
-            _db.Orders.Include("MovieNavigation").Where(o => o.UserNavigation.Login == _user.Login).Load();
+            Tickets = _db.Orders.Where(o => o.User.UserId == _user.UserId).
+                                 Select(o => new Ticket
+                                 {
+                                     movieImage = o.ShowingNavigation.Movie.Preview,
+                                     movieTitle = o.ShowingNavigation.Movie.MovieName,
+                                     showDate = o.ShowingNavigation.ShowingDate.ToString("d MMMM", CultureInfo.GetCultureInfo("ru-RU")),
+                                     showTime = o.ShowingNavigation.ShowingTime.ToString(@"hh\:mm"),
+                                     hallNumber = o.ShowingNavigation.Hall.HallNumber,
+                                     rowNumber = o.ShowingNavigation.Hall.Rows.FirstOrDefault().RowNumber.ToString(),
+                                     seatNumbers = string.Join(", ", _db.SelectedSeats.Where(ss => ss.Order.OrderNumber == o.OrderNumber).
+                                                                                       Select(ss => ss.SeatId)),
+                                     totalPrice = o.Amount
+                                 }).ToList();
 
-            lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
+            lViewMyTickets.ItemsSource = Tickets;
         }
 
         private void UpdateCardsList()
