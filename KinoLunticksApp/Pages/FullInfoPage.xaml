@@ -11,6 +11,7 @@
       d:DesignWidth="1920"
       
       Background="#2B2B2B">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.3*"/>
@@ -179,7 +180,7 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding ActorName}"
+                        <TextBlock Text="{Binding ActorLastName}"
                                    Foreground="#FFF"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

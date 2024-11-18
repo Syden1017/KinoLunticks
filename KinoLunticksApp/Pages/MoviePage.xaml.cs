@@ -1,10 +1,15 @@
 ﻿using System.Windows;
+using System.Windows.Media;
 using System.Windows.Controls;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
+using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
+
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Text;
+using System;
 
 namespace KinoLunticksApp.Pages
 {
@@ -22,87 +27,131 @@ namespace KinoLunticksApp.Pages
 
         Frame _frame;
 
-        private bool[,] _hallLayout = new bool[3, 10];
-        private List<Button> _armchairButtons;
-        private List<string> _selectedPlaces;
+        private List<Seat> _selectedPlaces;
         private decimal _ticketAmount;
 
         public MoviePage(SessionDetails details)
         {
             InitializeComponent();
 
+            _frame = details.navigationFrame;
             _sessionDetails = details;
 
-            _selectedPlaces = new List<string>();
+            _selectedPlaces = new List<Seat>();
             _ticketAmount = 0;
 
-            UpdateSelectedPlacesTextBox();
+            UpdateSelectedPlacesTextBox(_selectedPlaces, txtBoxSelected);
             UpdateTicketAmountTextBox();
-            LoadHallScheme();
 
-            for (int i = 0; i < 3; i++)
+            using(var db = new KinoLunticsContext())
             {
-                for (int j = 0; j < 10; j++)
+                var hallData = LoadHallData();
+                PopulateHall(hallData);
+            }
+
+            DataContext = new
+            {
+                _sessionDetails.selectedMovie.Preview,
+                _sessionDetails.selectedMovie.MovieName,
+                _sessionDetails.selectedMovie.Genres,
+                _sessionDetails.selectedMovie.AgeRestriction,
+                _sessionDetails.selectedMovie.MovieDuration,
+                _sessionDetails.selectedMovie.TicketPrice,
+                formattedShowingDate = _sessionDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
+                _sessionDetails.authorizedUser,
+                _sessionDetails.selectedShowing.ShowingTime
+            };
+        }
+
+        private Hall LoadHallData()
+        {
+            var hallId = _db.Showings.Where(s => s.ShowingDate == _sessionDetails.selectedShowing.ShowingDate &&
+                                                 s.ShowingTime == _sessionDetails.selectedShowing.ShowingTime).
+                                      Select(s => s.HallId).FirstOrDefault();
+
+            var hall = _db.Halls.Include(h => h.Rows).
+                                    ThenInclude(r => r.Seats).
+                                 FirstOrDefault(h => h.HallId == hallId);
+
+            return hall;
+        }
+
+        private void PopulateHall(Hall hall)
+        {
+            gHallSchema.Children.Clear();
+            gHallSchema.RowDefinitions.Clear();
+            gHallSchema.ColumnDefinitions.Clear();
+
+            var rowsList = hall.Rows.ToList();
+
+            for (int i = 0; i < rowsList.Count; i++)
+            {
+                gHallSchema.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+            }
+
+            int maxSeatsCount = 0;
+            for (int i = 0; i < rowsList.Count; i++)
+            {
+                if (i == rowsList.Count - 1)
                 {
-                    _hallLayout[i, j] = false;
+                    maxSeatsCount = 10;
+                }
+                else
+                {
+                    maxSeatsCount = Math.Max(maxSeatsCount, rowsList[i].Seats.Count);
                 }
             }
 
-            DataContext = _sessionDetails.selectedMovie;
-        }
-
-        private async void LoadHallScheme()
-        {
-            var showing = await GetShowingByTimeAndMovie(_sessionDetails.selectedMovie.MovieCode, _sessionDetails.selectedShowing.ShowingTime);
-
-            if (showing != null)
+            for (int j = 0; j < maxSeatsCount + 1; j++)
             {
-                var hall = await GetHallByShowingId(showing.ShowingId);
-                if (hall != null)
-                {
-                    // Получаем места
-                    var seats = await GetSeatsByHallId(hall.HallId);
-                    DisplaySeats(seats);
-                }
+                gHallSchema.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             }
-            else
+
+            for (int i = 0; i < rowsList.Count; i++)
             {
-                MessageBox.Show("Показ не найден.");
-            }
-        }
+                var row = rowsList[i];
 
-        private async Task<Showing> GetShowingByTimeAndMovie(int movieId, TimeOnly showingTime)
-        {
-            return await _db.Showings
-                .FirstOrDefaultAsync(s => s.MovieId == movieId && s.ShowingTime == showingTime);
-        }
-
-        private async Task<Hall> GetHallByShowingId(int showingId)
-        {
-            var showing = await _db.Showings.FindAsync(showingId);
-            return showing?.Hall;
-        }
-
-        private async Task<List<Seat>> GetSeatsByHallId(int hallId)
-        {
-            return await _db.Seats.Include(s => s.Row).Where(seat => seat.Row.HallId == hallId).ToListAsync();
-        }
-
-        private void DisplaySeats(List<Seat> seats)
-        {
-            listViewSeats.Items.Clear();
-
-            foreach (var seat in seats)
-            {
-                var button = new Button
+                TextBlock rowNumberTextBlock = new TextBlock
                 {
-                    Content = seat.SeatNumber,
-                    IsEnabled = !seat.IsAvailable
+                    Text = row.RowNumber.ToString(),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(5),
+                    Foreground = new SolidColorBrush(Colors.White),
+                    FontSize = 18
                 };
+                Grid.SetRow(rowNumberTextBlock, i);
+                Grid.SetColumn(rowNumberTextBlock, 0);
+                gHallSchema.Children.Add(rowNumberTextBlock);
 
-                button.Click += Button_Click;
+                int seatCount = (i == rowsList.Count - 1) ? 10 : row.Seats.Count;
 
-                listViewSeats.Items.Add(button);
+                for (int j = 0; j < seatCount; j++)
+                {
+                    Seat seat;
+                    if (i == rowsList.Count - 1)
+                    {
+                        seat = new Seat { SeatNumber = (j + 1).ToString(), IsAvailable = true };
+                    }
+                    else
+                    {
+                        seat = row.Seats.ElementAt(j);
+                    }
+
+                    Button seatButton = new Button
+                    {
+                        Content = seat.SeatNumber,
+                        IsEnabled = seat.IsAvailable,
+                        Style = (Style)FindResource("GreenArmchairButtonStyle")
+                    };
+
+                    seatButton.Click += Button_Click;
+
+                    Grid.SetRow(seatButton, i);
+                    Grid.SetColumn(seatButton, (i == rowsList.Count - 1) ? j + 1 : j + 2);
+
+                    gHallSchema.Children.Add(seatButton);
+                }
             }
         }
 
@@ -115,26 +164,68 @@ namespace KinoLunticksApp.Pages
         {
             Button btn = (Button)sender;
 
-            if (btn.Style == (Style)FindResource("GreenArmchairButtonStyle"))
+            if (btn != null)
             {
-                btn.Style = (Style)FindResource("PurpleArmchairButtonStyle");
-                _selectedPlaces.Add(btn.Content.ToString());
-                _ticketAmount += _movie.TicketPrice;
-            }
-            else if (btn.Style == (Style)FindResource("PurpleArmchairButtonStyle"))
-            {
-                btn.Style = (Style)FindResource("GreenArmchairButtonStyle");
-                _selectedPlaces.Remove(btn.Content.ToString());
-                _ticketAmount -= _movie.TicketPrice;
-            }
+                int seatNumber = int.Parse(btn.Content.ToString());
+                int rowIndex = Grid.GetRow(btn);
 
-            UpdateSelectedPlacesTextBox();
-            UpdateTicketAmountTextBox();
+                if (rowIndex >= 0 && rowIndex < rows.Length)
+                {
+                    Row selectedRow = rows[rowIndex];
+
+                    Seat selectedSeat = selectedRow.Seats.FirstOrDefault(seat => seat.SeatNumber == seatNumber.ToString());
+
+                    if (selectedSeat != null)
+                    {
+                        if (btn.Style == (Style)FindResource("GreenArmchairButtonStyle"))
+                        {
+                            btn.Style = (Style)FindResource("PurpleArmchairButtonStyle");
+                            _selectedPlaces.Add(selectedSeat);
+                            _ticketAmount += _sessionDetails.selectedMovie.TicketPrice;
+                        }
+                        else if (btn.Style == (Style)FindResource("PurpleArmchairButtonStyle"))
+                        {
+                            btn.Style = (Style)FindResource("GreenArmchairButtonStyle");
+                            _selectedPlaces.Remove(selectedSeat);
+                            _ticketAmount -= _sessionDetails.selectedMovie.TicketPrice;
+                        }
+
+                        UpdateSelectedPlacesTextBox(_selectedPlaces, txtBoxSelected);
+                        UpdateTicketAmountTextBox();
+                    }
+                }
+            }
         }
 
-        private void UpdateSelectedPlacesTextBox()
+        private void UpdateSelectedPlacesTextBox(List<Seat> selectedSeats, TextBox selectedSeatsTextBox)
         {
-            txtBoxSelected.Text = string.Join(", ", _selectedPlaces);
+            selectedSeatsTextBox.Clear();
+
+            if (selectedSeats.Count == 0)
+            {
+                selectedSeatsTextBox.Text = "Нет выбранных мест.";
+                return;
+            }
+
+            var groupedSeats = selectedSeats.GroupBy(seat => seat.Row);
+            StringBuilder result = new StringBuilder();
+
+            foreach (var group in groupedSeats)
+            {
+                int rowNumber = Convert.ToInt32(group.Key);
+                var seatNumbers = group.Select(seat => seat.SeatNumber).ToList();
+
+                if (seatNumbers.Count == 1)
+                {
+                    result.AppendLine($"Ряд {rowNumber}, место: {seatNumbers[0]}");
+                }
+                else
+                {
+                    result.AppendLine($"Ряд {rowNumber}, места: {string.Join(", ", seatNumbers)}");
+                }
+            }
+
+            selectedSeatsTextBox.Text = result.ToString();
         }
 
         private void UpdateTicketAmountTextBox()
@@ -149,198 +240,6 @@ namespace KinoLunticksApp.Pages
 
             PaymentWindow paymentWindow = new PaymentWindow(_movie, _user, seats, fullAmount, _frame);
             paymentWindow.ShowDialog();
-        }
-
-        private void btn1Place1_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 0);
-        }
-
-        private void btn1Place2_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 1);
-        }
-
-        private void btn1Place3_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 2);
-        }
-
-        private void btn1Place4_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 3);
-        }
-
-        private void btn1Place5_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 4);
-        }
-
-        private void btn1Place6_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 5);
-        }
-
-        private void btn1Place7_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 6);
-        }
-
-        private void btn1Place8_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 7);
-        }
-
-        private void btn1Place9_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(0, 8);
-        }
-
-        private void btn2Place1_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 0);
-        }
-
-        private void btn2Place2_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 1);
-        }
-
-        private void btn2Place3_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 2);
-        }
-
-        private void btn2Place4_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 3);
-        }
-
-        private void btn2Place5_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 4);
-        }
-
-        private void btn2Place6_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 5);
-        }
-
-        private void btn2Place7_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 6);
-        }
-
-        private void btn2Place8_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 7);
-        }
-
-        private void btn2Place9_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(1, 8);
-        }
-
-        private void btn3Place1_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 0);
-        }
-
-        private void btn3Place2_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 1);
-        }
-
-        private void btn3Place3_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 2);
-        }
-
-        private void btn3Place4_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 3);
-        }
-
-        private void btn3Place5_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 4);
-        }
-
-        private void btn3Place6_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 5);
-        }
-
-        private void btn3Place7_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 6);
-        }
-
-        private void btn3Place8_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 7);
-        }
-
-        private void btn3Place9_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 8);
-        }
-
-        private void btn3Place10_Click(object sender, RoutedEventArgs e)
-        {
-            Button_Click(sender, e);
-            ToggleSeat(2, 9);
-        }
-
-        private void ToggleSeat(int row, int col)
-        {
-            _hallLayout[row, col] = !_hallLayout[row, col];
-            UpdateSelectedSeatsTextBox();
-        }
-
-        private void UpdateSelectedSeatsTextBox()
-        {
-            List<string> selectedSeats = new List<string>();
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    if (_hallLayout[i, j])
-                    {
-                        selectedSeats.Add($"Ряд {i + 1}, Место {j + 1}");
-                    }
-                }
-            }
-
-            txtBoxSelected.Text = string.Join("; ", selectedSeats);
         }
     }
 }

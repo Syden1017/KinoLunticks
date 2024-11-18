@@ -22,6 +22,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
         <!-- Поиск -->
@@ -225,38 +226,6 @@
                                           VerticalContentAlignment="Center"
                                           
                                           ItemsSource="{Binding Genres}">
-                                    <ListView.Resources>
-                                        <Style TargetType="ListViewItem">
-                                            <Style.Setters>
-                                                <Setter Property="Background"
-                                                        Value="#0000"/>
-
-                                                <Setter Property="Foreground"
-                                                        Value="#FFF"/>
-
-                                                <Setter Property="BorderBrush"
-                                                        Value="#0000"/>
-
-                                                <Setter Property="BorderThickness"
-                                                        Value="0"/>
-
-                                                <Setter Property="Focusable"
-                                                        Value="False"/>
-                                            </Style.Setters>
-                                            
-                                            <Style.Triggers>
-                                                <Trigger Property="IsMouseOver"
-                                                         Value="True">
-                                                    <Setter Property="Background"
-                                                            Value="#2B2B2B"/>
-                                                    
-                                                    <Setter Property="Foreground"
-                                                            Value="#FFF"/>
-                                                </Trigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ListView.Resources>
-
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Horizontal"
@@ -303,5 +272,96 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListView>
+
+        <Grid Grid.Column="0"
+              Grid.Row="2"
+              Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        
+                        Grid.Column="0">
+                <TextBlock Text="Фильмов на странице: "
+                           Foreground="#FFF"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="cmbBoxMovieCount"
+                          SelectionChanged="cmbBoxMovieCount_SelectionChanged"
+                          Style="{DynamicResource cmbBoxFilterSort}"
+                          Width="100">
+                    <ComboBox.Items>
+                        <TextBlock Text="Все"/>
+                        <TextBlock Text="4"/>
+                        <TextBlock Text="8"/>
+                        <TextBlock Text="12"/>
+                        <TextBlock Text="16"/>
+                        <TextBlock Text="20"/>
+                        <TextBlock Text="24"/>
+                    </ComboBox.Items>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+            
+                        Grid.Column="1">
+                <Button x:Name="btnHome"
+                        Click="btnHome_Click"
+                        
+                        Content="&#10074;&#9664;&#9664;"
+                        
+                        Style="{DynamicResource btnMoveMainPage}"/>
+
+                <Button x:Name="btnPrev"
+                        Click="btnPrev_Click"
+                        
+                        Content="&#9664;"
+                        
+                        Style="{DynamicResource btnMoveMainPage}"/>
+
+                <TextBox x:Name="txtBoxCurrentPage"
+                         TextChanged="txtBoxCurrentPage_TextChanged"
+                         Style="{DynamicResource txtBoxCurrentMainPage}"/>
+
+                <TextBlock Text="/"
+                           Style="{DynamicResource txtBlockSeparator}"/>
+
+                <TextBox x:Name="txtBoxTotalPage"
+                         Style="{DynamicResource txtBoxTotalMainPage}"/>
+
+                <Button x:Name="btnNext"
+                        Click="btnNext_Click"
+                        
+                        Content="&#9654;"
+                        
+                        Style="{DynamicResource btnMoveMainPage}"/>
+
+                <Button x:Name="btnEnd"
+                        Click="btnEnd_Click"
+                        
+                        Content="&#9654;&#9654;&#10074;"
+                        
+                        Style="{DynamicResource btnMoveMainPage}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        
+                        Grid.Column="2">
+                <TextBlock Text="Всего фильмов:"
+                           Foreground="#FFF"
+                           VerticalAlignment="Center"/>
+
+                <TextBlock x:Name="txtBlockMovieCount"
+                           Foreground="#FFF"
+                           VerticalAlignment="Center"
+                           Margin="5 0 0 0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

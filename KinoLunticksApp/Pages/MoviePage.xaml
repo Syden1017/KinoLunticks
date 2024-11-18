@@ -100,20 +100,48 @@
                            Style="{DynamicResource txtBlockTicketBuying}"/>
             </StackPanel>
 
-            <TextBlock Text="{Binding MovieDuration}"
-                       
-                       Style="{DynamicResource txtBlockTicketBuying}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Длительность:"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 70 0"/>
 
-            <TextBlock Text="{Binding TicketPrice,
-                              StringFormat={}{0} ₽}"
-                       
-                       Style="{DynamicResource txtBlockTicketBuying}"/>
+                <TextBlock Text="{Binding MovieDuration}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Стоимость билета:"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 15 0"/>
+
+                <TextBlock Text="{Binding TicketPrice,
+                                  StringFormat={}{0} ₽}"
+           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата сеанса: "
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 100 0"/>
+
+                <TextBlock Text="{Binding formattedShowingDate}"
+               
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Время сеанса: "
-                           Style="{DynamicResource txtBlockTicketBuying}"/>
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 66 0"/>
 
-                <TextBlock Text="{Binding ShowingTime}"/>
+                <TextBlock Text="{Binding ShowingTime,
+                                  StringFormat={} {0:HH:mm}}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
             </StackPanel>
         </StackPanel>
 
@@ -132,45 +160,15 @@
             <TextBlock Text="Экран"
                        Grid.Row="0"
                        FontSize="50"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       Margin="6"/>
 
-            <ListView x:Name="listViewSeats"
-                      
-                      Grid.Row="2"
-                      
-                      Background="#0000">
-                <ListView.ItemsSource>
-                    <Binding Path="Rows"/>
-                </ListView.ItemsSource>
-
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding RowNumber}" 
-                                       Width="50" 
-                                       HorizontalAlignment="Left" 
-                                       VerticalAlignment="Center" />
-
-                            <ItemsControl ItemsSource="{Binding Seats}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Content="{Binding SeatNumber}"
-                                                Style="{DynamicResource GreenArmchairButtonStyle}"
-                                                Width="40"
-                                                Margin="2"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid x:Name="gHallSchema"
+                  Background="#0000"
+                  
+                  Grid.Row="1">
+                
+            </Grid>
         </Grid>
 
         <StackPanel Grid.Column="0"

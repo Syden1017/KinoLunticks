@@ -70,19 +70,41 @@ namespace KinoLunticksApp.Tools
                                  DateOnly? birthDate = null)
         {
             var defaultRole = _db.Roles.FirstOrDefault(role => role.RoleName == "Пользователь");
+            var adminRole = _db.Roles.FirstOrDefault(role => role.RoleName == "Администратор");
 
-            User _user = new User
+            if (userLogin == "Admin" ||
+                userLogin == "admin" ||
+                userLogin == "Админ" ||
+                userLogin == "админ")
             {
-                Login = userLogin,
-                Password = password,
-                UserName = userName,
-                UserLastName = userLastName,
-                EmailAddress = userEmail,
-                BirthDate = birthDate,
-                UserRole = defaultRole.RoleId
-            };
+                User _user = new User
+                {
+                    Login = userLogin,
+                    Password = password,
+                    UserName = userName,
+                    UserLastName = userLastName,
+                    EmailAddress = userEmail,
+                    BirthDate = birthDate,
+                    UserRole = adminRole.RoleId
+                };
 
-            _db.Users.Add(_user);
+                _db.Users.Add(_user);
+            }
+            else
+            {
+                User _user = new User
+                {
+                    Login = userLogin,
+                    Password = password,
+                    UserName = userName,
+                    UserLastName = userLastName,
+                    EmailAddress = userEmail,
+                    BirthDate = birthDate,
+                    UserRole = defaultRole.RoleId
+                };
+
+                _db.Users.Add(_user);
+            }
 
             try
             {

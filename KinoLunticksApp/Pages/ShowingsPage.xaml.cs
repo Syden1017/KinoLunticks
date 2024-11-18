@@ -5,6 +5,7 @@ using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace KinoLunticksApp.Pages
 {
@@ -14,6 +15,7 @@ namespace KinoLunticksApp.Pages
     public partial class ShowingsPage : Page
     {
         KinoLunticsContext _db = new KinoLunticsContext();
+        List<Showing> _showings = new List<Showing>();
         ShowingImportService import = new ShowingImportService();
 
         Frame _frame;
@@ -24,9 +26,15 @@ namespace KinoLunticksApp.Pages
 
             _frame = frame;
 
-            _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
+            UpdateShowingsList();
+        }
 
-            tableView.ItemsSource = _db.Showings.ToList();
+        private void UpdateShowingsList()
+        {
+            _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
+            _showings = _db.Showings.Local.ToList();
+
+            tableView.ItemsSource = _showings;
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -38,7 +46,12 @@ namespace KinoLunticksApp.Pages
         {
             import.ImportShowingsFromExcelAsync();
 
-            tableView.ItemsSource = _db.Showings.ToList();
+            UpdateShowingsList();
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            _frame.GoBack();
         }
 
         private void changeButton_Click(object sender, RoutedEventArgs e)
@@ -77,7 +90,7 @@ namespace KinoLunticksApp.Pages
                 }
             }
 
-            tableView.ItemsSource = _db.Showings.ToList();
+            UpdateShowingsList();
         }
     }
 }

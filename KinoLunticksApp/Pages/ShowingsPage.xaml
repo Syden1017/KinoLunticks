@@ -59,6 +59,29 @@
                     Style="{DynamicResource btnAdminPage}"
                     
                     Grid.Row="4"/>
+
+            <Grid Grid.Row="6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="btnBack"
+                        Click="btnBack_Click"
+                        Content="&#129120; назад"
+                        Style="{DynamicResource btnBack}"
+                        FontSize="15"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        
+                        Grid.Column="0"
+                        Grid.Row="1"/>
+            </Grid>
         </Grid>
 
         <ListView x:Name="tableView"
@@ -90,11 +113,11 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn Width="150"
+                    <GridViewColumn Width="250"
                                     Header="Дата">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding ShowingDate}"
+                                <TextBlock Text="{Binding formattedShowingDate}"
                                            Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -105,7 +128,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ShowingTime,
-                                                  StringFormat='{}{0:h:mm tt}'}"
+                                                  StringFormat={} {0:HH:mm}}"
                                            Style="{DynamicResource templateTxtBlock}"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>

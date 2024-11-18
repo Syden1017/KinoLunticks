@@ -4,9 +4,8 @@ using System.Windows.Media;
 using System.Globalization;
 using System.Windows.Controls;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Tools;
-using Microsoft.EntityFrameworkCore;
+using KinoLunticksApp.Models;
 
 namespace KinoLunticksApp.Pages
 {
@@ -20,7 +19,10 @@ namespace KinoLunticksApp.Pages
         User _user = new User();
 
         Frame _frame;
-        Button _previouButton;
+        Button _previousButton;
+
+        private static readonly char[] trimChars = ['{', '}', ' '];
+        private static readonly char[] trimCharsArray = ['{', '}', ' '];
 
         public FullInfoPage(Frame frame, User user, Movie movie)
         {
@@ -51,13 +53,12 @@ namespace KinoLunticksApp.Pages
         private void btnShowingTime_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
+            string tagValue = button.Tag.ToString();
 
-            int showId = int.Parse(button.Tag.ToString());
+            Showing selectedShowing = GetShowingById(tagValue);
 
-            Showing selectedShowing = GetShowingById(showId);
-
-            var sessionDetails = new SessionDetails 
-            { 
+            var sessionDetails = new SessionDetails
+            {
                 authorizedUser = _user,
                 selectedMovie = _movie,
                 navigationFrame = _frame,
@@ -152,9 +153,9 @@ namespace KinoLunticksApp.Pages
                 throw new ArgumentNullException(nameof(selectedButton), "Выбранная кнопка не может быть NULL");
             }
 
-            if(_previouButton != null)
+            if(_previousButton != null)
             {
-                ResetButtonStyle(_previouButton);
+                ResetButtonStyle(_previousButton);
             }
 
             ControlTemplate template = new ControlTemplate(typeof(Button));
@@ -174,7 +175,7 @@ namespace KinoLunticksApp.Pages
 
             selectedButton.Template = template;
 
-            _previouButton = selectedButton;
+            _previousButton = selectedButton;
         }
 
         /// <summary>
@@ -272,9 +273,24 @@ namespace KinoLunticksApp.Pages
             stcPanelDates.Children.Add(textBlock);
         }
 
-        private Showing GetShowingById(int showId)
+        private Showing GetShowingById(string tagValue)
         {
-            return _db.Showings.FirstOrDefault(s => s.ShowingId == showId);
+            tagValue = tagValue.Trim(trimCharsArray);
+
+            string[] parts = tagValue.Split(',');
+
+            string showingTimePart = parts.FirstOrDefault(part => part.Trim().StartsWith("ShowingTime"));
+
+            if (showingTimePart != null)
+            {
+                string showingTimeString = showingTimePart.Substring(showingTimePart.IndexOf('=') + 1).Trim();
+
+                TimeOnly showingTime = TimeOnly.Parse(showingTimeString);
+
+                return _db.Showings.FirstOrDefault(s => s.ShowingTime == showingTime);
+            }
+
+            return null;
         }
         #endregion
     }

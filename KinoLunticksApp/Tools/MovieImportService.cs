@@ -1,15 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
-using System.Linq;
 using System.Data;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using ExcelDataReader;
 
 using KinoLunticksApp.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Tools
@@ -18,7 +15,7 @@ namespace KinoLunticksApp.Tools
     {
         private readonly KinoLunticsContext _db = new KinoLunticsContext();
 
-        public async Task ImportMoviesFromExcelAsync()
+        public async Task ImportMoviesFromExcelAsync(System.Windows.Controls.ListView listView)
         {
             using (var openFileDialog = new OpenFileDialog())
             {
@@ -95,6 +92,8 @@ namespace KinoLunticksApp.Tools
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
+
+                    listView.ItemsSource = _db.Movies.ToList();
                 }
             }
         }
@@ -103,34 +102,48 @@ namespace KinoLunticksApp.Tools
         {
             var actorEntries = row["Actors"].ToString().Split(',');
 
-            foreach (var actorEntry in actorEntries)
+            try
             {
-                var actorDetails = actorEntry.Split(' ');
-                if (actorDetails.Length < 2) continue;
-
-                var firstName = actorDetails[0].Trim();
-                var lastName = actorDetails[1].Trim();
-                var photoPath = row["Photo"].ToString();
-
-                var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName &&
-                                                                      a.ActorLastName == lastName);
-
-                if (actor == null)
+                foreach (var actorEntry in actorEntries)
                 {
-                    actor = new Actor
+                    var actorDetails = actorEntry.Split(' ');
+                    if (actorDetails.Length < 2) continue;
+
+                    var firstName = actorDetails[0].Trim();
+                    var lastName = actorDetails[1].Trim();
+                    var photoPath = row["Photo"].ToString();
+
+                    var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName &&
+                                                                          a.ActorLastName == lastName);
+
+                    if (actor == null)
                     {
-                        ActorName = firstName,
-                        ActorLastName = lastName,
-                        Photo = photoPath == "NULL" ? null : photoPath
-                    };
-                    _db.Actors.Add(actor);
+                        actor = new Actor
+                        {
+                            ActorName = firstName,
+                            ActorLastName = lastName,
+                            Photo = photoPath == "NULL" ? null : photoPath
+                        };
+                        _db.Actors.Add(actor);
+                        await _db.SaveChangesAsync();
+                    }
+
+                    if (!movie.Actors.Any(a => a.ActorName == actor.ActorName &&
+                                               a.ActorLastName == actor.ActorLastName))
+                    {
+                        movie.Actors.Add(actor);
+                    }
                 }
 
-                if (!movie.Actors.Any(a => a.ActorName == actor.ActorName &&
-                                           a.ActorLastName == actor.ActorLastName))
-                {
-                    movie.Actors.Add(actor);
-                }
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ошибка при импорте данных: {ex.Message}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -138,26 +151,40 @@ namespace KinoLunticksApp.Tools
         {
             var genreNames = row["Genres"].ToString().Split(',');
 
-            foreach (var genreName in genreNames)
+            try
             {
-                var trimmedGenreName = genreName.Trim();
-
-                var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == trimmedGenreName);
-
-                if (genre == null)
+                foreach (var genreName in genreNames)
                 {
-                    genre = new Genre
+                    var trimmedGenreName = genreName.Trim();
+
+                    var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == trimmedGenreName);
+
+                    if (genre == null)
                     {
-                        GenreName = trimmedGenreName
-                    };
+                        genre = new Genre
+                        {
+                            GenreName = trimmedGenreName
+                        };
 
-                    _db.Genres.Add(genre);
+                        _db.Genres.Add(genre);
+                        await _db.SaveChangesAsync();
+                    }
+
+                    if (!movie.Genres.Any(g => g.GenreName == genre.GenreName))
+                    {
+                        movie.Genres.Add(genre);
+                    }
                 }
 
-                if (!movie.Genres.Any(g => g.GenreName == genre.GenreName))
-                {
-                    movie.Genres.Add(genre);
-                }
+                await _db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ошибка при импорте данных: {ex.Message}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
     }

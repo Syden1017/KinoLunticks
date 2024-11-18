@@ -31,9 +31,7 @@ namespace KinoLunticksApp.Pages
 
         private void btnImportFilms_Click(object sender, RoutedEventArgs e)
         {
-            import.ImportMoviesFromExcelAsync();
-
-            tableView.ItemsSource = _db.Movies.ToList();
+            import.ImportMoviesFromExcelAsync(tableView);
         }
 
         private void btnShowings_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new ShowingsPage(_frame));

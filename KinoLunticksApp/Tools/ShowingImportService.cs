@@ -47,21 +47,45 @@ namespace KinoLunticksApp.Tools
 
                                     var movieName = row["MovieName"].ToString();
                                     var movieId = _db.Movies.Where(m => m.MovieName == movieName).
-                                                             Select(m => m.MovieCode);
+                                                             Select(m => m.MovieCode).FirstOrDefault();
 
                                     var hallNumber = row["HallNumber"].ToString();
-                                    var hallId = _db.Halls.Where(h => h.HallNumber == hallNumber).Select(h => h.HallId);
+                                    var hallId = _db.Halls.Where(h => h.HallNumber == hallNumber).
+                                                           Select(h => h.HallId).FirstOrDefault();
 
                                     if (movieId != null && hallId != null)
                                     {
-                                        Showing showing = new Showing
+                                        try
                                         {
-                                            MovieId = Convert.ToInt32(movieId),
-                                            HallId = Convert.ToInt32(hallId),
-                                            ShowingDate = DateOnly.Parse(row["Date"].ToString()),
-                                            ShowingTime = TimeOnly.Parse(row["Time"].ToString())
-                                        };
-                                        _db.Showings.Add(showing);
+                                            Showing showing = new Showing
+                                            {
+                                                MovieId = Convert.ToInt32(movieId),
+                                                HallId = Convert.ToInt32(hallId),
+                                                ShowingDate = DateOnly.Parse(row["Date"].ToString()),
+                                                ShowingTime = TimeOnly.Parse(row["Time"].ToString())
+                                            };
+                                            _db.Showings.Add(showing);
+
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show(
+                                                $"Ошибка формата: {ex.Message}",
+                                                "Ошибка",
+                                                MessageBoxButtons.OK,
+                                                MessageBoxIcon.Error
+                                                );
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show(
+                                            $"Фильм '{movieName}' или зал '{hallNumber}' не найдены.",
+                                            "Ошибка",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning
+                                            );
                                     }
                                 }
 
