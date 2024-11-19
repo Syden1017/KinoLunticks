@@ -56,7 +56,7 @@ namespace KinoLunticksApp.Pages
                 _sessionDetails.selectedMovie.Genres,
                 _sessionDetails.selectedMovie.AgeRestriction,
                 _sessionDetails.selectedMovie.MovieDuration,
-                _sessionDetails.selectedMovie.TicketPrice,
+                hall = LoadHallData().HallNumber,
                 formattedShowingDate = _sessionDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
                 _sessionDetails.authorizedUser,
                 _sessionDetails.selectedShowing.ShowingTime
@@ -145,6 +145,11 @@ namespace KinoLunticksApp.Pages
                         Style = (Style)FindResource("GreenArmchairButtonStyle")
                     };
 
+                    if (!seat.IsAvailable)
+                    {
+                        seatButton.Style = (Style)FindResource("GreyArmchairButtonStyle");
+                    }
+
                     seatButton.Click += Button_Click;
 
                     Grid.SetRow(seatButton, i);
@@ -164,14 +169,17 @@ namespace KinoLunticksApp.Pages
         {
             Button btn = (Button)sender;
 
+            var hall = LoadHallData();
+            var rowsList = hall.Rows.ToList();
+
             if (btn != null)
             {
                 int seatNumber = int.Parse(btn.Content.ToString());
                 int rowIndex = Grid.GetRow(btn);
 
-                if (rowIndex >= 0 && rowIndex < rows.Length)
+                if (rowIndex >= 0 && rowIndex < rowsList.Count)
                 {
-                    Row selectedRow = rows[rowIndex];
+                    Row selectedRow = rowsList[rowIndex];
 
                     Seat selectedSeat = selectedRow.Seats.FirstOrDefault(seat => seat.SeatNumber == seatNumber.ToString());
 
@@ -212,16 +220,21 @@ namespace KinoLunticksApp.Pages
 
             foreach (var group in groupedSeats)
             {
-                int rowNumber = Convert.ToInt32(group.Key);
-                var seatNumbers = group.Select(seat => seat.SeatNumber).ToList();
+                Row row = group.Key as Row;
 
-                if (seatNumbers.Count == 1)
+                if (row != null)
                 {
-                    result.AppendLine($"Ряд {rowNumber}, место: {seatNumbers[0]}");
-                }
-                else
-                {
-                    result.AppendLine($"Ряд {rowNumber}, места: {string.Join(", ", seatNumbers)}");
+                    string rowNumber = row.RowNumber;
+                    var seatNumbers = group.Select(seat => seat.SeatNumber).ToList();
+
+                    if (seatNumbers.Count == 1)
+                    {
+                        result.AppendLine($"{rowNumber}, место: {seatNumbers[0]}");
+                    }
+                    else
+                    {
+                        result.AppendLine($"{rowNumber}, места: {string.Join(", ", seatNumbers)}");
+                    }
                 }
             }
 

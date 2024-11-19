@@ -8,8 +8,8 @@
         
         Title="Оплата забронированных билетов"
         
-        Height="500"
-        Width="900"
+        Height="550"
+        Width="950"
         
         WindowStartupLocation="CenterScreen"
         WindowStyle="None">
@@ -39,39 +39,86 @@
         </Image>
 
         <StackPanel Grid.Column="1"
-                Grid.Row="0"
-                Orientation="Vertical">
+                    Grid.Row="0"
+                    Orientation="Vertical">
             <TextBlock Text="{Binding movieName}"
-                   
-                   Style="{DynamicResource txtBlockTicketBuying}"
-                   FontSize="30"
-                   FontWeight="Bold"/>
-
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Здесь мог бы быть ваш жанр"
-                       
-                       Style="{DynamicResource txtBlockTicketBuying}"
-                       FontSize="10"
-                       FontWeight="Bold"
-                       Margin="0 0 10 0"/>
-
-                <TextBlock Text="{Binding movieAgeRestriction}"
                        
                        Style="{DynamicResource txtBlockTicketBuying}"
                        FontSize="30"
                        FontWeight="Bold"/>
+
+            <StackPanel Orientation="Horizontal">
+                <ListView x:Name="lViewGenres"
+                          
+                          Background="#0000"
+                          Margin="0 0 10 0"
+                          BorderThickness="0"
+                          VerticalContentAlignment="Center"
+                          
+                          ItemsSource="{Binding Genres}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="#FFF"
+                                       FontSize="20">
+                                <TextBlock.Text>
+                                    <Binding Path="GenreName"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
+
+                <TextBlock Text="{Binding movieAgeRestriction}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           FontSize="30"
+                           FontWeight="Bold"/>
             </StackPanel>
 
-            <TextBlock Text="{Binding movieDuration}"
-                   
-                   Style="{DynamicResource txtBlockTicketBuying}"
-                   FontSize="30"
-                   FontWeight="Bold"/>
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center">
+                <TextBlock Text="Дата сеанса: "
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 40 0"
+                           FontSize="20"/>
 
-            <TextBlock x:Name="txtBlockSessionTime"
-                       Text="12:00:00"
-                       Style="{DynamicResource txtBlockTicketBuying}"
-                       FontSize="18"/>
+                <TextBlock Text="{Binding ShowingDate}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           FontSize="20"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Время сеанса: "
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 24 0"
+                           FontSize="20"/>
+
+                <TextBlock Text="{Binding ShowingTime}"
+               
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           FontSize="20"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Зал:"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 130 0"
+                           FontSize="20"/>
+
+                <TextBlock Text="{Binding hall}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           FontSize="20"/>
+            </StackPanel>
         </StackPanel>
 
         <Grid Grid.Row="2"
@@ -133,10 +180,22 @@
                                 <RowDefinition Height="4*"/>
                             </Grid.RowDefinitions>
 
-                            <TextBlock Text="Выберите карту:"
-                                       Grid.Row="0"
-                                       
-                                        Style="{DynamicResource txtBlockCards}"/>
+                            <StackPanel Orientation="Horizontal"
+                                        
+                                        Grid.Row="0">
+                                <TextBlock Text="Выберите карту:"
+                                           
+                                           Style="{DynamicResource txtBlockCards}"
+                                           VerticalAlignment="Center"
+                                           Margin="50 0 40 0"/>
+
+                                <Button x:Name="btnAddCard"
+                                        Content="+"
+                                        Click="btnAddCard_Click"
+                                        
+                                        Style="{DynamicResource btnAddCard}"
+                                        FontSize="22"/>
+                            </StackPanel>
 
                             <ListView x:Name="lViewCards"
                                       SelectionChanged="lViewCards_SelectionChanged"

@@ -112,13 +112,12 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Стоимость билета:"
+                <TextBlock Text="Зал:"
                            
                            Style="{DynamicResource txtBlockTicketBuying}"
-                           Margin="0 0 15 0"/>
+                           Margin="0 0 225 0"/>
 
-                <TextBlock Text="{Binding TicketPrice,
-                                  StringFormat={}{0} ₽}"
+                <TextBlock Text="{Binding hall}"
            
                            Style="{DynamicResource txtBlockTicketBuying}"/>
             </StackPanel>

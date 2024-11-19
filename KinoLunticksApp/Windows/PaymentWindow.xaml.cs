@@ -71,6 +71,7 @@ namespace KinoLunticksApp.Windows
                     MessageBoxImage.Information);
 
                 Close();
+
                 _frame.Navigate(new MainPage(_frame, _user));
             }
             catch (Exception ex)
