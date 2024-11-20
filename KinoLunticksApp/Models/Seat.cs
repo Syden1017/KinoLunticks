@@ -11,7 +11,9 @@ public partial class Seat
 
     public string SeatNumber { get; set; } = null!;
 
-    public bool IsAvailable { get; set; }
-
     public virtual Row Row { get; set; } = null!;
+
+    public virtual ICollection<SelectedSeat> SelectedSeats { get; set; } = new List<SelectedSeat>();
+
+    public virtual ICollection<Showing> Showings { get; set; } = new List<Showing>();
 }

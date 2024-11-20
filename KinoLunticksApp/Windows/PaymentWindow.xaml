@@ -28,7 +28,7 @@
         <Image Grid.Column="0" 
                Grid.Row="0">
             <Image.Source>
-                <Binding Path="moviePreview">
+                <Binding Path="Preview">
                     <Binding.TargetNullValue>
                         <ImageSource>
                             /KinoLunticksApp;component/Images/DefaultPhoto.png
@@ -41,7 +41,7 @@
         <StackPanel Grid.Column="1"
                     Grid.Row="0"
                     Orientation="Vertical">
-            <TextBlock Text="{Binding movieName}"
+            <TextBlock Text="{Binding MovieName}"
                        
                        Style="{DynamicResource txtBlockTicketBuying}"
                        FontSize="30"
@@ -75,7 +75,7 @@
                     </ItemsControl.ItemTemplate>
                 </ListView>
 
-                <TextBlock Text="{Binding movieAgeRestriction}"
+                <TextBlock Text="{Binding AgeRestriction}"
                            
                            Style="{DynamicResource txtBlockTicketBuying}"
                            FontSize="30"
@@ -89,7 +89,7 @@
                            Margin="0 0 40 0"
                            FontSize="20"/>
 
-                <TextBlock Text="{Binding ShowingDate}"
+                <TextBlock Text="{Binding formattedDate}"
                            
                            Style="{DynamicResource txtBlockTicketBuying}"
                            FontSize="20"/>
@@ -101,7 +101,8 @@
                            Margin="0 0 24 0"
                            FontSize="20"/>
 
-                <TextBlock Text="{Binding ShowingTime}"
+                <TextBlock Text="{Binding ShowingTime,
+                                  StringFormat={} {0:HH:mm}}"
                
                            Style="{DynamicResource txtBlockTicketBuying}"
                            FontSize="20"/>

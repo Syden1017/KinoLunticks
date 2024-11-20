@@ -10,5 +10,7 @@ namespace KinoLunticksApp.Tools
         public Movie? selectedMovie { get; set; }
         public Frame? navigationFrame { get; set; }
         public Showing? selectedShowing { get; set; }
+        public string? selectedPlaces { get; set; }
+        public decimal fullAmount { get; set; }
     }
 }

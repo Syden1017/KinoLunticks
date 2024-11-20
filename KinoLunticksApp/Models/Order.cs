@@ -15,7 +15,7 @@ public partial class Order
 
     public int SelectedRow { get; set; }
 
-    public virtual Row SelectedRowNavigation { get; set; } = null!;
+    public virtual ICollection<SelectedSeat> SelectedSeats { get; set; } = new List<SelectedSeat>();
 
     public virtual Showing ShowingNavigation { get; set; } = null!;
 

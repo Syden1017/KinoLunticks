@@ -3,9 +3,11 @@ using System.Windows.Input;
 using System.Windows.Controls;
 
 using KinoLunticksApp.Pages;
+using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace KinoLunticksApp.Windows
 {
@@ -15,74 +17,82 @@ namespace KinoLunticksApp.Windows
     public partial class PaymentWindow : Window
     {
         KinoLunticsContext _db = new KinoLunticsContext();
-        User _user = new User();
-        Movie _movie = new Movie();
 
+        OrderDetails _orderDetails;
         Frame _frame;
 
-        string _seats;
-        string _fullAmount;
-
-        public PaymentWindow(Movie selectedMovie, User user, string seats, string fullAmount, Frame frame)
+        public PaymentWindow(OrderDetails details)
         {
             InitializeComponent();
 
-            _movie = selectedMovie;
-            _user = user;
-            _seats = seats;
-            _fullAmount = fullAmount;
-            _frame = frame;
+            _frame = details.navigationFrame;
+            _orderDetails = details;
 
             DataContext = new
             {
-                movieName = _movie.MovieName,
-                movieAgeRestriction = _movie.AgeRestriction,
-                movieDuration = _movie.MovieDuration,
-                seats = _seats,
-                fullAmount = _fullAmount
+                _orderDetails.selectedMovie.Preview,
+                _orderDetails.selectedMovie.MovieName,
+                _orderDetails.selectedMovie.AgeRestriction,
+                formattedDate = _orderDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
+                _orderDetails.selectedShowing.ShowingTime,
+                hall = LoadHallData().HallNumber,
+                seat = _orderDetails.selectedPlaces,
+                _orderDetails.fullAmount
             };
 
             LoadUserCards();
         }
 
+        private Hall LoadHallData()
+        {
+            var hallId = _db.Showings.Where(s => s.ShowingDate == _orderDetails.selectedShowing.ShowingDate &&
+                                                 s.ShowingTime == _orderDetails.selectedShowing.ShowingTime).
+                                      Select(s => s.HallId).FirstOrDefault();
+
+            var hall = _db.Halls.FirstOrDefault(h => h.HallId == hallId);
+
+            return hall;
+        }
+
         private void LoadUserCards()
         {
-            _db.Users.Include(u => u.AccountNumbers).FirstOrDefault(u => u.Login == _user.Login);
+            _db.Users.Include(u => u.AccountNumbers).
+                      FirstOrDefault(u => u.Login == _orderDetails.authorizedUser.Login);
 
             lViewCards.ItemsSource = _db.BankAccounts.Local.ToList();
         }
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
         {
-            var order = new Order
-            {
-                Amount = Convert.ToDecimal(_fullAmount)
-            };
+            //var order = new Order
+            //{
+            //    Amount = Convert.ToDecimal(_fullAmount)
+            //};
 
-            try
-            {
-                _db.Orders.Add(order);
-                _db.SaveChanges();
+            //try
+            //{
+            //    _db.Orders.Add(order);
+            //    _db.SaveChanges();
 
-                MessageBox.Show(
-                    "Оплата прошла успешно!",
-                    "Проведение транзакции",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+            //    MessageBox.Show(
+            //        "Оплата прошла успешно!",
+            //        "Проведение транзакции",
+            //        MessageBoxButton.OK,
+            //        MessageBoxImage.Information);
 
-                Close();
+            //    Close();
 
-                _frame.Navigate(new MainPage(_frame, _user));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message.ToString(),
-                    "Системная ошибка",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error
-                    );
-            }
+            //    _frame.Navigate(new MainPage(_frame, _user));
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(
+            //        ex.Message.ToString(),
+            //        "Системная ошибка",
+            //        MessageBoxButton.OK,
+            //        MessageBoxImage.Error
+            //        );
+            //}
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -122,6 +132,11 @@ namespace KinoLunticksApp.Windows
         private void rectTransparent_MouseLeave(object sender, MouseEventArgs e)
         {
             Mouse.OverrideCursor = null;
+        }
+
+        private void btnAddCard_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

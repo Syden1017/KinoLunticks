@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Models;
 
@@ -39,7 +41,7 @@ public partial class KinoLunticsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=Syden1810\\SYDEN1810; Database=KinoLuntics; Integrated Security=true; Encrypt=false");
+        => optionsBuilder.UseSqlServer("Server=LAB30-01\\SQLEXPRESS; Database=KinoLuntics; User=ИСП-42; Password=1234567890; Encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -159,10 +161,6 @@ public partial class KinoLunticsContext : DbContext
             entity.Property(e => e.Amount).HasColumnType("decimal(8, 2)");
             entity.Property(e => e.UserId).HasColumnName("UserID");
 
-            entity.HasOne(d => d.SelectedRowNavigation).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.SelectedRow)
-                .HasConstraintName("FK_Orders_Rows");
-
             entity.HasOne(d => d.ShowingNavigation).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.Showing)
                 .HasConstraintName("FK_Orders_Showings");
@@ -184,6 +182,7 @@ public partial class KinoLunticsContext : DbContext
         {
             entity.HasKey(e => e.RowId).HasName("PK_Rows_RowID");
 
+            entity.Property(e => e.RowId).HasColumnName("RowID");
             entity.Property(e => e.HallId).HasColumnName("HallID");
             entity.Property(e => e.RowNumber).HasMaxLength(10);
 
@@ -197,7 +196,7 @@ public partial class KinoLunticsContext : DbContext
         {
             entity.HasKey(e => e.SeatId).HasName("PK_Seats_SeatID");
 
-            entity.Property(e => e.IsAvailable).HasDefaultValue(true);
+            entity.Property(e => e.SeatId).HasColumnName("SeatID");
             entity.Property(e => e.SeatNumber).HasMaxLength(10);
 
             entity.HasOne(d => d.Row).WithMany(p => p.Seats)
@@ -207,16 +206,16 @@ public partial class KinoLunticsContext : DbContext
 
         modelBuilder.Entity<SelectedSeat>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => new { e.OrderId, e.SeatId });
 
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
             entity.Property(e => e.SeatId).HasColumnName("SeatID");
 
-            entity.HasOne(d => d.Order).WithMany()
+            entity.HasOne(d => d.Order).WithMany(p => p.SelectedSeats)
                 .HasForeignKey(d => d.OrderId)
                 .HasConstraintName("FK_SelectedSeats_Orders");
 
-            entity.HasOne(d => d.Seat).WithMany()
+            entity.HasOne(d => d.Seat).WithMany(p => p.SelectedSeats)
                 .HasForeignKey(d => d.SeatId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SelectedSeats_Seats");
@@ -235,6 +234,24 @@ public partial class KinoLunticsContext : DbContext
             entity.HasOne(d => d.Movie).WithMany(p => p.Showings)
                 .HasForeignKey(d => d.MovieId)
                 .HasConstraintName("FK_Showings_Movies");
+
+            entity.HasMany(d => d.Seats).WithMany(p => p.Showings)
+                .UsingEntity<Dictionary<string, object>>(
+                    "TakenSeat",
+                    r => r.HasOne<Seat>().WithMany()
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_TakenSeats_Seats"),
+                    l => l.HasOne<Showing>().WithMany()
+                        .HasForeignKey("ShowingId")
+                        .HasConstraintName("FK_TakenSeats_Showings"),
+                    j =>
+                    {
+                        j.HasKey("ShowingId", "SeatId");
+                        j.ToTable("TakenSeats");
+                        j.IndexerProperty<int>("ShowingId").HasColumnName("ShowingID");
+                        j.IndexerProperty<int>("SeatId").HasColumnName("SeatID");
+                    });
         });
 
         modelBuilder.Entity<User>(entity =>

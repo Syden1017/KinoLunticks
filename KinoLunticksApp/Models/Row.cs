@@ -15,7 +15,5 @@ public partial class Row
 
     public virtual Hall Hall { get; set; } = null!;
 
-    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
     public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
 }

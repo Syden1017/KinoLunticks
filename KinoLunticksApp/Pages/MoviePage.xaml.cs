@@ -20,11 +20,7 @@ namespace KinoLunticksApp.Pages
     {
         KinoLunticsContext _db = new KinoLunticsContext();
 
-        User _user = new User();
-        Movie _movie = new Movie();
-
         SessionDetails _sessionDetails;
-
         Frame _frame;
 
         private List<Seat> _selectedPlaces;
@@ -63,6 +59,7 @@ namespace KinoLunticksApp.Pages
             };
         }
 
+        #region Hall creating
         private Hall LoadHallData()
         {
             var hallId = _db.Showings.Where(s => s.ShowingDate == _sessionDetails.selectedShowing.ShowingDate &&
@@ -131,7 +128,7 @@ namespace KinoLunticksApp.Pages
                     Seat seat;
                     if (i == rowsList.Count - 1)
                     {
-                        seat = new Seat { SeatNumber = (j + 1).ToString(), IsAvailable = true };
+                        seat = new Seat { SeatNumber = (j + 1).ToString() };
                     }
                     else
                     {
@@ -141,14 +138,8 @@ namespace KinoLunticksApp.Pages
                     Button seatButton = new Button
                     {
                         Content = seat.SeatNumber,
-                        IsEnabled = seat.IsAvailable,
                         Style = (Style)FindResource("GreenArmchairButtonStyle")
                     };
-
-                    if (!seat.IsAvailable)
-                    {
-                        seatButton.Style = (Style)FindResource("GreyArmchairButtonStyle");
-                    }
 
                     seatButton.Click += Button_Click;
 
@@ -159,6 +150,50 @@ namespace KinoLunticksApp.Pages
                 }
             }
         }
+        #endregion
+
+        #region User experience methods
+        private void UpdateSelectedPlacesTextBox(List<Seat> selectedSeats, TextBox selectedSeatsTextBox)
+        {
+            selectedSeatsTextBox.Clear();
+
+            if (selectedSeats.Count == 0)
+            {
+                selectedSeatsTextBox.Text = "Нет выбранных мест.";
+                return;
+            }
+
+            var groupedSeats = selectedSeats.GroupBy(seat => seat.Row);
+            StringBuilder result = new StringBuilder();
+
+            foreach (var group in groupedSeats)
+            {
+                Row row = group.Key as Row;
+
+                if (row != null)
+                {
+                    string rowNumber = row.RowNumber;
+                    var seatNumbers = group.Select(seat => seat.SeatNumber).ToList();
+
+                    if (seatNumbers.Count == 1)
+                    {
+                        result.AppendLine($"{rowNumber}, место: {seatNumbers[0]}");
+                    }
+                    else
+                    {
+                        result.AppendLine($"{rowNumber}, места: {string.Join(", ", seatNumbers)}");
+                    }
+                }
+            }
+
+            selectedSeatsTextBox.Text = result.ToString();
+        }
+
+        private void UpdateTicketAmountTextBox()
+        {
+            txtBoxTicketAmount.Text = _ticketAmount.ToString();
+        }
+        #endregion
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
@@ -205,53 +240,22 @@ namespace KinoLunticksApp.Pages
             }
         }
 
-        private void UpdateSelectedPlacesTextBox(List<Seat> selectedSeats, TextBox selectedSeatsTextBox)
-        {
-            selectedSeatsTextBox.Clear();
-
-            if (selectedSeats.Count == 0)
-            {
-                selectedSeatsTextBox.Text = "Нет выбранных мест.";
-                return;
-            }
-
-            var groupedSeats = selectedSeats.GroupBy(seat => seat.Row);
-            StringBuilder result = new StringBuilder();
-
-            foreach (var group in groupedSeats)
-            {
-                Row row = group.Key as Row;
-
-                if (row != null)
-                {
-                    string rowNumber = row.RowNumber;
-                    var seatNumbers = group.Select(seat => seat.SeatNumber).ToList();
-
-                    if (seatNumbers.Count == 1)
-                    {
-                        result.AppendLine($"{rowNumber}, место: {seatNumbers[0]}");
-                    }
-                    else
-                    {
-                        result.AppendLine($"{rowNumber}, места: {string.Join(", ", seatNumbers)}");
-                    }
-                }
-            }
-
-            selectedSeatsTextBox.Text = result.ToString();
-        }
-
-        private void UpdateTicketAmountTextBox()
-        {
-            txtBoxTicketAmount.Text = _ticketAmount.ToString();
-        }
-
         private void btnBuyingTicket_Click(object sender, RoutedEventArgs e)
         {
             string seats = txtBoxSelected.Text;
             string fullAmount = txtBoxTicketAmount.Text;
 
-            PaymentWindow paymentWindow = new PaymentWindow(_movie, _user, seats, fullAmount, _frame);
+            var orderDetails = new OrderDetails
+            {
+                authorizedUser = _sessionDetails.authorizedUser,
+                selectedMovie = _sessionDetails.selectedMovie,
+                navigationFrame = _sessionDetails.navigationFrame,
+                selectedShowing = _sessionDetails.selectedShowing,
+                selectedPlaces = seats,
+                fullAmount = Convert.ToDecimal(fullAmount)
+            };
+
+            PaymentWindow paymentWindow = new PaymentWindow(orderDetails);
             paymentWindow.ShowDialog();
         }
     }
