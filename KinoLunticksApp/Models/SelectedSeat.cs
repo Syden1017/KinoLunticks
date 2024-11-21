@@ -13,5 +13,7 @@ public partial class SelectedSeat
 
     public virtual Order Order { get; set; } = null!;
 
+    public virtual Row RowNumberNavigation { get; set; } = null!;
+
     public virtual Seat Seat { get; set; } = null!;
 }

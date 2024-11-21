@@ -13,9 +13,9 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
+    public virtual SelectedSeat? SelectedSeat { get; set; }
+
     public virtual Showing ShowingNavigation { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
-
-    public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
 }

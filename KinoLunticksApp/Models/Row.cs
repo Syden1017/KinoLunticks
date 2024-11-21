@@ -17,5 +17,7 @@ public partial class Row
 
     public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
 
+    public virtual ICollection<SelectedSeat> SelectedSeats { get; set; } = new List<SelectedSeat>();
+
     public virtual ICollection<TakenSeat> TakenSeats { get; set; } = new List<TakenSeat>();
 }

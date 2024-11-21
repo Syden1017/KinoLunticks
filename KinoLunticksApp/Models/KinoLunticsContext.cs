@@ -33,6 +33,8 @@ public partial class KinoLunticsContext : DbContext
 
     public virtual DbSet<Seat> Seats { get; set; }
 
+    public virtual DbSet<SelectedSeat> SelectedSeats { get; set; }
+
     public virtual DbSet<Showing> Showings { get; set; }
 
     public virtual DbSet<TakenSeat> TakenSeats { get; set; }
@@ -41,7 +43,7 @@ public partial class KinoLunticsContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAB30-01\\SQLEXPRESS; Database=KinoLuntics; User=ИСП-42; Password=1234567890; Encrypt=false");
+        => optionsBuilder.UseSqlServer("Server=Syden1810\\SYDEN1810; Database=KinoLuntics; Integrated Security=true; Encrypt=false");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -168,24 +170,6 @@ public partial class KinoLunticsContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_Orders_Users");
-
-            entity.HasMany(d => d.Seats).WithMany(p => p.Orders)
-                .UsingEntity<Dictionary<string, object>>(
-                    "SelectedSeat",
-                    r => r.HasOne<Seat>().WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_SelectedSeats_Seats"),
-                    l => l.HasOne<Order>().WithMany()
-                        .HasForeignKey("OrderId")
-                        .HasConstraintName("FK_SelectedSeats_Orders"),
-                    j =>
-                    {
-                        j.HasKey("OrderId", "SeatId");
-                        j.ToTable("SelectedSeats");
-                        j.IndexerProperty<int>("OrderId").HasColumnName("OrderID");
-                        j.IndexerProperty<int>("SeatId").HasColumnName("SeatID");
-                    });
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -220,6 +204,29 @@ public partial class KinoLunticsContext : DbContext
             entity.HasOne(d => d.Row).WithMany(p => p.Seats)
                 .HasForeignKey(d => d.RowId)
                 .HasConstraintName("FK_Seats_Rows");
+        });
+
+        modelBuilder.Entity<SelectedSeat>(entity =>
+        {
+            entity.HasKey(e => e.OrderId);
+
+            entity.Property(e => e.OrderId)
+                .ValueGeneratedNever()
+                .HasColumnName("OrderID");
+            entity.Property(e => e.SeatId).HasColumnName("SeatID");
+
+            entity.HasOne(d => d.Order).WithOne(p => p.SelectedSeat)
+                .HasForeignKey<SelectedSeat>(d => d.OrderId)
+                .HasConstraintName("FK_SelectedSeats_Orders");
+
+            entity.HasOne(d => d.RowNumberNavigation).WithMany(p => p.SelectedSeats)
+                .HasForeignKey(d => d.RowNumber)
+                .HasConstraintName("FK_SelectedSeats_Rows");
+
+            entity.HasOne(d => d.Seat).WithMany(p => p.SelectedSeats)
+                .HasForeignKey(d => d.SeatId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_SelectedSeats_Seats");
         });
 
         modelBuilder.Entity<Showing>(entity =>

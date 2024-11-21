@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Controls;
 
@@ -6,10 +7,9 @@ using KinoLunticksApp.Pages;
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace KinoLunticksApp.Windows
 {
@@ -133,20 +133,22 @@ namespace KinoLunticksApp.Windows
                 {
                     UserId = _orderDetails.authorizedUser.UserId,
                     Showing = _orderDetails.selectedShowing.ShowingId,
-                    Amount = decimal.Parse(txtBlockFullAmount.Text.ToString())
+                    Amount = Convert.ToDecimal(_orderDetails.fullAmount)
                 };
+
                 _db.Orders.Add(order);
                 _db.SaveChanges();
 
                 foreach (var seat in selectedSeats)
                 {
-                    var orderId = order.OrderNumber;
+                    var selectedSeat = new SelectedSeat
+                    {
+                        OrderId = order.OrderNumber,
+                        SeatId = seat.Item1,
+                        RowNumber = seat.Item2
+                    };
 
-                    var sql = "INSERT INTO SelectedSeats (OrderId, SeatId, RowNumber) " +
-                              "VALUES (@OrderId, @SeatId, @RowNumber)";
-                    _db.Database.ExecuteSqlRaw(sql, new SqlParameter("@OrderId", orderId),
-                                                    new SqlParameter("@SeatId", seat.Item1),
-                                                    new SqlParameter("@RowNumber", seat.Item2));
+                    _db.SelectedSeats.Add(selectedSeat);
                 }
 
                 foreach (var seat in selectedSeats)
@@ -163,36 +165,41 @@ namespace KinoLunticksApp.Windows
                 _db.SaveChanges();
             }
 
-            MessageBox.Show("Оплата прошла успешно.");
-            this.Close();
+            MessageBox.Show(
+                "Оплата прошла успешно.",
+                "Оплата заказа",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+
+            Close();
+            _frame.Navigate(new MainPage(_frame, _orderDetails.authorizedUser));
         }
 
         private List<Tuple<int, int>> ParseSelectedSeats(string selectedSeatsString)
         {
             var seats = new List<Tuple<int, int>>();
 
-            var parts = selectedSeatsString.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length == 2)
+            if (string.IsNullOrWhiteSpace(selectedSeatsString))
             {
-                var rowPart = parts[0].Trim();
-                if (rowPart.StartsWith("ряд: "))
-                {
-                    if (int.TryParse(rowPart.Substring(5).Trim(), out int rowId))
-                    {
-                        var seatsPart = parts[1].Trim();
-                        if (seatsPart.StartsWith("места: "))
-                        {
-                            var seatIds = seatsPart.Substring(7).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                            .Select(s => s.Trim())
-                                            .ToList();
+                return seats;
+            }
 
-                            foreach (var seatIdStr in seatIds)
-                            {
-                                if (int.TryParse(seatIdStr, out int seatId))
-                                {
-                                    seats.Add(new Tuple<int, int>(seatId, rowId));
-                                }
-                            }
+            var parts = selectedSeatsString.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            
+            var rowPart = parts[0].Trim();
+            if (rowPart.StartsWith("ряд: ") && int.TryParse(rowPart.Substring(5).Trim(), out int rowId))
+            {
+                var seatsPart = parts[1].Trim();
+                if (seatsPart.StartsWith("место: ") || seatsPart.StartsWith("места: "))
+                {
+                    var seatIds = seatsPart.Substring(seatsPart.StartsWith("место: ") ? 7 : 8).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                        .Select(s => s.Trim());
+
+                    foreach (var seatIdStr in seatIds)
+                    {
+                        if (int.TryParse(seatIdStr, out int seatId))
+                        {
+                            seats.Add(new Tuple<int, int>(seatId, rowId));
                         }
                     }
                 }
