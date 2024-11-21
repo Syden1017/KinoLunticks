@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Text;
+using System.Windows;
+using System.Globalization;
 using System.Windows.Media;
 using System.Windows.Controls;
 
@@ -7,9 +9,6 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Text;
-using System;
 
 namespace KinoLunticksApp.Pages
 {
@@ -140,6 +139,15 @@ namespace KinoLunticksApp.Pages
                         Content = seat.SeatNumber,
                         Style = (Style)FindResource("GreenArmchairButtonStyle")
                     };
+
+                    var takenSeats = _db.TakenSeats.Where(ts => ts.SeatId == seat.SeatId &&
+                                                                ts.ShowingId == _sessionDetails.selectedShowing.ShowingId).
+                                                    FirstOrDefault(ts => ts.SeatId == seat.SeatId);
+
+                    if (takenSeats != null)
+                    {
+                        seatButton.Style = (Style)FindResource("GrayArmchairButtonStyle");
+                    }
 
                     seatButton.Click += Button_Click;
 

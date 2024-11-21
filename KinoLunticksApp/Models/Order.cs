@@ -13,11 +13,9 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
-    public int SelectedRow { get; set; }
-
-    public virtual ICollection<SelectedSeat> SelectedSeats { get; set; } = new List<SelectedSeat>();
-
     public virtual Showing ShowingNavigation { get; set; } = null!;
 
     public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
 }

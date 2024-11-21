@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -9,8 +10,6 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Globalization;
 
 namespace KinoLunticksApp.Pages
 {
@@ -66,21 +65,7 @@ namespace KinoLunticksApp.Pages
 
         private void LoadTickets()
         {
-            Tickets = _db.Orders.Where(o => o.User.UserId == _user.UserId).
-                                 Select(o => new Ticket
-                                 {
-                                     movieImage = o.ShowingNavigation.Movie.Preview,
-                                     movieTitle = o.ShowingNavigation.Movie.MovieName,
-                                     showDate = o.ShowingNavigation.ShowingDate.ToString("d MMMM", CultureInfo.GetCultureInfo("ru-RU")),
-                                     showTime = o.ShowingNavigation.ShowingTime.ToString(@"hh\:mm"),
-                                     hallNumber = o.ShowingNavigation.Hall.HallNumber,
-                                     rowNumber = o.ShowingNavigation.Hall.Rows.FirstOrDefault().RowNumber.ToString(),
-                                     seatNumbers = string.Join(", ", _db.SelectedSeats.Where(ss => ss.Order.OrderNumber == o.OrderNumber).
-                                                                                       Select(ss => ss.SeatId)),
-                                     totalPrice = o.Amount
-                                 }).ToList();
-
-            lViewMyTickets.ItemsSource = Tickets;
+            
         }
 
         private void UpdateCardsList()

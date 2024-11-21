@@ -1560,7 +1560,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="GreyArmchairButtonStyle"
+    <Style x:Key="GrayArmchairButtonStyle"
            TargetType="{x:Type Button}">
         <Setter Property="Background"
                 Value="White"/>

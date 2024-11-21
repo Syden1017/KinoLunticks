@@ -142,7 +142,8 @@
                        Grid.Column="0"
                        Grid.Row="0"/>
 
-            <TextBlock Text="{Binding seats}"
+            <TextBlock x:Name="txtBlockSeats"
+                       Text="{Binding seats}"
                        
                        Style="{DynamicResource txtBlockSeats}"
                        
@@ -155,7 +156,8 @@
                        Grid.Column="2"
                        Grid.Row="0"/>
 
-            <TextBlock Text="{Binding fullAmount}"
+            <TextBlock x:Name="txtBlockFullAmount"
+                       Text="{Binding fullAmount}"
                        
                        Style="{DynamicResource txtBlockfullAmount}"
                        

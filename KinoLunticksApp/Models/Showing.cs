@@ -21,5 +21,5 @@ public partial class Showing
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
-    public virtual ICollection<Seat> Seats { get; set; } = new List<Seat>();
+    public virtual ICollection<TakenSeat> TakenSeats { get; set; } = new List<TakenSeat>();
 }

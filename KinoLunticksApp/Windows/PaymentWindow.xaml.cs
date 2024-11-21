@@ -8,6 +8,8 @@ using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using Microsoft.VisualBasic.ApplicationServices;
+using Microsoft.Data.SqlClient;
 
 namespace KinoLunticksApp.Windows
 {
@@ -60,39 +62,26 @@ namespace KinoLunticksApp.Windows
                       FirstOrDefault(u => u.Login == _orderDetails.authorizedUser.Login);
 
             lViewCards.ItemsSource = _db.BankAccounts.Local.ToList();
+
+            if (lViewCards.Items.Count == 1)
+            {
+                lViewCards.SelectedItem = 0;
+            }
+        }
+
+        private void btnAddCard_Click(object sender, RoutedEventArgs e)
+        {
+            AddCardWindow addCard = new AddCardWindow(_orderDetails.authorizedUser);
+            addCard.ShowDialog();
+
+            LoadUserCards();
         }
 
         private void btnPay_Click(object sender, RoutedEventArgs e)
         {
-            //var order = new Order
-            //{
-            //    Amount = Convert.ToDecimal(_fullAmount)
-            //};
+            var selectedCard = lViewCards.SelectedItem as BankAccount;
 
-            //try
-            //{
-            //    _db.Orders.Add(order);
-            //    _db.SaveChanges();
-
-            //    MessageBox.Show(
-            //        "Оплата прошла успешно!",
-            //        "Проведение транзакции",
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Information);
-
-            //    Close();
-
-            //    _frame.Navigate(new MainPage(_frame, _user));
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(
-            //        ex.Message.ToString(),
-            //        "Системная ошибка",
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Error
-            //        );
-            //}
+            SavePaymentToDatabase(selectedCard);
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -134,9 +123,82 @@ namespace KinoLunticksApp.Windows
             Mouse.OverrideCursor = null;
         }
 
-        private void btnAddCard_Click(object sender, RoutedEventArgs e)
+        private void SavePaymentToDatabase(BankAccount card)
         {
+            var selectedSeats = ParseSelectedSeats(txtBlockSeats.Text);
 
+            using (var _db = new KinoLunticsContext())
+            {
+                var order = new Order
+                {
+                    UserId = _orderDetails.authorizedUser.UserId,
+                    Showing = _orderDetails.selectedShowing.ShowingId,
+                    Amount = decimal.Parse(txtBlockFullAmount.Text.ToString())
+                };
+                _db.Orders.Add(order);
+                _db.SaveChanges();
+
+                foreach (var seat in selectedSeats)
+                {
+                    var orderId = order.OrderNumber;
+
+                    var sql = "INSERT INTO SelectedSeats (OrderId, SeatId, RowNumber) " +
+                              "VALUES (@OrderId, @SeatId, @RowNumber)";
+                    _db.Database.ExecuteSqlRaw(sql, new SqlParameter("@OrderId", orderId),
+                                                    new SqlParameter("@SeatId", seat.Item1),
+                                                    new SqlParameter("@RowNumber", seat.Item2));
+                }
+
+                foreach (var seat in selectedSeats)
+                {
+                    var takenSeat = new TakenSeat
+                    {
+                        ShowingId = _orderDetails.selectedShowing.ShowingId,
+                        SeatId = seat.Item1,
+                        RowNumber = seat.Item2
+                    };
+                    _db.TakenSeats.Add(takenSeat);
+                }
+
+                _db.SaveChanges();
+            }
+
+            MessageBox.Show("Оплата прошла успешно.");
+            this.Close();
+        }
+
+        private List<Tuple<int, int>> ParseSelectedSeats(string selectedSeatsString)
+        {
+            var seats = new List<Tuple<int, int>>();
+
+            var parts = selectedSeatsString.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length == 2)
+            {
+                var rowPart = parts[0].Trim();
+                if (rowPart.StartsWith("ряд: "))
+                {
+                    if (int.TryParse(rowPart.Substring(5).Trim(), out int rowId))
+                    {
+                        var seatsPart = parts[1].Trim();
+                        if (seatsPart.StartsWith("места: "))
+                        {
+                            var seatIds = seatsPart.Substring(7).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                            .Select(s => s.Trim())
+                                            .ToList();
+
+                            foreach (var seatIdStr in seatIds)
+                            {
+                                if (int.TryParse(seatIdStr, out int seatId))
+                                {
+                                    seats.Add(new Tuple<int, int>(seatId, rowId));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return seats;
         }
     }
 }

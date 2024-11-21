@@ -33,9 +33,9 @@ public partial class KinoLunticsContext : DbContext
 
     public virtual DbSet<Seat> Seats { get; set; }
 
-    public virtual DbSet<SelectedSeat> SelectedSeats { get; set; }
-
     public virtual DbSet<Showing> Showings { get; set; }
+
+    public virtual DbSet<TakenSeat> TakenSeats { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -168,6 +168,24 @@ public partial class KinoLunticsContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_Orders_Users");
+
+            entity.HasMany(d => d.Seats).WithMany(p => p.Orders)
+                .UsingEntity<Dictionary<string, object>>(
+                    "SelectedSeat",
+                    r => r.HasOne<Seat>().WithMany()
+                        .HasForeignKey("SeatId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_SelectedSeats_Seats"),
+                    l => l.HasOne<Order>().WithMany()
+                        .HasForeignKey("OrderId")
+                        .HasConstraintName("FK_SelectedSeats_Orders"),
+                    j =>
+                    {
+                        j.HasKey("OrderId", "SeatId");
+                        j.ToTable("SelectedSeats");
+                        j.IndexerProperty<int>("OrderId").HasColumnName("OrderID");
+                        j.IndexerProperty<int>("SeatId").HasColumnName("SeatID");
+                    });
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -204,23 +222,6 @@ public partial class KinoLunticsContext : DbContext
                 .HasConstraintName("FK_Seats_Rows");
         });
 
-        modelBuilder.Entity<SelectedSeat>(entity =>
-        {
-            entity.HasKey(e => new { e.OrderId, e.SeatId });
-
-            entity.Property(e => e.OrderId).HasColumnName("OrderID");
-            entity.Property(e => e.SeatId).HasColumnName("SeatID");
-
-            entity.HasOne(d => d.Order).WithMany(p => p.SelectedSeats)
-                .HasForeignKey(d => d.OrderId)
-                .HasConstraintName("FK_SelectedSeats_Orders");
-
-            entity.HasOne(d => d.Seat).WithMany(p => p.SelectedSeats)
-                .HasForeignKey(d => d.SeatId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_SelectedSeats_Seats");
-        });
-
         modelBuilder.Entity<Showing>(entity =>
         {
             entity.HasKey(e => e.ShowingId).HasName("PK_Showings_ShowingID");
@@ -234,24 +235,27 @@ public partial class KinoLunticsContext : DbContext
             entity.HasOne(d => d.Movie).WithMany(p => p.Showings)
                 .HasForeignKey(d => d.MovieId)
                 .HasConstraintName("FK_Showings_Movies");
+        });
 
-            entity.HasMany(d => d.Seats).WithMany(p => p.Showings)
-                .UsingEntity<Dictionary<string, object>>(
-                    "TakenSeat",
-                    r => r.HasOne<Seat>().WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_TakenSeats_Seats"),
-                    l => l.HasOne<Showing>().WithMany()
-                        .HasForeignKey("ShowingId")
-                        .HasConstraintName("FK_TakenSeats_Showings"),
-                    j =>
-                    {
-                        j.HasKey("ShowingId", "SeatId");
-                        j.ToTable("TakenSeats");
-                        j.IndexerProperty<int>("ShowingId").HasColumnName("ShowingID");
-                        j.IndexerProperty<int>("SeatId").HasColumnName("SeatID");
-                    });
+        modelBuilder.Entity<TakenSeat>(entity =>
+        {
+            entity.HasKey(e => new { e.ShowingId, e.SeatId });
+
+            entity.Property(e => e.ShowingId).HasColumnName("ShowingID");
+            entity.Property(e => e.SeatId).HasColumnName("SeatID");
+
+            entity.HasOne(d => d.RowNumberNavigation).WithMany(p => p.TakenSeats)
+                .HasForeignKey(d => d.RowNumber)
+                .HasConstraintName("FK_TakenSeats_Rows");
+
+            entity.HasOne(d => d.Seat).WithMany(p => p.TakenSeats)
+                .HasForeignKey(d => d.SeatId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_TakenSeats_Seats");
+
+            entity.HasOne(d => d.Showing).WithMany(p => p.TakenSeats)
+                .HasForeignKey(d => d.ShowingId)
+                .HasConstraintName("FK_TakenSeats_Showings");
         });
 
         modelBuilder.Entity<User>(entity =>
