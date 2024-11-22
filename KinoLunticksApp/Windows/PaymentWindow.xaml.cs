@@ -2,14 +2,13 @@
 using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 using KinoLunticksApp.Pages;
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic.ApplicationServices;
 
 namespace KinoLunticksApp.Windows
 {
@@ -38,7 +37,7 @@ namespace KinoLunticksApp.Windows
                 formattedDate = _orderDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
                 _orderDetails.selectedShowing.ShowingTime,
                 hall = LoadHallData().HallNumber,
-                seat = _orderDetails.selectedPlaces,
+                seats = _orderDetails.selectedPlaces,
                 _orderDetails.fullAmount
             };
 
@@ -125,7 +124,7 @@ namespace KinoLunticksApp.Windows
 
         private void SavePaymentToDatabase(BankAccount card)
         {
-            var selectedSeats = ParseSelectedSeats(txtBlockSeats.Text);
+            var selectedSeats = ParseSelectedSeats(_orderDetails.selectedPlaces);
 
             using (var _db = new KinoLunticsContext())
             {
@@ -184,16 +183,19 @@ namespace KinoLunticksApp.Windows
                 return seats;
             }
 
-            var parts = selectedSeatsString.Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            
-            var rowPart = parts[0].Trim();
-            if (rowPart.StartsWith("ряд: ") && int.TryParse(rowPart.Substring(5).Trim(), out int rowId))
+            selectedSeatsString = selectedSeatsString.Trim();
+            selectedSeatsString = Regex.Replace(selectedSeatsString, @"\s+", " ");
+            selectedSeatsString = selectedSeatsString.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
+
+            var rowMatch = Regex.Match(selectedSeatsString, @"Ряд\s*(\d+)");
+            var seatsMatch = Regex.Match(selectedSeatsString, @"(?:место|места):\s*([\d\s,]+)");
+
+            if (rowMatch.Success && seatsMatch.Success)
             {
-                var seatsPart = parts[1].Trim();
-                if (seatsPart.StartsWith("место: ") || seatsPart.StartsWith("места: "))
+                if (int.TryParse(rowMatch.Groups[1].Value, out int rowId))
                 {
-                    var seatIds = seatsPart.Substring(seatsPart.StartsWith("место: ") ? 7 : 8).Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                        .Select(s => s.Trim());
+                    var seatIds = seatsMatch.Groups[2].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                            .Select(s => s.Trim());
 
                     foreach (var seatIdStr in seatIds)
                     {

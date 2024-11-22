@@ -53,8 +53,8 @@ namespace KinoLunticksApp.Pages
                 _sessionDetails.selectedMovie.MovieDuration,
                 hall = LoadHallData().HallNumber,
                 formattedShowingDate = _sessionDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
-                _sessionDetails.authorizedUser,
-                _sessionDetails.selectedShowing.ShowingTime
+                _sessionDetails.selectedShowing.ShowingTime,
+                _sessionDetails.authorizedUser
             };
         }
 
