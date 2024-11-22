@@ -20,6 +20,4 @@ public partial class Showing
     public virtual Movie Movie { get; set; } = null!;
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-
-    public virtual ICollection<TakenSeat> TakenSeats { get; set; } = new List<TakenSeat>();
 }

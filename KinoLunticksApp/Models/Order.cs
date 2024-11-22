@@ -13,7 +13,7 @@ public partial class Order
 
     public decimal Amount { get; set; }
 
-    public virtual SelectedSeat? SelectedSeat { get; set; }
+    public string SelectedSeats { get; set; } = null!;
 
     public virtual Showing ShowingNavigation { get; set; } = null!;
 

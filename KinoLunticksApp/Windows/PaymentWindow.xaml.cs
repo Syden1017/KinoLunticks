@@ -1,14 +1,12 @@
-﻿using System.Windows;
-using System.Globalization;
-using System.Windows.Input;
-using System.Windows.Controls;
-using System.Text.RegularExpressions;
-
+﻿using KinoLunticksApp.Models;
 using KinoLunticksApp.Pages;
 using KinoLunticksApp.Tools;
-using KinoLunticksApp.Models;
-
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace KinoLunticksApp.Windows
 {
@@ -29,12 +27,19 @@ namespace KinoLunticksApp.Windows
             _frame = details.navigationFrame;
             _orderDetails = details;
 
+            if (lViewCards.Items.Count == 1)
+            {
+                lViewCards.SelectedItem = 0;
+            }
+
             DataContext = new
             {
                 _orderDetails.selectedMovie.Preview,
                 _orderDetails.selectedMovie.MovieName,
                 _orderDetails.selectedMovie.AgeRestriction,
-                formattedDate = _orderDetails.selectedShowing.ShowingDate.ToString("d MMMM", CultureInfo.CurrentCulture),
+                formattedDate = _orderDetails.selectedShowing.ShowingDate.
+                                                                          ToString("d MMMM", 
+                                                                                   CultureInfo.CurrentCulture),
                 _orderDetails.selectedShowing.ShowingTime,
                 hall = LoadHallData().HallNumber,
                 seats = _orderDetails.selectedPlaces,
@@ -61,11 +66,6 @@ namespace KinoLunticksApp.Windows
                       FirstOrDefault(u => u.Login == _orderDetails.authorizedUser.Login);
 
             lViewCards.ItemsSource = _db.BankAccounts.Local.ToList();
-
-            if (lViewCards.Items.Count == 1)
-            {
-                lViewCards.SelectedItem = 0;
-            }
         }
 
         private void btnAddCard_Click(object sender, RoutedEventArgs e)
@@ -124,42 +124,18 @@ namespace KinoLunticksApp.Windows
 
         private void SavePaymentToDatabase(BankAccount card)
         {
-            var selectedSeats = ParseSelectedSeats(_orderDetails.selectedPlaces);
-
             using (var _db = new KinoLunticsContext())
             {
                 var order = new Order
                 {
                     UserId = _orderDetails.authorizedUser.UserId,
                     Showing = _orderDetails.selectedShowing.ShowingId,
-                    Amount = Convert.ToDecimal(_orderDetails.fullAmount)
+                    Amount = Convert.ToDecimal(_orderDetails.fullAmount),
+                    SelectedSeats = _orderDetails.selectedPlaces
                 };
 
                 _db.Orders.Add(order);
                 _db.SaveChanges();
-
-                foreach (var seat in selectedSeats)
-                {
-                    var selectedSeat = new SelectedSeat
-                    {
-                        OrderId = order.OrderNumber,
-                        SeatId = seat.Item1,
-                        RowNumber = seat.Item2
-                    };
-
-                    _db.SelectedSeats.Add(selectedSeat);
-                }
-
-                foreach (var seat in selectedSeats)
-                {
-                    var takenSeat = new TakenSeat
-                    {
-                        ShowingId = _orderDetails.selectedShowing.ShowingId,
-                        SeatId = seat.Item1,
-                        RowNumber = seat.Item2
-                    };
-                    _db.TakenSeats.Add(takenSeat);
-                }
 
                 _db.SaveChanges();
             }
@@ -172,42 +148,6 @@ namespace KinoLunticksApp.Windows
 
             Close();
             _frame.Navigate(new MainPage(_frame, _orderDetails.authorizedUser));
-        }
-
-        private List<Tuple<int, int>> ParseSelectedSeats(string selectedSeatsString)
-        {
-            var seats = new List<Tuple<int, int>>();
-
-            if (string.IsNullOrWhiteSpace(selectedSeatsString))
-            {
-                return seats;
-            }
-
-            selectedSeatsString = selectedSeatsString.Trim();
-            selectedSeatsString = Regex.Replace(selectedSeatsString, @"\s+", " ");
-            selectedSeatsString = selectedSeatsString.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
-
-            var rowMatch = Regex.Match(selectedSeatsString, @"Ряд\s*(\d+)");
-            var seatsMatch = Regex.Match(selectedSeatsString, @"(?:место|места):\s*([\d\s,]+)");
-
-            if (rowMatch.Success && seatsMatch.Success)
-            {
-                if (int.TryParse(rowMatch.Groups[1].Value, out int rowId))
-                {
-                    var seatIds = seatsMatch.Groups[2].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                            .Select(s => s.Trim());
-
-                    foreach (var seatIdStr in seatIds)
-                    {
-                        if (int.TryParse(seatIdStr, out int seatId))
-                        {
-                            seats.Add(new Tuple<int, int>(seatId, rowId));
-                        }
-                    }
-                }
-            }
-
-            return seats;
         }
     }
 }

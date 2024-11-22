@@ -9,6 +9,7 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace KinoLunticksApp.Pages
 {
@@ -136,18 +137,10 @@ namespace KinoLunticksApp.Pages
 
                     Button seatButton = new Button
                     {
+                        Name = $"Seat_{row.RowId}_{seat.SeatId}",
                         Content = seat.SeatNumber,
                         Style = (Style)FindResource("GreenArmchairButtonStyle")
                     };
-
-                    var takenSeats = _db.TakenSeats.Where(ts => ts.SeatId == seat.SeatId &&
-                                                                ts.ShowingId == _sessionDetails.selectedShowing.ShowingId).
-                                                    FirstOrDefault(ts => ts.SeatId == seat.SeatId);
-
-                    if (takenSeats != null)
-                    {
-                        seatButton.Style = (Style)FindResource("GrayArmchairButtonStyle");
-                    }
 
                     seatButton.Click += Button_Click;
 
@@ -157,6 +150,91 @@ namespace KinoLunticksApp.Pages
                     gHallSchema.Children.Add(seatButton);
                 }
             }
+
+            CheckAndColorReservedSeats(_sessionDetails.selectedShowing.ShowingId);
+        }
+
+        private List<Order> GetOrdersByShowId(int showId)
+        {
+            using (var _db = new KinoLunticsContext())
+            {
+                return _db.Orders.Where(o => o.ShowingNavigation.ShowingId == 
+                                             _sessionDetails.selectedShowing.ShowingId).
+                                  ToList();
+            }
+        }
+
+        private List<int> GetSeatIds(int hallId, int rowNumber, List<int> seatNumbers)
+        {
+            var seatIds = new List<int>();
+            int rowId = 0;
+
+            var row = _db.Rows.FirstOrDefault(r => r.HallId == hallId && r.RowNumber == rowNumber.ToString());
+            if (row != null)
+            {
+                rowId = row.RowId;
+
+                foreach (var seatNumber in seatNumbers)
+                {
+                    var seat = _db.Seats.FirstOrDefault(s => s.RowId == rowId && s.SeatNumber == seatNumber.ToString());
+                    if (seat != null)
+                    {
+                        seatIds.Add(seat.SeatId);
+                    }
+                }
+            }
+
+            return seatIds;
+        }
+
+        private void CheckAndColorReservedSeats(int showId)
+        {
+            var orders = GetOrdersByShowId(showId);
+
+            if (orders != null && orders.Any())
+            {
+                foreach (var order in orders)
+                {
+                    var selectedSeats = order.SelectedSeats;
+                    selectedSeats = Regex.Replace(selectedSeats, @"\s+", " ");
+                    selectedSeats = selectedSeats.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
+
+                    var rowMatch = Regex.Match(selectedSeats, @"Ряд\s*(\d+)");
+                    var seatsMatch = Regex.Match(selectedSeats, @"(?:место|места):\s*([\d\s,]+)");
+
+                    if (rowMatch.Success && seatsMatch.Success)
+                    {
+                        if (int.TryParse(rowMatch.Groups[1].Value, out int rowId))
+                        {
+                            var seatNumbers = seatsMatch.Groups[1].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                                .Select(s => s.Trim())
+                                                                .Select(int.Parse)
+                                                                .ToList();
+
+                            var hallId = LoadHallData();
+                            List<int> seatIds;
+
+                            seatIds = GetSeatIds(Convert.ToInt32(hallId), rowId, seatNumbers);
+
+                            foreach (var seatId in seatIds)
+                            {
+                                var button = GetButtonForSeat(rowId, seatId);
+                                if (button != null)
+                                {
+                                    button.Style = (Style)FindResource("GrayArmchairButtonStyle");
+                                    button.IsEnabled = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private Button GetButtonForSeat(int rowId, int seatId)
+        {
+            return gHallSchema.Children.OfType<Button>()
+                                        .FirstOrDefault(b => b.Name == $"Seat_{rowId}_{seatId}");
         }
         #endregion
 
