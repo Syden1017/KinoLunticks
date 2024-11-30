@@ -65,7 +65,7 @@
                 <TextBlock Text="Время сеанса: "
                            Style="{DynamicResource txtBlockMyTickets}"
                            Margin="0"/>
-                
+
                 <TextBlock Text="{Binding showTime}"
                            Style="{DynamicResource txtBlockMyTickets}"
                            Margin="0"/>
@@ -104,19 +104,6 @@
                            Style="{DynamicResource txtBlockMyTickets}"
                            Margin="0"/>
             </StackPanel>
-        </StackPanel>
-
-        <StackPanel Orientation="Horizontal"
-                    Grid.Column="1" 
-                    Grid.Row="4"
-                    Grid.ColumnSpan="2">
-            <TextBlock Text="Стоимость:"
-                       Style="{DynamicResource txtBlockMyTickets}"
-                       Margin="0"/>
-
-            <TextBlock Text="{Binding totalPrice}"
-                       Style="{DynamicResource txtBlockMyTickets}"
-                       Margin="0"/>
         </StackPanel>
     </Grid>
 </UserControl>

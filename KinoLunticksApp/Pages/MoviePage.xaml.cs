@@ -151,16 +151,16 @@ namespace KinoLunticksApp.Pages
                 }
             }
 
-            CheckAndColorReservedSeats(_sessionDetails.selectedShowing.ShowingId);
+            CheckAndColorReservedSeats(_sessionDetails.selectedShowing.ShowingId, _sessionDetails.selectedShowing.HallId);
         }
 
-        private List<Order> GetOrdersByShowId(int showId)
+        private List<Order> GetOrdersByShowId(int showId, int hallId)
         {
             using (var _db = new KinoLunticsContext())
             {
-                return _db.Orders.Where(o => o.ShowingNavigation.ShowingId == 
-                                             _sessionDetails.selectedShowing.ShowingId).
-                                  ToList();
+                return _db.Orders
+                    .Where(o => o.ShowingNavigation.ShowingId == showId && o.ShowingNavigation.HallId == hallId)
+                    .ToList();
             }
         }
 
@@ -187,9 +187,9 @@ namespace KinoLunticksApp.Pages
             return seatIds;
         }
 
-        private void CheckAndColorReservedSeats(int showId)
+        private void CheckAndColorReservedSeats(int showId, int hallId)
         {
-            var orders = GetOrdersByShowId(showId);
+            var orders = GetOrdersByShowId(showId, hallId);
 
             if (orders != null && orders.Any())
             {
@@ -204,25 +204,29 @@ namespace KinoLunticksApp.Pages
 
                     if (rowMatch.Success && seatsMatch.Success)
                     {
-                        if (int.TryParse(rowMatch.Groups[1].Value, out int rowId))
+                        if (int.TryParse(rowMatch.Groups[1].Value, out int rowNumber))
                         {
                             var seatNumbers = seatsMatch.Groups[1].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                                .Select(s => s.Trim())
-                                                                .Select(int.Parse)
-                                                                .ToList();
+                                                                        .Select(s => s.Trim())
+                                                                        .Select(int.Parse)
+                                                                        .ToList();
 
-                            var hallId = LoadHallData();
-                            List<int> seatIds;
+                            var rowId = _db.Rows.FirstOrDefault(r => r.HallId == hallId && r.RowNumber == rowNumber.ToString())?.RowId;
 
-                            seatIds = GetSeatIds(Convert.ToInt32(hallId), rowId, seatNumbers);
-
-                            foreach (var seatId in seatIds)
+                            if (rowId.HasValue)
                             {
-                                var button = GetButtonForSeat(rowId, seatId);
-                                if (button != null)
+                                foreach (var seatNumber in seatNumbers)
                                 {
-                                    button.Style = (Style)FindResource("GrayArmchairButtonStyle");
-                                    button.IsEnabled = false;
+                                    var seat = _db.Seats.FirstOrDefault(s => s.RowId == rowId.Value && s.SeatNumber == seatNumber.ToString());
+                                    if (seat != null)
+                                    {
+                                        var button = GetButtonForSeat(rowId.Value, seat.SeatId);
+                                        if (button != null)
+                                        {
+                                            button.Style = (Style)FindResource("GrayArmchairButtonStyle");
+                                            button.IsEnabled = false;
+                                        }
+                                    }
                                 }
                             }
                         }

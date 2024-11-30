@@ -84,77 +84,62 @@
             </Grid>
         </Grid>
 
-        <ListView x:Name="tableView"
+        <TreeView x:Name="tableView"
                   Grid.Row="1"
                   Grid.Column="1"
                   Background="Transparent"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ItemContainerStyle="{DynamicResource lViewItemContainerStyle}">
-            <ListView.View>
-                <GridView AllowsColumnReorder="False">
-                    <GridViewColumn Width="230"
-                                    Header="Название фильма">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Movie.MovieName}"
-                                           Style="{DynamicResource templateTxtBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Showings}">
+                    <TextBlock Text="{Binding Title}"
+                               Style="{DynamicResource templateTxtBlock}"
+                               FontSize="30"/>
 
-                    <GridViewColumn Width="230"
-                                    Header="Зал">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
                                 <TextBlock Text="{Binding Hall.HallNumber}"
-                                           Style="{DynamicResource templateTxtBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                           Style="{DynamicResource templateTxtBlock}"
+                                           
+                                           Grid.Column="0"/>
 
-                    <GridViewColumn Width="250"
-                                    Header="Дата">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
                                 <TextBlock Text="{Binding formattedShowingDate}"
-                                           Style="{DynamicResource templateTxtBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                           Style="{DynamicResource templateTxtBlock}"
+                                           
+                                           Grid.Column="1"/>
 
-                    <GridViewColumn Width="100"
-                                    Header="Время">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
                                 <TextBlock Text="{Binding ShowingTime,
                                                   StringFormat={} {0:HH:mm}}"
-                                           Style="{DynamicResource templateTxtBlock}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                           Style="{DynamicResource templateTxtBlock}"
+                                           
+                                           Grid.Column="2"/>
 
-                    <GridViewColumn Width="100">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Button x:Name="changeButton"
-                                            Content="&#9999;"
-                                            Click="changeButton_Click"
-                                            Style="{DynamicResource btnEditMovie}"
-                                            Margin="0,0,0,15"/>
+                                <Button x:Name="changeButton"
+                                        Content="&#9999;"
+                                        Click="changeButton_Click"
+                                        Style="{DynamicResource btnEditMovie}"
+                                        Grid.Column="3"
+                                        Margin="7 0 7 0"/>
 
-                                    <Button Name="deleteButton"
-                                            Click="deleteButton_Click"
-                                            Content="&#10006;"
-                                            Style="{DynamicResource btnEditMovie}"
-                                            Margin="0,0,0,15"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                                <Button Name="deleteButton"
+                                        Click="deleteButton_Click"
+                                        Content="&#10006;"
+                                        Style="{DynamicResource btnEditMovie}"
+                                        Grid.Column="4"/>
+                            </Grid>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </Page>

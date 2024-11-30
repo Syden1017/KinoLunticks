@@ -1,19 +1,23 @@
 ﻿using System.IO;
 using System.Data;
 using System.Text;
+using System.Globalization;
 using System.Windows.Forms;
 
 using ExcelDataReader;
 
 using KinoLunticksApp.Models;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace KinoLunticksApp.Tools
 {
     public class ShowingImportService
     {
         KinoLunticsContext _db = new KinoLunticsContext();
+        List<Showing> _showings = new List<Showing>();
 
-        public async Task ImportShowingsFromExcelAsync()
+        public async Task ImportShowingsFromExcelAsync(System.Windows.Controls.TreeView treeView)
         {
             using (var openFileDialog = new OpenFileDialog())
             {
@@ -57,12 +61,22 @@ namespace KinoLunticksApp.Tools
                                     {
                                         try
                                         {
+                                            string dateString = row["Date"].ToString();
+                                            string dateOnlyString = dateString.Split(' ')[0];
+
+                                            DateOnly date = DateOnly.ParseExact(dateOnlyString, "dd.MM.yyyy", CultureInfo.InvariantCulture);
+
+                                            string timeString = row["Time"].ToString();
+                                            string timeOnlyString = timeString.Split(' ')[1];
+
+                                            TimeOnly time = TimeOnly.ParseExact(timeOnlyString, "HH:mm:ss", CultureInfo.InvariantCulture);
+
                                             Showing showing = new Showing
                                             {
                                                 MovieId = Convert.ToInt32(movieId),
                                                 HallId = Convert.ToInt32(hallId),
-                                                ShowingDate = DateOnly.Parse(row["Date"].ToString()),
-                                                ShowingTime = TimeOnly.Parse(row["Time"].ToString())
+                                                ShowingDate = date,
+                                                ShowingTime = time
                                             };
                                             _db.Showings.Add(showing);
 
@@ -106,6 +120,19 @@ namespace KinoLunticksApp.Tools
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }
+
+                    _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
+                    _showings = _db.Showings.Local.ToList();
+
+                    var groupedShowings = _showings
+                        .GroupBy(s => s.Movie.MovieName)
+                        .Select(g => new MovieGroup
+                        {
+                            Title = g.Key,
+                            Showings = g.ToList()
+                        }).ToList();
+
+                    treeView.ItemsSource = groupedShowings;
                 }
             }
         }

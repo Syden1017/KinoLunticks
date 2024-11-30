@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Globalization;
 
 namespace KinoLunticksApp.Models;
 
@@ -14,6 +13,8 @@ public partial class Showing
     public DateOnly ShowingDate { get; set; }
 
     public TimeOnly ShowingTime { get; set; }
+
+    public string formattedShowingDate => ShowingDate.ToString("dd.MM.yyyy", new CultureInfo("ru-RU"));
 
     public virtual Hall Hall { get; set; } = null!;
 

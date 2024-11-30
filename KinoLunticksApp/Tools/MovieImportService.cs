@@ -71,8 +71,8 @@ namespace KinoLunticksApp.Tools
                                         _db.Movies.Add(movie);
                                     }
 
-                                    await AddActorsToMovieAsync(row, movie);
-                                    await AddGenresToMovieAsync(row, movie);
+                                    //await AddActorsToMovieAsync(row, movie);
+                                    //await AddGenresToMovieAsync(row, movie);
                                 }
 
                                 await _db.SaveChangesAsync();

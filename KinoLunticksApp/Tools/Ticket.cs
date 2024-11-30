@@ -8,7 +8,6 @@
         public string showTime { get; set; }
         public string hallNumber { get; set; }
         public string rowNumber { get; set; }
-        public string seatNumbers { get; set; }
-        public decimal totalPrice { get; set; }
+        public string selectedSeats { get; set; }
     }
 }

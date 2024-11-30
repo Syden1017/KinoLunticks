@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Windows;
-using System.Globalization;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -65,7 +64,20 @@ namespace KinoLunticksApp.Pages
 
         private void LoadTickets()
         {
-            
+            var orders = _db.Orders
+                .Where(o => o.UserId == _user.UserId)
+                .Select(o => new Ticket
+                {
+                    movieTitle = o.ShowingNavigation.Movie.MovieName,
+                    movieImage = o.ShowingNavigation.Movie.Preview,
+                    showDate = o.ShowingNavigation.ShowingDate.ToString(),
+                    showTime = o.ShowingNavigation.ShowingTime.ToString("HH:mm"),
+                    hallNumber = o.ShowingNavigation.Hall.HallNumber,
+                    selectedSeats = o.SelectedSeats
+                })
+                .ToList();
+
+            lViewMyTickets.ItemsSource = orders;
         }
 
         private void UpdateCardsList()

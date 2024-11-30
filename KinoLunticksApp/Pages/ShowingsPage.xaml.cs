@@ -6,6 +6,7 @@ using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using System.Windows.Data;
 
 namespace KinoLunticksApp.Pages
 {
@@ -34,7 +35,15 @@ namespace KinoLunticksApp.Pages
             _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
             _showings = _db.Showings.Local.ToList();
 
-            tableView.ItemsSource = _showings;
+            var groupedShowings = _showings
+                .GroupBy(s => s.Movie.MovieName)
+                .Select(g => new MovieGroup
+                {
+                    Title = g.Key,
+                    Showings = g.ToList()
+                }).ToList();
+
+            tableView.ItemsSource = groupedShowings;
         }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
@@ -44,9 +53,7 @@ namespace KinoLunticksApp.Pages
 
         private void btnImportShowings_Click(object sender, RoutedEventArgs e)
         {
-            import.ImportShowingsFromExcelAsync();
-
-            UpdateShowingsList();
+            import.ImportShowingsFromExcelAsync(tableView);
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
