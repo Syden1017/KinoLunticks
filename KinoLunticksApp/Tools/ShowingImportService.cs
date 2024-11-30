@@ -9,6 +9,8 @@ using ExcelDataReader;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace KinoLunticksApp.Tools
 {
@@ -71,16 +73,31 @@ namespace KinoLunticksApp.Tools
 
                                             TimeOnly time = TimeOnly.ParseExact(timeOnlyString, "HH:mm:ss", CultureInfo.InvariantCulture);
 
-                                            Showing showing = new Showing
+                                            bool showingExists = _db.Showings.Any(s => s.MovieId == Convert.ToInt32(movieId) &&
+                                                                            s.HallId == Convert.ToInt32(hallId) &&
+                                                                            s.ShowingDate == date &&
+                                                                            s.ShowingTime == time);
+
+                                            if (!showingExists)
                                             {
-                                                MovieId = Convert.ToInt32(movieId),
-                                                HallId = Convert.ToInt32(hallId),
-                                                ShowingDate = date,
-                                                ShowingTime = time
-                                            };
-                                            _db.Showings.Add(showing);
-
-
+                                                Showing showing = new Showing
+                                                {
+                                                    MovieId = Convert.ToInt32(movieId),
+                                                    HallId = Convert.ToInt32(hallId),
+                                                    ShowingDate = date,
+                                                    ShowingTime = time
+                                                };
+                                                _db.Showings.Add(showing);
+                                            }
+                                            else
+                                            {
+                                                MessageBox.Show(
+                                                    $"Показ фильма '{movieName}' в зале '{hallNumber}' на {date.ToString("dd.MM.yyyy")} в {time.ToString()} уже существует.",
+                                                    "Предупреждение",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning
+                                                );
+                                            }
                                         }
                                         catch (Exception ex)
                                         {

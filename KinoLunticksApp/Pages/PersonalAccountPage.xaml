@@ -184,8 +184,7 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="#000"
-                                    BorderThickness="0.7"
-                                    Margin="7">
+                                    BorderThickness="0.7">
                                 <StackPanel>
                                     <Button x:Name="btnPrint"
                                             Click="btnPrint_Click"
@@ -197,112 +196,89 @@
                                                                  Foreground="#000"/>
                                     </Button>
 
-                                    <ListView x:Name="TicketsListView"
-                                              ItemsSource="{Binding Tickets}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="10">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="2*"/>
-                                                        <ColumnDefinition Width="3*"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
+                                    <Grid MaxWidth="900"
+                                          MaxHeight="450"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="2*"/>
+                                            <ColumnDefinition Width="3*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                        <RowDefinition Height="*"/>
-                                                    </Grid.RowDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
 
-                                                    <Image Stretch="UniformToFill" 
-                                                           Grid.Column="0"
-                                                           Grid.RowSpan="2"
-                                                           Height="100">
-                                                        <Image.Source>
-                                                            <Binding Path="movieImage">
-                                                                <Binding.TargetNullValue>
-                                                                    <ImageSource>
-                                                                        /KinoLunticksApp;component/Images/default.jpg
-                                                                    </ImageSource>
-                                                                </Binding.TargetNullValue>
-                                                            </Binding>
-                                                        </Image.Source>
-                                                    </Image>
+                                        <Image Margin="10"
+                                               
+                                               Grid.Column="0"
+                                               Grid.RowSpan="4"
+                                               Width="150">
+                                            <Image.Source>
+                                                <Binding Path="movieImage">
+                                                    <Binding.TargetNullValue>
+                                                        <ImageSource>
+                                                            /KinoLunticksApp;component/Images/DefaultPhoto.png
+                                                        </ImageSource>
+                                                    </Binding.TargetNullValue>
+                                                </Binding>
+                                            </Image.Source>
+                                        </Image>
 
-                                                    <TextBlock Text="{Binding movieTitle}" 
-               
-                                                               Style="{DynamicResource txtBlockMyTickets}"
-                                                               
-                                                               Grid.Column="1"
-                                                               Grid.Row="0"
-                                                               Grid.ColumnSpan="2"/>
+                                        <TextBlock Text="{Binding movieTitle}" 
+                                                   
+                                                   Style="{DynamicResource txtBlockMyTickets}"
+                                                   
+                                                   Grid.Column="1"
+                                                   Grid.Row="0"
+                                                   Grid.ColumnSpan="2"/>
 
-                                                    <StackPanel Orientation="Vertical"
-                                                                Grid.Column="1"
-                                                                Grid.Row="1"
-                                                                Grid.ColumnSpan="2">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="Дата: "
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
+                                        <StackPanel Orientation="Vertical"
+                                                    Grid.Column="1"
+                                                    Grid.Row="1"
+                                                    Grid.ColumnSpan="2">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Дата: "
+                                                           Style="{DynamicResource txtBlockMyTickets}"
+                                                           Margin="0"/>
 
-                                                            <TextBlock Text="{Binding showDate}"
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-                                                        </StackPanel>
+                                                <TextBlock Text="{Binding showDate}"
+                                                           Style="{DynamicResource txtBlockMyTickets}"
+                                                           Margin="0"/>
+                                            </StackPanel>
 
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="Время сеанса: "
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="Время сеанса: "
+                                                           Style="{DynamicResource txtBlockMyTickets}"
+                                                           Margin="0"/>
 
-                                                            <TextBlock Text="{Binding showTime}"
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
+                                                <TextBlock Text="{Binding showTime}"
+                                                           Style="{DynamicResource txtBlockMyTickets}"
+                                                           Margin="0"/>
+                                            </StackPanel>
+                                        </StackPanel>
 
-                                                    <TextBlock Text="{Binding hallNumber}"
-               
-                                                               Style="{DynamicResource txtBlockMyTickets}"
-                                                               Margin="0"
-               
-                                                               Grid.Column="1"
-                                                               Grid.Row="2"
-                                                               Grid.ColumnSpan="2"/>
+                                        <TextBlock Text="{Binding hallNumber}"
+                                                   
+                                                   Style="{DynamicResource txtBlockMyTickets}"
+                                                   Margin="0"
+                                                   
+                                                   Grid.Column="1"
+                                                   Grid.Row="2"
+                                                   Grid.ColumnSpan="2"/>
 
-                                                    <StackPanel Orientation="Vertical"
-                                                                Grid.Column="1"
-                                                                Grid.Row="3"
-                                                                Grid.ColumnSpan="2">
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="Ряд: "
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-
-                                                            <TextBlock Text="{Binding rowNumber}"
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-                                                        </StackPanel>
-
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="Места: "
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-
-                                                            <TextBlock Text="{Binding seatNumbers}"
-                                                                       Style="{DynamicResource txtBlockMyTickets}"
-                                                                       Margin="0"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                        <TextBlock Text="{Binding selectedSeats}"
+                                                   Style="{DynamicResource txtBlockMyTickets}"
+                                                   Margin="0"
+                                                   
+                                                   Grid.Column="1"
+                                                   Grid.Row="3"
+                                                   Grid.ColumnSpan="2"/>
+                                    </Grid>
                                 </StackPanel>
                             </Border>
                         </DataTemplate>

@@ -9,6 +9,8 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace KinoLunticksApp.Pages
 {

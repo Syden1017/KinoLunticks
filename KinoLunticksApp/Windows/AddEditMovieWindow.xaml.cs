@@ -55,8 +55,6 @@ namespace KinoLunticksApp.Windows
                 //{
                 //    _image.ReadBitmapImageFromArray(new MemoryStream(_currentMovie.Preview), out _currentImage);
                 //}
-
-                txtBoxMovieCode.IsEnabled = false;
             }
             else
             {

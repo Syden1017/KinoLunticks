@@ -1,11 +1,15 @@
 ﻿using System.IO;
 using System.Diagnostics;
-using System.Windows.Forms;
+
+using iText.Layout;
+using iText.IO.Image;
+using iText.Kernel.Pdf;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 
 using KinoLunticksApp.Models;
-
-using PdfSharp.Pdf;
-using PdfSharp.Drawing;
+using iText.Kernel.Exceptions;
+using System.Windows.Forms;
 
 namespace KinoLunticksApp.Tools
 {
@@ -15,69 +19,55 @@ namespace KinoLunticksApp.Tools
 
         public void PrintToPDF(Order ticket)
         {
-            // Создаем новый PDF документ и задаем заголовок
-            PdfDocument document = new PdfDocument();
-            document.Info.Title = "Билет";
+            // Создаем новый PDF документ
+            string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Билет.pdf");
 
-            // Создаем страницу
-            PdfPage page = document.AddPage();
-            page.Size = PdfSharp.PageSize.A4;
-
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            //// Создаем шрифт
-            XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
-            XFont fontRegular = new XFont("Verdana", 20, XFontStyleEx.Regular);
-
-            int yPoint = 30;
-
-            yPoint += 30;
-            gfx.DrawString("Оплачено:", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString(ticket.Amount.ToString(), fontRegular, XBrushes.Black, new XRect(130, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            //// Генерируем QR-код и получаем путь к файлу
-            //string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.MovieNavigation.MovieName);
-
-            //XImage xImage = XImage.FromFile(qrCodeFilePath);
-
-            //// Определяем позицию для QR-кода
-            //double qrCodeX = (page.Width - xImage.PixelWidth * 72 / xImage.HorizontalResolution) / 2; // Центрируем по горизонтали
-            //double qrCodeY = yPoint + 30;                                                             // Позиция ниже последнего текста с отступом
-            //gfx.DrawImage(xImage, qrCodeX, qrCodeY, 100, 100);                                        // Рисуем QR-код на странице
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            try
             {
-                Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*", // Фильтр для типов файлов
-                Title = "Сохранить PDF файл",
-                FileName = "Билет.pdf"                                  // Имя файла по умолчанию
-            };
-
-            // Показываем диалоговое окно и проверяем, нажал ли пользователь "Сохранить"
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = saveFileDialog.FileName; // Получаем полный путь к файлу
-                document.Save(filePath);
-                MessageBox.Show(
-                    $"Документ успешно сохранен по пути: {filePath}",
-                    "Сохранение",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                    );
-
-                //File.Delete(qrCodeFilePath);
-
-                try
+                using (PdfWriter writer = new PdfWriter(filePath))
                 {
-                    Process.Start(new ProcessStartInfo(filePath)
+                    using (PdfDocument pdf = new PdfDocument(writer))
                     {
-                        UseShellExecute = true
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Не удалось открыть файл: {ex.Message}");
+                        Document document = new Document(pdf);
+
+                        // Заголовок
+                        var titleParagraph = new Paragraph(ticket.ShowingNavigation.Movie.MovieName)
+                            .SetFontSize(16)
+                            .SetTextAlignment(TextAlignment.CENTER);
+                        document.Add(titleParagraph);
+
+                        // Добавляем дату и время показа
+                        document.Add(new Paragraph($"Дата: {ticket.ShowingNavigation.ShowingDate.ToShortDateString()}").SetFontSize(12));
+                        document.Add(new Paragraph($"Время: {ticket.ShowingNavigation.ShowingTime.ToShortTimeString()}").SetFontSize(12));
+
+                        // Добавляем зал и места
+                        document.Add(new Paragraph($"Зал: {ticket.ShowingNavigation.Hall.HallNumber}").SetFontSize(12));
+                        document.Add(new Paragraph($"Места: {ticket.SelectedSeats}").SetFontSize(12));
+
+                        // Генерируем QR-код и добавляем его в PDF
+                        //string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.ShowingNavigation.Movie.MovieName);
+                        //Image qrImage = new Image(ImageDataFactory.Create(qrCodeFilePath));
+                        //qrImage.SetWidth(100); // Устанавливаем ширину QR-кода
+                        //qrImage.SetHeight(100); // Устанавлива6ем высоту QR-кода
+                        //qrImage.SetTextAlignment(TextAlignment.CENTER);
+                        //document.Add(qrImage);
+
+                        // Закрываем документ
+                        document.Close();
+                    }
                 }
             }
+            catch (PdfException pdfEx)
+            {
+                MessageBox.Show($"Ошибка PDF: {pdfEx.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Общая ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // Открываем PDF файл
+            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
         }
     }
 }

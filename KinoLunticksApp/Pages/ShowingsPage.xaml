@@ -94,7 +94,7 @@
                 <HierarchicalDataTemplate ItemsSource="{Binding Showings}">
                     <TextBlock Text="{Binding Title}"
                                Style="{DynamicResource templateTxtBlock}"
-                               FontSize="30"/>
+                               FontSize="34"/>
 
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
@@ -109,17 +109,20 @@
 
                                 <TextBlock Text="{Binding Hall.HallNumber}"
                                            Style="{DynamicResource templateTxtBlock}"
+                                           FontSize="26"
                                            
                                            Grid.Column="0"/>
 
                                 <TextBlock Text="{Binding formattedShowingDate}"
                                            Style="{DynamicResource templateTxtBlock}"
+                                           FontSize="26"
                                            
                                            Grid.Column="1"/>
 
                                 <TextBlock Text="{Binding ShowingTime,
                                                   StringFormat={} {0:HH:mm}}"
                                            Style="{DynamicResource templateTxtBlock}"
+                                           FontSize="26"
                                            
                                            Grid.Column="2"/>
 

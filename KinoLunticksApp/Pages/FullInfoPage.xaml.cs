@@ -68,7 +68,7 @@ namespace KinoLunticksApp.Pages
             _frame.Navigate(new MoviePage(sessionDetails));
         }
 
-        #region Methods
+        #region Methods for creating user interface
         /// <summary>
         /// Загружает показы по выбранному фильму
         /// </summary>
