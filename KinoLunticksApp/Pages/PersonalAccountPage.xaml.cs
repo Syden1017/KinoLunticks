@@ -66,20 +66,12 @@ namespace KinoLunticksApp.Pages
 
         private void LoadTickets()
         {
-            var orders = _db.Orders
-                .Where(o => o.UserId == _user.UserId)
-                .Select(o => new Ticket
-                {
-                    movieTitle = o.ShowingNavigation.Movie.MovieName,
-                    movieImage = o.ShowingNavigation.Movie.Preview,
-                    showDate = o.ShowingNavigation.ShowingDate.ToString(),
-                    showTime = o.ShowingNavigation.ShowingTime.ToString("HH:mm"),
-                    hallNumber = o.ShowingNavigation.Hall.HallNumber,
-                    selectedSeats = o.SelectedSeats
-                })
-                .ToList();
+            _db.Orders.Include("ShowingNavigation").Include(o => o.ShowingNavigation.Movie).
+                    Include(o => o.ShowingNavigation.Hall).
+                    Where(o => o.User.UserId == _user.UserId).
+                Load();
 
-            lViewMyTickets.ItemsSource = orders;
+            lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
         }
 
         private void UpdateCardsList()

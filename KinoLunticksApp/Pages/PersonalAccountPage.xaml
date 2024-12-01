@@ -184,7 +184,10 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border BorderBrush="#000"
-                                    BorderThickness="0.7">
+                                    BorderThickness="0.7"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    Padding="7">
                                 <StackPanel>
                                     <Button x:Name="btnPrint"
                                             Click="btnPrint_Click"
@@ -196,10 +199,7 @@
                                                                  Foreground="#000"/>
                                     </Button>
 
-                                    <Grid MaxWidth="900"
-                                          MaxHeight="450"
-                                          VerticalAlignment="Top"
-                                          HorizontalAlignment="Left">
+                                    <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="2*"/>
                                             <ColumnDefinition Width="3*"/>
@@ -219,7 +219,7 @@
                                                Grid.RowSpan="4"
                                                Width="150">
                                             <Image.Source>
-                                                <Binding Path="movieImage">
+                                                <Binding Path="ShowingNavigation.Movie.Preview">
                                                     <Binding.TargetNullValue>
                                                         <ImageSource>
                                                             /KinoLunticksApp;component/Images/DefaultPhoto.png
@@ -229,7 +229,7 @@
                                             </Image.Source>
                                         </Image>
 
-                                        <TextBlock Text="{Binding movieTitle}" 
+                                        <TextBlock Text="{Binding ShowingNavigation.Movie.MovieName}" 
                                                    
                                                    Style="{DynamicResource txtBlockMyTickets}"
                                                    
@@ -246,7 +246,7 @@
                                                            Style="{DynamicResource txtBlockMyTickets}"
                                                            Margin="0"/>
 
-                                                <TextBlock Text="{Binding showDate}"
+                                                <TextBlock Text="{Binding ShowingNavigation.formattedShowingDate}"
                                                            Style="{DynamicResource txtBlockMyTickets}"
                                                            Margin="0"/>
                                             </StackPanel>
@@ -256,13 +256,13 @@
                                                            Style="{DynamicResource txtBlockMyTickets}"
                                                            Margin="0"/>
 
-                                                <TextBlock Text="{Binding showTime}"
+                                                <TextBlock Text="{Binding ShowingNavigation.ShowingTime}"
                                                            Style="{DynamicResource txtBlockMyTickets}"
                                                            Margin="0"/>
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <TextBlock Text="{Binding hallNumber}"
+                                        <TextBlock Text="{Binding ShowingNavigation.Hall.HallNumber}"
                                                    
                                                    Style="{DynamicResource txtBlockMyTickets}"
                                                    Margin="0"
@@ -271,7 +271,7 @@
                                                    Grid.Row="2"
                                                    Grid.ColumnSpan="2"/>
 
-                                        <TextBlock Text="{Binding selectedSeats}"
+                                        <TextBlock Text="{Binding SelectedSeats}"
                                                    Style="{DynamicResource txtBlockMyTickets}"
                                                    Margin="0"
                                                    

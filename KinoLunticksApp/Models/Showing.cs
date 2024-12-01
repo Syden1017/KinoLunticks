@@ -14,7 +14,7 @@ public partial class Showing
 
     public TimeOnly ShowingTime { get; set; }
 
-    public string formattedShowingDate => ShowingDate.ToString("dd.MM.yyyy", new CultureInfo("ru-RU"));
+    public string formattedShowingDate => ShowingDate.ToString("d MMMM", new CultureInfo("ru-RU"));
 
     public virtual Hall Hall { get; set; } = null!;
 

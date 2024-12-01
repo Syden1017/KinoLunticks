@@ -77,10 +77,25 @@
                 <xctk:WatermarkPasswordBox.WatermarkTemplate>
                     <DataTemplate>
                         <ContentControl Content="{Binding}"
-                            Foreground="#696969"/>
+                                        Foreground="#696969"/>
                     </DataTemplate>
                 </xctk:WatermarkPasswordBox.WatermarkTemplate>
             </xctk:WatermarkPasswordBox>
+
+            <CheckBox x:Name="cBoxShowHidePassword"
+                      Content="Показать пароль"
+                      
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Foreground="#FFF"
+                      FontSize="20"
+                      Cursor="Hand"
+                      
+                      Checked="cBoxShowHidePassword_Checked"
+                      Unchecked="cBoxShowHidePassword_Unchecked"
+                      
+                      Grid.Row="1"
+                      Grid.Column="2"/>
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"

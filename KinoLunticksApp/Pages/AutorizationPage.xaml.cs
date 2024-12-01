@@ -32,6 +32,18 @@ namespace KinoLunticksApp.Pages
             }
         }
 
+        private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
+        {
+            passBoxPassword.PasswordChar = '\0';
+            cBoxShowHidePassword.Content = "Скрыть пароль";
+        }
+
+        private void cBoxShowHidePassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            passBoxPassword.PasswordChar = '*';
+            cBoxShowHidePassword.Content = "Показать пароль";
+        }
+
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
             var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == txtBoxLogin.Text);
