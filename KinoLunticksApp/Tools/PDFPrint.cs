@@ -1,15 +1,20 @@
-﻿using System.Diagnostics;
+﻿using System.IO;
+using System.Drawing;
+using System.Diagnostics;
 using System.Windows.Forms;
 
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
 
 using KinoLunticksApp.Models;
+using PdfSharp.UniversalAccessibility.Drawing;
 
 namespace KinoLunticksApp.Tools
 {
     public class PDFPrint
     {
+        QrGenerator _qrGenerator = new QrGenerator();
+
         /// <summary>
         /// Создает PDF документ на основе купленного билета
         /// </summary>
@@ -40,8 +45,8 @@ namespace KinoLunticksApp.Tools
                 pdfDocument.Info.Title = "Билет на фильм";
 
                 PdfPage pdfPage = pdfDocument.AddPage();
-                pdfPage.Width = XUnit.FromMillimeter(127);
-                pdfPage.Height = XUnit.FromMillimeter(51);
+                pdfPage.Width = XUnit.FromMillimeter(90);
+                pdfPage.Height = XUnit.FromMillimeter(60);
 
                 XGraphics gfx = XGraphics.FromPdfPage(pdfPage);
                 XFont fontTitle = new XFont("Verdana", 20, XFontStyleEx.Bold);
@@ -57,6 +62,23 @@ namespace KinoLunticksApp.Tools
                 gfx.DrawString($"Время: {ticket.ShowingNavigation.ShowingTime.ToShortTimeString()}", fontRegular, XBrushes.White, new XRect(7, 80, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
                 gfx.DrawString($"{ticket.ShowingNavigation.Hall.HallNumber}", fontRegular, XBrushes.White, new XRect(7, 100, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
                 gfx.DrawString(selectedSeats, fontRegular, XBrushes.White, new XRect(7, 120, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+
+                Bitmap qrCodeBitmap = _qrGenerator.InitializeQR(ticket.ShowingNavigation.Movie.MovieName);
+
+                using (var stream = new MemoryStream())
+                {
+                    qrCodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    stream.Position = 0;
+                    XImage image = XImage.FromStream(stream);
+
+                    double qrCodeWidth = 50;
+                    double qrCodeHeight = 50;
+
+                    double xPosition = pdfPage.Width - qrCodeWidth - 7;
+                    double yPosition = 7;
+
+                    gfx.DrawImage(image, new XRect(xPosition, yPosition, qrCodeWidth, qrCodeHeight));
+                }
 
                 pdfDocument.Save(finalFilePath);
 

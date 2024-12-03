@@ -34,13 +34,19 @@ namespace KinoLunticksApp.Pages
 
         private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
         {
-            passBoxPassword.PasswordChar = '\0';
+            passBoxPassword.Visibility = Visibility.Hidden;
+            txtBoxPassword.Visibility = Visibility.Visible;
+
+            txtBoxPassword.Text = passBoxPassword.Password;
             cBoxShowHidePassword.Content = "Скрыть пароль";
         }
 
         private void cBoxShowHidePassword_Unchecked(object sender, RoutedEventArgs e)
         {
-            passBoxPassword.PasswordChar = '*';
+            txtBoxPassword.Visibility = Visibility.Hidden;
+            passBoxPassword.Visibility = Visibility.Visible;
+
+            passBoxPassword.Password = txtBoxPassword.Text;
             cBoxShowHidePassword.Content = "Показать пароль";
         }
 

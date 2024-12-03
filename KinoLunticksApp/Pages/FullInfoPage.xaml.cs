@@ -6,6 +6,7 @@ using System.Windows.Controls;
 
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
+using System.Diagnostics;
 
 namespace KinoLunticksApp.Pages
 {
@@ -21,7 +22,6 @@ namespace KinoLunticksApp.Pages
         Frame _frame;
         Button _previousButton;
 
-        private static readonly char[] trimChars = ['{', '}', ' '];
         private static readonly char[] trimCharsArray = ['{', '}', ' '];
 
         public FullInfoPage(Frame frame, User user, Movie movie)
@@ -54,8 +54,9 @@ namespace KinoLunticksApp.Pages
         {
             var button = sender as Button;
             string tagValue = button.Tag.ToString();
+            var defaultDate = (DateOnly)((Button)stcPanelDates.Children[0]).Tag;
 
-            Showing selectedShowing = GetShowingById(tagValue);
+            Showing selectedShowing = GetShowingById(tagValue, _movie.MovieCode, defaultDate);
 
             var sessionDetails = new SessionDetails
             {
@@ -66,6 +67,37 @@ namespace KinoLunticksApp.Pages
             };
 
             _frame.Navigate(new MoviePage(sessionDetails));
+        }
+
+        private Showing GetShowingById(string tagValue, int movieId, DateOnly date)
+        {
+            tagValue = tagValue.Trim(trimCharsArray);
+
+            string[] parts = tagValue.Split(',');
+
+            string showingTimePart = parts.FirstOrDefault(part => part.Trim().StartsWith("ShowingTime"));
+
+            if (showingTimePart != null)
+            {
+                string showingTimeString = showingTimePart.Substring(showingTimePart.IndexOf('=') + 1).Trim();
+
+                try
+                {
+                    TimeOnly showingTime = TimeOnly.Parse(showingTimeString);
+
+                    return _db.Showings.FirstOrDefault(s =>
+                        s.MovieId == movieId &&
+                        s.ShowingDate == date &&
+                        s.ShowingTime == showingTime);
+                }
+                catch (FormatException ex)
+                {
+                    Debug.WriteLine($"Error parsing showing time: {ex.Message}");
+                    return null;
+                }
+            }
+
+            return null;
         }
 
         #region Methods for creating user interface
@@ -271,26 +303,6 @@ namespace KinoLunticksApp.Pages
             };
 
             stcPanelDates.Children.Add(textBlock);
-        }
-
-        private Showing GetShowingById(string tagValue)
-        {
-            tagValue = tagValue.Trim(trimCharsArray);
-
-            string[] parts = tagValue.Split(',');
-
-            string showingTimePart = parts.FirstOrDefault(part => part.Trim().StartsWith("ShowingTime"));
-
-            if (showingTimePart != null)
-            {
-                string showingTimeString = showingTimePart.Substring(showingTimePart.IndexOf('=') + 1).Trim();
-
-                TimeOnly showingTime = TimeOnly.Parse(showingTimeString);
-
-                return _db.Showings.FirstOrDefault(s => s.ShowingTime == showingTime);
-            }
-
-            return null;
         }
         #endregion
     }
