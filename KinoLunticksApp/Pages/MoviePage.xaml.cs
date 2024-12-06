@@ -3,13 +3,13 @@ using System.Windows;
 using System.Globalization;
 using System.Windows.Media;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 
 namespace KinoLunticksApp.Pages
 {
@@ -38,12 +38,7 @@ namespace KinoLunticksApp.Pages
 
             UpdateSelectedPlacesTextBox(_selectedPlaces, txtBoxSelected);
             UpdateTicketAmountTextBox();
-
-            using(var db = new KinoLunticsContext())
-            {
-                var hallData = LoadHallData();
-                PopulateHall(hallData);
-            }
+            PopulateHall(LoadHallData());
 
             DataContext = new
             {
@@ -62,13 +57,14 @@ namespace KinoLunticksApp.Pages
         #region Hall creating
         private Hall LoadHallData()
         {
-            var hallId = _db.Showings.Where(s => s.ShowingDate == _sessionDetails.selectedShowing.ShowingDate &&
-                                                 s.ShowingTime == _sessionDetails.selectedShowing.ShowingTime).
-                                      Select(s => s.HallId).FirstOrDefault();
+            var hallId = _db.Showings.AsNoTracking().
+                                    Where(s => s.ShowingDate == _sessionDetails.selectedShowing.ShowingDate &&
+                                             s.ShowingTime == _sessionDetails.selectedShowing.ShowingTime).
+                                    Select(s => s.HallId).FirstOrDefault();
 
             var hall = _db.Halls.Include(h => h.Rows).
-                                    ThenInclude(r => r.Seats).
-                                 FirstOrDefault(h => h.HallId == hallId);
+                                ThenInclude(r => r.Seats).
+                             FirstOrDefault(h => h.HallId == hallId);
 
             return hall;
         }
@@ -156,35 +152,9 @@ namespace KinoLunticksApp.Pages
 
         private List<Order> GetOrdersByShowId(int showId, int hallId)
         {
-            using (var _db = new KinoLunticsContext())
-            {
-                return _db.Orders
-                    .Where(o => o.ShowingNavigation.ShowingId == showId && o.ShowingNavigation.HallId == hallId)
-                    .ToList();
-            }
-        }
-
-        private List<int> GetSeatIds(int hallId, int rowNumber, List<int> seatNumbers)
-        {
-            var seatIds = new List<int>();
-            int rowId = 0;
-
-            var row = _db.Rows.FirstOrDefault(r => r.HallId == hallId && r.RowNumber == rowNumber.ToString());
-            if (row != null)
-            {
-                rowId = row.RowId;
-
-                foreach (var seatNumber in seatNumbers)
-                {
-                    var seat = _db.Seats.FirstOrDefault(s => s.RowId == rowId && s.SeatNumber == seatNumber.ToString());
-                    if (seat != null)
-                    {
-                        seatIds.Add(seat.SeatId);
-                    }
-                }
-            }
-
-            return seatIds;
+            return _db.Orders
+                .Where(o => o.ShowingNavigation.ShowingId == showId && o.ShowingNavigation.HallId == hallId)
+                .ToList();
         }
 
         private void CheckAndColorReservedSeats(int showId, int hallId)
@@ -204,28 +174,25 @@ namespace KinoLunticksApp.Pages
 
                     if (rowMatch.Success && seatsMatch.Success)
                     {
-                        if (int.TryParse(rowMatch.Groups[1].Value, out int rowNumber))
+                        var seatNumbers = seatsMatch.Groups[1].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                                    .Select(s => s.Trim())
+                                                                    .Select(int.Parse)
+                                                                    .ToList();
+
+                        var rowId = _db.Rows.FirstOrDefault(r => r.HallId == hallId && r.RowNumber == rowMatch.ToString())?.RowId;
+
+                        if (rowId.HasValue)
                         {
-                            var seatNumbers = seatsMatch.Groups[1].Value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                                                        .Select(s => s.Trim())
-                                                                        .Select(int.Parse)
-                                                                        .ToList();
-
-                            var rowId = _db.Rows.FirstOrDefault(r => r.HallId == hallId && r.RowNumber == rowNumber.ToString())?.RowId;
-
-                            if (rowId.HasValue)
+                            foreach (var seatNumber in seatNumbers)
                             {
-                                foreach (var seatNumber in seatNumbers)
+                                var seat = _db.Seats.FirstOrDefault(s => s.RowId == rowId.Value && s.SeatNumber == seatNumber.ToString());
+                                if (seat != null)
                                 {
-                                    var seat = _db.Seats.FirstOrDefault(s => s.RowId == rowId.Value && s.SeatNumber == seatNumber.ToString());
-                                    if (seat != null)
+                                    var button = GetButtonForSeat(rowId.Value, seat.SeatId);
+                                    if (button != null)
                                     {
-                                        var button = GetButtonForSeat(rowId.Value, seat.SeatId);
-                                        if (button != null)
-                                        {
-                                            button.Style = (Style)FindResource("GrayArmchairButtonStyle");
-                                            button.IsEnabled = false;
-                                        }
+                                        button.Style = (Style)FindResource("GrayArmchairButtonStyle");
+                                        button.IsEnabled = false;
                                     }
                                 }
                             }

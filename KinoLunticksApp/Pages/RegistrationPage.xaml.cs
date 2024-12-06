@@ -140,5 +140,43 @@ namespace KinoLunticksApp.Pages
         }
 
         private void txtBlockAuthorization_MouseDown(object sender, MouseButtonEventArgs e) => _frame.Navigate(new AutorizationPage(_frame));
+
+        #region Passwords
+        private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
+        {
+            passBoxPassword.Visibility = Visibility.Hidden;
+            txtBoxPassword.Visibility = Visibility.Visible;
+
+            txtBoxPassword.Text = passBoxPassword.Password;
+            cBoxShowHidePassword.Content = "Скрыть пароль";
+        }
+
+        private void cBoxShowHidePassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtBoxPassword.Visibility = Visibility.Hidden;
+            passBoxPassword.Visibility = Visibility.Visible;
+
+            passBoxPassword.Password = txtBoxPassword.Text;
+            cBoxShowHidePassword.Content = "Показать пароль";
+        }
+
+        private void cBoxShowHideConfirmPassword_Checked(object sender, RoutedEventArgs e)
+        {
+            passBoxConfirmPassword.Visibility = Visibility.Hidden;
+            txtBoxConfirmPassword.Visibility = Visibility.Visible;
+
+            txtBoxConfirmPassword.Text = passBoxConfirmPassword.Password;
+            cBoxShowHidePassword.Content = "Скрыть пароль";
+        }
+
+        private void cBoxShowHideConfirmPassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtBoxConfirmPassword.Visibility = Visibility.Hidden;
+            passBoxConfirmPassword.Visibility = Visibility.Visible;
+
+            passBoxConfirmPassword.Password = txtBoxConfirmPassword.Text;
+            cBoxShowHidePassword.Content = "Показать пароль";
+        }
+        #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Globalization;
@@ -6,7 +7,6 @@ using System.Windows.Controls;
 
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
-using System.Diagnostics;
 
 namespace KinoLunticksApp.Pages
 {
@@ -23,6 +23,7 @@ namespace KinoLunticksApp.Pages
         Button _previousButton;
 
         private static readonly char[] trimCharsArray = ['{', '}', ' '];
+        private DateOnly _selectedDate;
 
         public FullInfoPage(Frame frame, User user, Movie movie)
         {
@@ -45,6 +46,8 @@ namespace KinoLunticksApp.Pages
         {
             var selectedDate = (DateOnly)((Button)sender).Tag;
 
+            _selectedDate = selectedDate;
+
             LoadShowingsByDate(selectedDate);
 
             HighlightSelectedDate((Button)sender);
@@ -54,9 +57,8 @@ namespace KinoLunticksApp.Pages
         {
             var button = sender as Button;
             string tagValue = button.Tag.ToString();
-            var defaultDate = (DateOnly)((Button)stcPanelDates.Children[0]).Tag;
 
-            Showing selectedShowing = GetShowingById(tagValue, _movie.MovieCode, defaultDate);
+            Showing selectedShowing = GetShowingById(tagValue, _movie.MovieCode, _selectedDate);
 
             var sessionDetails = new SessionDetails
             {
@@ -223,6 +225,7 @@ namespace KinoLunticksApp.Pages
                     s.ShowingTime,
                     s.Movie.TicketPrice
                 }).
+                OrderBy(s => s.ShowingTime).
                 ToList();
 
             stcPanelShowingsTimes.Children.Clear();
