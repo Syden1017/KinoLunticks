@@ -126,6 +126,7 @@ namespace KinoLunticksApp.Pages
                 }
 
                 var defaultDate = (DateOnly)((Button)stcPanelDates.Children[0]).Tag;
+                _selectedDate = defaultDate;
                 LoadShowingsByDate(defaultDate);
                 HighlightSelectedDate((Button)stcPanelDates.Children[0]);
             }
