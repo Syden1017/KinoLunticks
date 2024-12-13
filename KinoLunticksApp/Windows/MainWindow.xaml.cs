@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 using KinoLunticksApp.Pages;
@@ -10,11 +11,24 @@ namespace KinoLunticksApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        Cursor customCursor;
+
+        static string _cursorDirectory = Directory.GetParent(
+                                    Directory.GetParent(
+                                        Directory.GetParent(
+                                            Environment.CurrentDirectory).
+                                                            FullName).
+                                                        FullName).
+                                                       FullName;
+
         public MainWindow()
         {
             InitializeComponent();
 
             frmMain.Navigate(new AutorizationPage(frmMain));
+
+            customCursor = new Cursor($@"{_cursorDirectory}\Cursors\luntikCursor.cur");
+            this.Cursor = customCursor;
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

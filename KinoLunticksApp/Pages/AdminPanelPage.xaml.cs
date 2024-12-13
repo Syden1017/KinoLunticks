@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Controls;
 
 using KinoLunticksApp.Tools;
@@ -27,6 +29,8 @@ namespace KinoLunticksApp.Pages
             _db.Movies.Load();
 
             tableView.ItemsSource = _db.Movies.ToList();
+            string cursorPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cursors", "luntikCursor.cur");
+            this.Cursor = new Cursor(cursorPath);
         }
 
         private void btnImportFilms_Click(object sender, RoutedEventArgs e)
