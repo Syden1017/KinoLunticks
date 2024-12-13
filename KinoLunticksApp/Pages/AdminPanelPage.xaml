@@ -46,6 +46,13 @@
                        
                        Grid.Row="1"/>
 
+            <Button Name="queryButton"
+                    Click="queryButton_Click"
+                    Content="Запросы"
+                    Style="{DynamicResource btnAdminPage}"
+                    
+                    Grid.Row="2"/>
+
             <Button Name="addButton"
                     Click="addButton_Click"
                     Content="Добавить"
