@@ -102,7 +102,7 @@ namespace KinoLunticksApp.Pages
             return null;
         }
 
-        #region Methods for creating user interface
+        #region Creating user interface
         /// <summary>
         /// Загружает показы по выбранному фильму
         /// </summary>

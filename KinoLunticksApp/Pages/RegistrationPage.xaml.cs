@@ -166,7 +166,7 @@ namespace KinoLunticksApp.Pages
             txtBoxConfirmPassword.Visibility = Visibility.Visible;
 
             txtBoxConfirmPassword.Text = passBoxConfirmPassword.Password;
-            cBoxShowHidePassword.Content = "Скрыть пароль";
+            cBoxShowHideConfirmPassword.Content = "Скрыть пароль";
         }
 
         private void cBoxShowHideConfirmPassword_Unchecked(object sender, RoutedEventArgs e)
@@ -175,7 +175,7 @@ namespace KinoLunticksApp.Pages
             passBoxConfirmPassword.Visibility = Visibility.Visible;
 
             passBoxConfirmPassword.Password = txtBoxConfirmPassword.Text;
-            cBoxShowHidePassword.Content = "Показать пароль";
+            cBoxShowHideConfirmPassword.Content = "Показать пароль";
         }
         #endregion
     }

@@ -11,7 +11,5 @@ public partial class Actor
 
     public string ActorLastName { get; set; } = null!;
 
-    public string? Photo { get; set; }
-
     public virtual ICollection<Movie> MovieCodes { get; set; } = new List<Movie>();
 }

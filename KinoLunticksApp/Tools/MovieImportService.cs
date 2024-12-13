@@ -98,94 +98,92 @@ namespace KinoLunticksApp.Tools
             }
         }
 
-        private async Task AddActorsToMovieAsync(DataRow row, Movie movie)
-        {
-            var actorEntries = row["Actors"].ToString().Split(',');
+        //private async Task AddActorsToMovieAsync(DataRow row, Movie movie)
+        //{
+        //    var actorEntries = row["Actors"].ToString().Split(',');
 
-            try
-            {
-                foreach (var actorEntry in actorEntries)
-                {
-                    var actorDetails = actorEntry.Split(' ');
-                    if (actorDetails.Length < 2) continue;
+        //    try
+        //    {
+        //        foreach (var actorEntry in actorEntries)
+        //        {
+        //            var actorDetails = actorEntry.Split(' ');
+        //            if (actorDetails.Length < 2) continue;
 
-                    var firstName = actorDetails[0].Trim();
-                    var lastName = actorDetails[1].Trim();
-                    var photoPath = row["Photo"].ToString();
+        //            var firstName = actorDetails[0].Trim();
+        //            var lastName = actorDetails[1].Trim();
 
-                    var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName &&
-                                                                          a.ActorLastName == lastName);
+        //            var actor = await _db.Actors.FirstOrDefaultAsync(a => a.ActorName == firstName &&
+        //                                                                  a.ActorLastName == lastName);
 
-                    if (actor == null)
-                    {
-                        actor = new Actor
-                        {
-                            ActorName = firstName,
-                            ActorLastName = lastName,
-                            Photo = photoPath == "NULL" ? null : photoPath
-                        };
-                        _db.Actors.Add(actor);
-                        await _db.SaveChangesAsync();
-                    }
+        //            if (actor == null)
+        //            {
+        //                actor = new Actor
+        //                {
+        //                    ActorName = firstName,
+        //                    ActorLastName = lastName
+        //                };
+        //                _db.Actors.Add(actor);
+        //                await _db.SaveChangesAsync();
+        //            }
 
-                    if (!movie.Actors.Any(a => a.ActorName == actor.ActorName &&
-                                               a.ActorLastName == actor.ActorLastName))
-                    {
-                        movie.Actors.Add(actor);
-                    }
-                }
+        //            if (!movie.Actors.Any(a => a.ActorName == actor.ActorName &&
+        //                                       a.ActorLastName == actor.ActorLastName))
+        //            {
+        //                movie.Actors.Add(actor);
+        //            }
+        //        }
 
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"Ошибка при импорте данных: {ex.Message}",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
+        //        await _db.SaveChangesAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(
+        //            $"Ошибка при импорте данных: {ex.Message}",
+        //            "Ошибка",
+        //            MessageBoxButtons.OK,
+        //            MessageBoxIcon.Error);
+        //    }
+        //}
 
-        private async Task AddGenresToMovieAsync(DataRow row, Movie movie)
-        {
-            var genreNames = row["Genres"].ToString().Split(',');
+        //private async Task AddGenresToMovieAsync(DataRow row, Movie movie)
+        //{
+        //    var genreNames = row["Genres"].ToString().Split(',');
 
-            try
-            {
-                foreach (var genreName in genreNames)
-                {
-                    var trimmedGenreName = genreName.Trim();
+        //    try
+        //    {
+        //        foreach (var genreName in genreNames)
+        //        {
+        //            var trimmedGenreName = genreName.Trim();
 
-                    var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == trimmedGenreName);
+        //            var genre = await _db.Genres.FirstOrDefaultAsync(g => g.GenreName == trimmedGenreName);
 
-                    if (genre == null)
-                    {
-                        genre = new Genre
-                        {
-                            GenreName = trimmedGenreName
-                        };
+        //            if (genre == null)
+        //            {
+        //                genre = new Genre
+        //                {
+        //                    GenreName = trimmedGenreName
+        //                };
 
-                        _db.Genres.Add(genre);
-                        await _db.SaveChangesAsync();
-                    }
+        //                _db.Genres.Add(genre);
+        //                await _db.SaveChangesAsync();
+        //            }
 
-                    if (!movie.Genres.Any(g => g.GenreName == genre.GenreName))
-                    {
-                        movie.Genres.Add(genre);
-                    }
-                }
+        //            if (!movie.Genres.Any(g => g.GenreName == genre.GenreName))
+        //            {
+        //                movie.Genres.Add(genre);
+        //            }
+        //        }
 
-                await _db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    $"Ошибка при импорте данных: {ex.Message}",
-                    "Ошибка",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
+        //        await _db.SaveChangesAsync();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(
+        //            $"Ошибка при импорте данных: {ex.Message}",
+        //            "Ошибка",
+        //            MessageBoxButtons.OK,
+        //            MessageBoxIcon.Error);
+        //    }
+        //}
     }
 }
