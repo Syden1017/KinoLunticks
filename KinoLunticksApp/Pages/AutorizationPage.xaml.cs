@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace KinoLunticksApp.Pages
 {

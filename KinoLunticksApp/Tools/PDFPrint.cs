@@ -65,6 +65,7 @@ namespace KinoLunticksApp.Tools
 
                 Bitmap qrCodeBitmap = _qrGenerator.InitializeQR(ticket.ShowingNavigation.Movie.MovieName);
 
+
                 using (var stream = new MemoryStream())
                 {
                     qrCodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
