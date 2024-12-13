@@ -31,7 +31,7 @@ namespace KinoLunticksApp.Windows
 
             StringBuilder errors = new StringBuilder();
 
-            #region Код фильма
+            #region Код карты
             if (_db.BankAccounts.Local.Select(account => account.AccountNumber).ToList().
                         Contains(_newAccount.AccountNumber))
             {

@@ -99,7 +99,7 @@ namespace KinoLunticksApp.Pages
 
         #region Search
         /// <summary>
-        /// Поиск студента по ФИО
+        /// Поиск фильма по названию
         /// </summary>
         /// <param name="movies"> Список сеансов для поиска</param>
         /// <param name="request"> Поисковый запрос</param>

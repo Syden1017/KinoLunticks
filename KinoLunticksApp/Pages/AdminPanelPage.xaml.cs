@@ -85,5 +85,10 @@ namespace KinoLunticksApp.Pages
 
             tableView.ItemsSource = _db.Movies.ToList();
         }
+
+        private void queryButton_Click(object sender, RoutedEventArgs e)
+        {
+            _frame.Navigate(new QueriesPage(_frame));
+        }
     }
 }
