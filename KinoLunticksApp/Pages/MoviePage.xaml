@@ -68,379 +68,106 @@
                        Style="{DynamicResource txtBlockTicketBuying}"/>
 
             <StackPanel Orientation="Horizontal">
-                <DataGrid x:Name="dGridGenres"
-                          ItemsSource="{Binding Genres}"
+                <ListView x:Name="lViewGenres"
                           
-                          Style="{DynamicResource dGridGenres}"
-                          ColumnHeaderStyle="{DynamicResource dGridColumnHeader}"
-                          RowHeaderStyle="{DynamicResource dGridRowHeader}"
-                          CellStyle="{DynamicResource dGridCell}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding GenreName}"/>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                          Background="#0000"
+                          Margin="0 0 7 0"
+                          BorderThickness="0"
+                          VerticalContentAlignment="Center"
+                          
+                          ItemsSource="{Binding Genres}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="0"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Foreground="#FFF"
+                                       FontSize="20">
+                                <TextBlock.Text>
+                                    <Binding Path="GenreName"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListView>
 
                 <TextBlock Text="{Binding AgeRestriction}"
                            
                            Style="{DynamicResource txtBlockTicketBuying}"/>
             </StackPanel>
 
-            <TextBlock Text="{Binding MovieDuration}"
-                       
-                       Style="{DynamicResource txtBlockTicketBuying}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Длительность:"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 70 0"/>
 
-            <TextBlock Text="{Binding TicketPrice,
-                              StringFormat={}{0} ₽}"
-                       
-                       Style="{DynamicResource txtBlockTicketBuying}"/>
+                <TextBlock Text="{Binding MovieDuration}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
 
-            <TextBlock Text="Время сеанса: 12:00:00"
-                       Style="{DynamicResource txtBlockTicketBuying}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Зал:"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 225 0"/>
+
+                <TextBlock Text="{Binding hall}"
+           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Дата сеанса: "
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 100 0"/>
+
+                <TextBlock Text="{Binding formattedShowingDate}"
+               
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Время сеанса: "
+                           Style="{DynamicResource txtBlockTicketBuying}"
+                           Margin="0 0 66 0"/>
+
+                <TextBlock Text="{Binding ShowingTime,
+                                  StringFormat={} {0:HH:mm}}"
+                           
+                           Style="{DynamicResource txtBlockTicketBuying}"/>
+            </StackPanel>
         </StackPanel>
 
         <Grid Grid.Column="0"
               Grid.Row="2"
               Grid.ColumnSpan="7">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.5*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.15*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Image Grid.Column="0"
-                   Grid.Row="0"
-                   Grid.ColumnSpan="11"
+            <Image Grid.Row="0"
                    Source="\Images\Chairs\Screen3.png"
                    Stretch="Fill"
                    Margin="10"/>
             <TextBlock Text="Экран"
-                       Grid.Column="5"
                        Grid.Row="0"
-                       Grid.ColumnSpan="2"
                        FontSize="50"
-                       HorizontalAlignment="Center"/>
+                       HorizontalAlignment="Center"
+                       Margin="6"/>
 
-            <TextBlock Text="1"
-                       
-                       Style="{DynamicResource txtBlockRowCount}"
-                       
-                       Grid.Column="0"
-                       Grid.Row="1"/>
-
-            <TextBlock Text="2"
-                       
-                       Style="{DynamicResource txtBlockRowCount}"
-                       
-                       Grid.Column="0"
-                       Grid.Row="2"/>
-
-            <TextBlock Text="3"
-                       
-                       Style="{DynamicResource txtBlockRowCount}"
-                       
-                       Grid.Column="0"
-                       Grid.Row="3"/>
-
-            <Button x:Name="btn1Place1"
-                    Click="btn1Place1_Click"
-                    Grid.Column="2"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    1
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place2"
-                    Click="btn1Place2_Click"
-                    Grid.Column="3"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    2
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place3"
-                    Click="btn1Place3_Click"
-                    Grid.Column="4"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    3
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place4"
-                    Click="btn1Place4_Click"
-                    Grid.Column="5"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    4
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place5"
-                    Click="btn1Place5_Click"
-                    Grid.Column="6"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    5
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place6"
-                    Click="btn1Place6_Click"
-                    Grid.Column="7"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    6
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place7"
-                    Click="btn1Place7_Click"
-                    Grid.Column="8"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    7
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place8"
-                    Click="btn1Place8_Click"
-                    Grid.Column="9"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    8
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn1Place9"
-                    Click="btn1Place9_Click"
-                    Grid.Column="10"
-                    Grid.Row="1"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    9
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place1"
-                    Click="btn2Place1_Click"
-                    Grid.Column="2"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    1
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place2"
-                    Click="btn2Place2_Click"
-                    Grid.Column="3"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    2
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place3"
-                    Click="btn2Place3_Click"
-                    Grid.Column="4"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    3
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place4"
-                    Click="btn2Place4_Click"
-                    Grid.Column="5"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    4
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place5"
-                    Click="btn2Place5_Click"
-                    Grid.Column="6"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    5
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place6"
-                    Click="btn2Place6_Click"
-                    Grid.Column="7"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    6
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place7"
-                    Click="btn2Place7_Click"
-                    Grid.Column="8"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    7
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place8"
-                    Click="btn2Place8_Click"
-                    Grid.Column="9"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    8
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn2Place9"
-                    Click="btn2Place9_Click"
-                    Grid.Column="10"
-                    Grid.Row="2"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    9
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place1"
-                    Click="btn3Place1_Click"
-                    Grid.Column="1"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    1
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place2"
-                    Click="btn3Place2_Click"
-                    Grid.Column="2"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    2
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place3"
-                    Click="btn3Place3_Click"
-                    Grid.Column="3"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    3
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place4"
-                    Click="btn3Place4_Click"
-                    Grid.Column="4"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    4
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place5"
-                    Click="btn3Place5_Click"
-                    Grid.Column="5"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    5
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place6"
-                    Click="btn3Place6_Click"
-                    Grid.Column="6"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    6
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place7"
-                    Click="btn3Place7_Click"
-                    Grid.Column="7"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    7
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place8"
-                    Click="btn3Place8_Click"
-                    Grid.Column="8"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    8
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place9"
-                    Click="btn3Place9_Click"
-                    Grid.Column="9"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    9
-                </Button.Content>
-            </Button>
-
-            <Button x:Name="btn3Place10"
-                    Click="btn3Place10_Click"
-                    Grid.Column="10"
-                    Grid.Row="3"
-                    Style="{DynamicResource GreenArmchairButtonStyle}">
-                <Button.Content>
-                    10
-                </Button.Content>
-            </Button>
+            <Grid x:Name="gHallSchema"
+                  Background="#0000"
+                  
+                  Grid.Row="1">
+                
+            </Grid>
         </Grid>
 
         <StackPanel Grid.Column="0"

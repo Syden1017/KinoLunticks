@@ -1,6 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
+using System.Globalization;
 
 namespace KinoLunticksApp
 {
@@ -10,5 +9,4 @@ namespace KinoLunticksApp
     public partial class App : Application
     {
     }
-
 }

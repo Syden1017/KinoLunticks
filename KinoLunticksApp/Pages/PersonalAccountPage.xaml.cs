@@ -9,6 +9,8 @@ using KinoLunticksApp.Models;
 using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
+using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace KinoLunticksApp.Pages
 {
@@ -21,6 +23,8 @@ namespace KinoLunticksApp.Pages
         User _user = new User();
         ImageWork _image = new ImageWork();
         PDFPrint _print = new PDFPrint();
+
+        public List<Ticket> Tickets { get; set; }
 
         Frame _frame;
 
@@ -56,15 +60,16 @@ namespace KinoLunticksApp.Pages
 
             DataContext = _user;
 
-            _db.Users.Attach(_user);
-
-            UpdateOrdersList();
+            LoadTickets();
             UpdateCardsList();
         }
 
-        private void UpdateOrdersList()
+        private void LoadTickets()
         {
-            _db.Orders.Include("MovieNavigation").Where(o => o.UserNavigation.Login == _user.Login).Load();
+            _db.Orders.Include("ShowingNavigation").Include(o => o.ShowingNavigation.Movie).
+                    Include(o => o.ShowingNavigation.Hall).
+                    Where(o => o.User.UserId == _user.UserId).
+                Load();
 
             lViewMyTickets.ItemsSource = _db.Orders.Local.ToList();
         }

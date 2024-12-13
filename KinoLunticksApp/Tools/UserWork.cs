@@ -1,8 +1,10 @@
 ﻿using System.Windows;
+using System.Net.Mail;
 using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
-using KinoLunticksApp.Models;
 using KinoLunticksApp.Pages;
+using KinoLunticksApp.Models;
 
 namespace KinoLunticksApp.Tools
 {
@@ -31,6 +33,28 @@ namespace KinoLunticksApp.Tools
         }
 
         /// <summary>
+        /// Проверяет правильность введенной электронной почты
+        /// </summary>
+        /// <param name="mail">Почта для проверки</param>
+        /// <returns>Результат проверки</returns>
+        public bool isValidMail(string mail)
+        {
+            var regex = new Regex(@"^(\w+\@\w+\.\w+)$");
+
+            try
+            {
+                MailAddress m = new MailAddress(mail);
+                if (!regex.IsMatch(mail))
+                    return false;
+                return true;
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Регистрирует нового пользователя в базе данных.
         /// </summary>
         /// <param name="userLogin">Логин пользователя</param>
@@ -46,19 +70,41 @@ namespace KinoLunticksApp.Tools
                                  DateOnly? birthDate = null)
         {
             var defaultRole = _db.Roles.FirstOrDefault(role => role.RoleName == "Пользователь");
+            var adminRole = _db.Roles.FirstOrDefault(role => role.RoleName == "Администратор");
 
-            User _user = new User
+            if (userLogin == "Admin" ||
+                userLogin == "admin" ||
+                userLogin == "Админ" ||
+                userLogin == "админ")
             {
-                Login = userLogin,
-                Password = password,
-                UserName = userName,
-                UserLastName = userLastName,
-                EmailAddress = userEmail,
-                BirthDate = birthDate,
-                UserRole = defaultRole.RoleId
-            };
+                User _user = new User
+                {
+                    Login = userLogin,
+                    Password = password,
+                    UserName = userName,
+                    UserLastName = userLastName,
+                    EmailAddress = userEmail,
+                    BirthDate = birthDate,
+                    UserRole = adminRole.RoleId
+                };
 
-            _db.Users.Add(_user);
+                _db.Users.Add(_user);
+            }
+            else
+            {
+                User _user = new User
+                {
+                    Login = userLogin,
+                    Password = password,
+                    UserName = userName,
+                    UserLastName = userLastName,
+                    EmailAddress = userEmail,
+                    BirthDate = birthDate,
+                    UserRole = defaultRole.RoleId
+                };
+
+                _db.Users.Add(_user);
+            }
 
             try
             {

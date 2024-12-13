@@ -1,30 +1,31 @@
 ﻿using System.Drawing;
-using System.IO;
 
-using QRCoder;
+using ZXing;
+using ZXing.QrCode;
+using ZXing.Windows.Compatibility;
 
 namespace KinoLunticksApp.Tools
 {
     public class QrGenerator
     {
-        public string GenerateQRCodeFile(string text)
+        public Bitmap InitializeQR(string content)
         {
-            string filePath = Path.Combine(Path.GetTempPath(), "QRCode.png");
-
-            using (QRCodeGenerator qrGenerator = new QRCodeGenerator())
+            QrCodeEncodingOptions options = new()
             {
-                using (QRCodeData qrCodeData = qrGenerator.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q))
-                {
-                    using (QRCode qrCode = new QRCode(qrCodeData))
-                    {
-                        using (Bitmap qrCodeBitmap = qrCode.GetGraphic(20))
-                        {
-                            qrCodeBitmap.Save(filePath, System.Drawing.Imaging.ImageFormat.Png);
-                            return filePath;
-                        }
-                    }
-                }
-            }
+                DisableECI = true,
+                PureBarcode = true,
+                CharacterSet = "UTF-8",
+                Width = 450,
+                Height = 450
+            };
+
+            BarcodeWriter bw = new()
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = options
+            };
+            
+            return bw.Write(content);
         }
     }
 }

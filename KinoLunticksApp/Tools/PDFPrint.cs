@@ -1,98 +1,119 @@
 ﻿using System.IO;
+using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 
-using KinoLunticksApp.Models;
-
 using PdfSharp.Pdf;
 using PdfSharp.Drawing;
+
+using KinoLunticksApp.Models;
+using PdfSharp.UniversalAccessibility.Drawing;
 
 namespace KinoLunticksApp.Tools
 {
     public class PDFPrint
     {
-        QrGenerator generator = new QrGenerator();
+        QrGenerator _qrGenerator = new QrGenerator();
 
+        /// <summary>
+        /// Создает PDF документ на основе купленного билета
+        /// </summary>
+        /// <param name="ticket">Купленный билет</param>
         public void PrintToPDF(Order ticket)
         {
-            // Создаем новый PDF документ и задаем заголовок
-            PdfDocument document = new PdfDocument();
-            document.Info.Title = "Билет";
+            string finalFilePath = string.Empty;
 
-            // Создаем страницу
-            PdfPage page = document.AddPage();
-            page.Size = PdfSharp.PageSize.A4;
-
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            //// Создаем шрифт
-            XFont font = new XFont("Verdana", 20, XFontStyleEx.Bold);
-            XFont fontRegular = new XFont("Verdana", 20, XFontStyleEx.Regular);
-
-            gfx.DrawString(ticket.MovieNavigation.MovieName, font, XBrushes.Black, new XRect(0, 0, page.Width, page.Height), XStringFormats.TopLeft);
-
-            int yPoint = 30;
-            gfx.DrawString("Места: ", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString(ticket.Seats, fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString("Время сеанса: ", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString(ticket.SessionTime.ToString(), fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString("Оплачено:", font, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            yPoint += 30;
-            gfx.DrawString(ticket.Amount.ToString(), fontRegular, XBrushes.Black, new XRect(0, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-            gfx.DrawString("₽", fontRegular, XBrushes.Black, new XRect(100, yPoint, page.Width, page.Height), XStringFormats.TopLeft);
-
-            // Генерируем QR-код и получаем путь к файлу
-            string qrCodeFilePath = generator.GenerateQRCodeFile(ticket.MovieNavigation.MovieName);
-
-            XImage xImage = XImage.FromFile(qrCodeFilePath);
-
-            // Определяем позицию для QR-кода
-            double qrCodeX = (page.Width - xImage.PixelWidth * 72 / xImage.HorizontalResolution) / 2; // Центрируем по горизонтали
-            double qrCodeY = yPoint + 30;                                                             // Позиция ниже последнего текста с отступом
-            gfx.DrawImage(xImage, qrCodeX, qrCodeY, 100, 100);                                        // Рисуем QR-код на странице
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*", // Фильтр для типов файлов
-                Title = "Сохранить PDF файл",
-                FileName = "Билет.pdf"                                  // Имя файла по умолчанию
-            };
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+                saveFileDialog.Title = "Сохранить PDF файл";
+                saveFileDialog.FileName = "Билет.pdf";
 
-            // Показываем диалоговое окно и проверяем, нажал ли пользователь "Сохранить"
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = saveFileDialog.FileName; // Получаем полный путь к файлу
-                document.Save(filePath);
-                MessageBox.Show(
-                    $"Документ успешно сохранен по пути: {filePath}",
-                    "Сохранение",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                    );
-
-                File.Delete(qrCodeFilePath);
-
-                try
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    Process.Start(new ProcessStartInfo(filePath)
-                    {
-                        UseShellExecute = true
-                    });
+                    finalFilePath = saveFileDialog.FileName;
                 }
-                catch (Exception ex)
+                else
                 {
-                    Console.WriteLine($"Не удалось открыть файл: {ex.Message}");
+                    return;
                 }
             }
+
+            try
+            {
+                PdfDocument pdfDocument = new PdfDocument();
+                pdfDocument.Info.Title = "Билет на фильм";
+
+                PdfPage pdfPage = pdfDocument.AddPage();
+                pdfPage.Width = XUnit.FromMillimeter(90);
+                pdfPage.Height = XUnit.FromMillimeter(60);
+
+                XGraphics gfx = XGraphics.FromPdfPage(pdfPage);
+                XFont fontTitle = new XFont("Verdana", 20, XFontStyleEx.Bold);
+                XFont fontRegular = new XFont("Verdana", 16, XFontStyleEx.Regular);
+                XBrush brush = CreateBrushFromHex("#2B2B2B");
+
+                var selectedSeats = ticket.SelectedSeats;
+                selectedSeats = selectedSeats.Replace("\r\n", "").Replace("\n", "").Replace("\r", "");
+
+                gfx.DrawRectangle(brush, new XRect(0, 0, pdfPage.Width, pdfPage.Height));
+                gfx.DrawString(ticket.ShowingNavigation.Movie.MovieName, fontTitle, XBrushes.White, new XRect(7, 20, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+                gfx.DrawString($"Дата: {ticket.ShowingNavigation.formattedShowingDate}", fontRegular, XBrushes.White, new XRect(7, 60, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+                gfx.DrawString($"Время: {ticket.ShowingNavigation.ShowingTime.ToShortTimeString()}", fontRegular, XBrushes.White, new XRect(7, 80, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+                gfx.DrawString($"{ticket.ShowingNavigation.Hall.HallNumber}", fontRegular, XBrushes.White, new XRect(7, 100, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+                gfx.DrawString(selectedSeats, fontRegular, XBrushes.White, new XRect(7, 120, pdfPage.Width, pdfPage.Height), XStringFormats.TopLeft);
+
+                Bitmap qrCodeBitmap = _qrGenerator.InitializeQR(ticket.ShowingNavigation.Movie.MovieName);
+
+
+                using (var stream = new MemoryStream())
+                {
+                    qrCodeBitmap.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    stream.Position = 0;
+                    XImage image = XImage.FromStream(stream);
+
+                    double qrCodeWidth = 50;
+                    double qrCodeHeight = 50;
+
+                    double xPosition = pdfPage.Width - qrCodeWidth - 7;
+                    double yPosition = 7;
+
+                    gfx.DrawImage(image, new XRect(xPosition, yPosition, qrCodeWidth, qrCodeHeight));
+                }
+
+                pdfDocument.Save(finalFilePath);
+
+                Process.Start(new ProcessStartInfo(finalFilePath) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Ошибка: {ex.Message}\nСтек вызовов: {ex.StackTrace}",
+                    "Ошибка",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        /// <summary>
+        /// Создает новую кисть на основе HEX кода цвета
+        /// </summary>
+        /// <param name="hexColor">Строка HEX кода цвета</param>
+        /// <returns>Новая кисть</returns>
+        public static XBrush CreateBrushFromHex(string hexColor)
+        {
+            if (hexColor.StartsWith("#"))
+            {
+                hexColor = hexColor.Substring(1);
+            }
+
+            int r = Convert.ToInt32(hexColor.Substring(0, 2), 16);
+            int g = Convert.ToInt32(hexColor.Substring(2, 2), 16);
+            int b = Convert.ToInt32(hexColor.Substring(4, 2), 16);
+
+            XColor color = XColor.FromArgb(r, g, b);
+            return new XSolidBrush(color);
         }
     }
 }

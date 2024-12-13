@@ -33,24 +33,40 @@ namespace KinoLunticksApp.Pages
             }
         }
 
+        private void cBoxShowHidePassword_Checked(object sender, RoutedEventArgs e)
+        {
+            passBoxPassword.Visibility = Visibility.Hidden;
+            txtBoxPassword.Visibility = Visibility.Visible;
+
+            txtBoxPassword.Text = passBoxPassword.Password;
+            cBoxShowHidePassword.Content = "Скрыть пароль";
+        }
+
+        private void cBoxShowHidePassword_Unchecked(object sender, RoutedEventArgs e)
+        {
+            txtBoxPassword.Visibility = Visibility.Hidden;
+            passBoxPassword.Visibility = Visibility.Visible;
+
+            passBoxPassword.Password = txtBoxPassword.Text;
+            cBoxShowHidePassword.Content = "Показать пароль";
+        }
+
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
-            string login = txtBoxLogin.Text;
-            string password = passBoxPassword.Password;
-
-            var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == login && user.Password == password);
+            var user = _db.Users.AsNoTracking().FirstOrDefault(user => user.Login == txtBoxLogin.Text);
 
             if (user == null)
             {
                 MessageBox.Show(
-                    "Неверный логин или пароль. " +
+                    "Неверный логин. " +
                     "Повторите попытку.",
                     "Ошибка авторизации",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning
                     );
             }
-            else
+
+            if (BCrypt.Net.BCrypt.Verify(passBoxPassword.Password, user.Password))
             {
                 if (user.UserRole.ToString() == "2")
                 {
@@ -60,6 +76,16 @@ namespace KinoLunticksApp.Pages
                 {
                     _frame.Navigate(new AdminPanelPage(_frame));
                 }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Неверный пароль. " +
+                    "Повторите попытку.",
+                    "Ошибка авторизации",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                    );
             }
         }
 

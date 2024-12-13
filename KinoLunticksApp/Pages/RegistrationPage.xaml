@@ -72,7 +72,7 @@
 
             <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
                                        Watermark="пароль"
-                                       PasswordChar="*"
+                                       PasswordChar="●"
                                        
                                        Style="{DynamicResource pBoxPasswordRegister}"
                                        
@@ -86,9 +86,40 @@
                 </xctk:WatermarkPasswordBox.WatermarkTemplate>
             </xctk:WatermarkPasswordBox>
 
+            <xctk:WatermarkTextBox x:Name="txtBoxPassword"
+                                   Watermark="пароль"
+                                   
+                                   Style="{DynamicResource txtBoxRegister}"
+                                   Visibility="Hidden"
+                                   
+                                   Grid.Column="1"
+                                   Grid.Row="1">
+                <xctk:WatermarkTextBox.WatermarkTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}"
+                                        Foreground="#696969"/>
+                    </DataTemplate>
+                </xctk:WatermarkTextBox.WatermarkTemplate>
+            </xctk:WatermarkTextBox>
+
+            <CheckBox x:Name="cBoxShowHidePassword"
+                      Content="Показать пароль"
+                      
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Foreground="#FFF"
+                      FontSize="20"
+                      Cursor="Hand"
+                      
+                      Checked="cBoxShowHidePassword_Checked"
+                      Unchecked="cBoxShowHidePassword_Unchecked"
+                      
+                      Grid.Row="1"
+                      Grid.Column="2"/>
+
             <xctk:WatermarkPasswordBox x:Name="passBoxConfirmPassword"
                                        Watermark="подтвердите пароль"
-                                       PasswordChar="*"
+                                       PasswordChar="●"
                                        
                                        Style="{DynamicResource pBoxPasswordRegister}"
                                        
@@ -101,6 +132,37 @@
                     </DataTemplate>
                 </xctk:WatermarkPasswordBox.WatermarkTemplate>
             </xctk:WatermarkPasswordBox>
+
+            <xctk:WatermarkTextBox x:Name="txtBoxConfirmPassword"
+                                   Watermark="подтвердите пароль"
+                                   
+                                   Style="{DynamicResource txtBoxRegister}"
+                                   Visibility="Hidden"
+                                   
+                                   Grid.Column="1"
+                                   Grid.Row="2">
+                <xctk:WatermarkTextBox.WatermarkTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}"
+                            Foreground="#696969"/>
+                    </DataTemplate>
+                </xctk:WatermarkTextBox.WatermarkTemplate>
+            </xctk:WatermarkTextBox>
+
+            <CheckBox x:Name="cBoxShowHideConfirmPassword"
+                      Content="Показать пароль"
+                      
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Foreground="#FFF"
+                      FontSize="20"
+                      Cursor="Hand"
+                      
+                      Checked="cBoxShowHideConfirmPassword_Checked"
+                      Unchecked="cBoxShowHideConfirmPassword_Unchecked"
+                      
+                      Grid.Row="2"
+                      Grid.Column="2"/>
 
             <xctk:WatermarkTextBox x:Name="txtBoxFirstName"
                                    Watermark="имя"

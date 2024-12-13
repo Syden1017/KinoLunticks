@@ -1,56 +1,72 @@
-﻿using System.IO;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 using KinoLunticksApp.Tools;
 using KinoLunticksApp.Models;
-using KinoLunticksApp.Windows;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace KinoLunticksApp.Pages
 {
     /// <summary>
-    /// Interaction logic for AdminPanelPage.xaml
+    /// Логика взаимодействия для ShowingsPage.xaml
     /// </summary>
-    public partial class AdminPanelPage : Page
+    public partial class ShowingsPage : Page
     {
         KinoLunticsContext _db = new KinoLunticsContext();
-        MovieImportService import = new MovieImportService();
+        List<Showing> _showings = new List<Showing>();
+        ShowingImportService import = new ShowingImportService();
 
         Frame _frame;
 
-        public AdminPanelPage(Frame frame)
+        public ShowingsPage(Frame frame)
         {
             InitializeComponent();
 
             _frame = frame;
-            _db.Movies.Load();
 
-            tableView.ItemsSource = _db.Movies.ToList();
-            string cursorPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Cursors", "luntikCursor.cur");
-            this.Cursor = new Cursor(cursorPath);
+            UpdateShowingsList();
         }
 
-        private void btnImportFilms_Click(object sender, RoutedEventArgs e)
+        private void UpdateShowingsList()
         {
-            import.ImportMoviesFromExcelAsync(tableView);
-        }
+            _db.Showings.Include(s => s.Movie).Include(s => s.Hall).Load();
+            _showings = _db.Showings.Local.ToList();
 
-        private void btnShowings_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new ShowingsPage(_frame));
+            var groupedShowings = _showings
+                .GroupBy(s => s.Movie.MovieName)
+                .Select(g => new MovieGroup
+                {
+                    Title = g.Key,
+                    Showings = g.ToList()
+                }).ToList();
+
+            tableView.ItemsSource = groupedShowings;
+        }
 
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            var addEditMovieWindow = new AddEditMovieWindow(null);
-            addEditMovieWindow.ShowDialog();
 
-            tableView.ItemsSource = _db.Movies.ToList();
+        }
+
+        private void btnImportShowings_Click(object sender, RoutedEventArgs e)
+        {
+            import.ImportShowingsFromExcelAsync(tableView);
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            _frame.GoBack();
+        }
+
+        private void changeButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var movieForRemove = (sender as Button).DataContext as Movie;
+            var showingForRemove = (sender as Button).DataContext as Showing;
 
             MessageBoxResult result = MessageBox.Show(
                                           "Вы точно хотите удалить запись?",
@@ -62,7 +78,7 @@ namespace KinoLunticksApp.Pages
             {
                 try
                 {
-                    _db.Movies.Remove(movieForRemove);
+                    _db.Showings.Remove(showingForRemove);
 
                     MessageBox.Show(
                         "Запись удалена",
@@ -79,15 +95,7 @@ namespace KinoLunticksApp.Pages
                 }
             }
 
-            tableView.ItemsSource = _db.Movies.ToList();
-        }
-
-        private void changeButton_Click(object sender, RoutedEventArgs e)
-        {
-            var changeMovie = new AddEditMovieWindow((sender as Button).DataContext as Movie);
-            changeMovie.ShowDialog();
-
-            tableView.ItemsSource = _db.Movies.ToList();
+            UpdateShowingsList();
         }
     }
 }

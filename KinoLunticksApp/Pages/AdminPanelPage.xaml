@@ -40,7 +40,7 @@
                        
                        Grid.Row="0"/>
 
-            <TextBlock Text="KinoLuntiks"
+            <TextBlock Text="'KinoLuntiks'"
                        
                        Style="{DynamicResource txtBlockTheaterName}"
                        
@@ -53,7 +53,19 @@
                     
                     Grid.Row="3"/>
 
-            
+            <Button Name="btnImportFilms"
+                    Click="btnImportFilms_Click"
+                    Content="Импортировать"
+                    Style="{DynamicResource btnAdminPage}"
+                    
+                    Grid.Row="4"/>
+
+            <Button Name="btnShowings"
+                    Click="btnShowings_Click"
+                    Content="Перейти к сеансам"
+                    Style="{DynamicResource btnAdminPage}"
+                    
+                    Grid.Row="5"/>
         </Grid>
 
         <ListView x:Name="tableView"

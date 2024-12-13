@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using KinoLunticksApp.Models;
 
 using Microsoft.EntityFrameworkCore;
-using System.Windows.Media;
 
 namespace KinoLunticksApp.Pages
 {
@@ -14,13 +13,6 @@ namespace KinoLunticksApp.Pages
     /// </summary>
     public partial class MainPage : Page
     {
-        KinoLunticsContext _db = new KinoLunticsContext();
-        User _user = new User();
-        List<Movie> _movies = new List<Movie>();
-        List<Genre> _genres = new List<Genre>();
-
-        Frame _frame;
-
         // Поле фильтрации 
         const int FILTER_BY_MOVIE_GENRE = 1;         // Фильтр по жанру
         const int FILTER_BY_AGE_RESTRICTION = 2;     // Фильтр по возрастному ограничению
@@ -35,6 +27,18 @@ namespace KinoLunticksApp.Pages
         // Тип сортировки
         const int ASC_SORT = 0;                      // Сортировка по возрастанию
 
+        KinoLunticsContext _db = new KinoLunticsContext();
+        User _user = new User();
+        List<Movie> _movies = new List<Movie>();
+
+        Frame _frame;
+
+        int _movieCount = 0;
+
+        // Распределение по страницам
+        int _currentPage = 1,
+            _maxPage = 0;
+
         public MainPage(Frame frame, User user)
         {
             InitializeComponent();
@@ -46,6 +50,7 @@ namespace KinoLunticksApp.Pages
             cmbBoxFilterType.SelectedIndex = 0;
             cmbBoxSortField.SelectedIndex = 0;
             cmbBoxSortType.SelectedIndex = 0;
+            cmbBoxMovieCount.SelectedIndex = 0;
 
             UpdateMovieList();
         }
@@ -54,6 +59,7 @@ namespace KinoLunticksApp.Pages
         {
             _db.Movies.Include(m => m.Genres).Load();
             _movies = _db.Movies.ToList();
+            _movieCount = _movies.Count;
 
             string request = txtBoxSearch.Text.
                                           Replace(" ", "").
@@ -74,14 +80,21 @@ namespace KinoLunticksApp.Pages
 
             List<Movie> movieList = SortMovies(
                                         SearchMovies(
-                                            FilterMovies(_movies,
-                                                         filterField,
-                                                         characteristics),
+                                            FilterMovies(
+                                                GetPages(_movies),
+                                                        filterField,
+                                                        characteristics),
                                                      request),
                                                sortField,
                                                sortType);
 
+            txtBoxCurrentPage.Text = _currentPage.ToString();
+            txtBoxCurrentPage.MaxLength = _maxPage.ToString().Length;
+            txtBoxTotalPage.Text = _maxPage.ToString();
+
             lViewLuntiki.ItemsSource = movieList;
+
+            txtBlockMovieCount.Text = _movieCount.ToString();
         }
 
         #region Search
@@ -274,6 +287,111 @@ namespace KinoLunticksApp.Pages
         }
         #endregion
 
+        #region Pages
+        /// <summary>
+        /// Деление списка фильмов на страницы
+        /// </summary>
+        /// <param name="movies">Список фильмов</param>
+        /// <returns>Страница из списка фильмов</returns>
+        private List<Movie> GetPages(List<Movie> movies)
+        {
+            int pageSize = _movieCount;
+
+            if (cmbBoxMovieCount.SelectedIndex != 0)
+            {
+                pageSize = cmbBoxMovieCount.SelectedIndex * 4;
+            }
+
+            _maxPage = (int)Math.Ceiling(
+                       (double)_db.Movies.Count() / pageSize);
+
+            return movies.Skip((_currentPage - 1) * pageSize).
+                          Take(pageSize).
+                          ToList();
+        }
+
+        /// <summary>
+        /// Переход на заданную страницу
+        /// </summary>
+        /// <param name="page">Номер страницы</param>
+        private void GoToPage(int page)
+        {
+            _currentPage = page;
+
+            UpdateMovieList();
+        }
+
+        private void cmbBoxMovieCount_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            GoToPage(1);
+        }
+
+        private void btnHome_Click(object sender, RoutedEventArgs e)
+        {
+            GoToPage(1);
+        }
+
+        private void btnEnd_Click(object sender, RoutedEventArgs e)
+        {
+            GoToPage(_maxPage);
+        }
+
+        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage - 1 < 1)
+            {
+                return;
+            }
+
+            GoToPage(--_currentPage);
+        }
+
+        private void btnNext_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentPage + 1 > _maxPage)
+            {
+                return;
+            }
+
+            GoToPage(++_currentPage);
+        }
+
+        private void txtBoxCurrentPage_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_currentPage >= 1 &&
+                _currentPage <= _maxPage &&
+                txtBoxCurrentPage.Text != string.Empty)
+            {
+                if (!int.TryParse(txtBoxCurrentPage.Text, out _currentPage))
+                {
+                    _currentPage = 1;
+
+                    MessageBox.Show(
+                        "Номер страницы введён некорректно.\n" +
+                        "Осуществлено перенаправление в начало списка.",
+                        "Внимание!",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                        );
+                }
+                else if (_currentPage > _maxPage)
+                {
+                    _currentPage = _maxPage;
+
+                    MessageBox.Show(
+                        "Номер страницы не найден.\n" +
+                        "Осуществлено перенаправление в конец списка.",
+                        "Внимание!",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                        );
+                }
+            }
+
+            GoToPage(_currentPage);
+        }
+        #endregion
+
         private void btnPersonalAccount_Click(object sender, RoutedEventArgs e) => _frame.Navigate(new PersonalAccountPage(_frame, _user));
 
         private void lViewLuntiki_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -282,7 +400,7 @@ namespace KinoLunticksApp.Pages
 
             if (selectedMovie != null)
             {
-                _frame.Navigate(new MoviePage(_frame, _user, selectedMovie));
+                _frame.Navigate(new FullInfoPage(_frame, _user, selectedMovie));
             }
         }
     }

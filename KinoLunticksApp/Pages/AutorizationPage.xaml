@@ -68,7 +68,9 @@
 
             <xctk:WatermarkPasswordBox x:Name="passBoxPassword"
                                        Watermark="пароль"
-                                       PasswordChar="*"
+
+                                       PasswordChar="●"
+
                                        
                                        Style="{DynamicResource pBoxPasswordAuth}"
                                        
@@ -77,10 +79,41 @@
                 <xctk:WatermarkPasswordBox.WatermarkTemplate>
                     <DataTemplate>
                         <ContentControl Content="{Binding}"
-                            Foreground="#696969"/>
+                                        Foreground="#696969"/>
                     </DataTemplate>
                 </xctk:WatermarkPasswordBox.WatermarkTemplate>
             </xctk:WatermarkPasswordBox>
+
+            <xctk:WatermarkTextBox x:Name="txtBoxPassword"
+                                   Watermark="пароль"
+                                   
+                                   Style="{DynamicResource txtBoxAuth}"
+                                   Visibility="Hidden"
+                                   
+                                   Grid.Column="1"
+                                   Grid.Row="1">
+                <xctk:WatermarkTextBox.WatermarkTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding}"
+                                        Foreground="#696969"/>
+                    </DataTemplate>
+                </xctk:WatermarkTextBox.WatermarkTemplate>
+            </xctk:WatermarkTextBox>
+
+            <CheckBox x:Name="cBoxShowHidePassword"
+                      Content="Показать пароль"
+                      
+                      VerticalAlignment="Center"
+                      VerticalContentAlignment="Center"
+                      Foreground="#FFF"
+                      FontSize="20"
+                      Cursor="Hand"
+                      
+                      Checked="cBoxShowHidePassword_Checked"
+                      Unchecked="cBoxShowHidePassword_Unchecked"
+                      
+                      Grid.Row="1"
+                      Grid.Column="2"/>
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"
