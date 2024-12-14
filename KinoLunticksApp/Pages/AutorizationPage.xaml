@@ -117,8 +117,6 @@
 
             <Button x:Name="btnLogIn"
                     Click="btnLogIn_Click"
-                    MouseEnter="btnLogIn_MouseEnter"
-                    MouseLeave="btnLogIn_MouseLeave"
                     Content="Войти"
                     
                     Style="{DynamicResource btnAutorization}"
