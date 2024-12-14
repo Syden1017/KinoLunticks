@@ -28,6 +28,11 @@ namespace KinoLunticksApp.Pages
             _frame = frame;
         }
 
+        /// <summary>
+        /// Возвращает список фильмов по выбранному жанру
+        /// </summary>
+        /// <param name="genre">Жанр фильма</param>
+        /// <returns>Результат запроса</returns>
         private List<Movie> GetMoviesByGenre(string genre)
         {
             return _db.Movies
@@ -36,6 +41,10 @@ namespace KinoLunticksApp.Pages
                       .ToList();
         }
 
+        /// <summary>
+        /// Возвращает список 5 самых популярных фильмов
+        /// </summary>
+        /// <returns>Результат запроса</returns>
         private List<Movie> GetPopularMovies()
         {
             return _db.Movies
@@ -53,6 +62,11 @@ namespace KinoLunticksApp.Pages
                       .ToList();
         }
 
+        /// <summary>
+        /// Возвращает список фильмов, которые идут в определенном зале
+        /// </summary>
+        /// <param name="hall">Номер зала</param>
+        /// <returns>Результат запроса</returns>
         private List<Movie> GetMoviesByHall(int hall)
         {
             return _db.Showings
@@ -63,6 +77,10 @@ namespace KinoLunticksApp.Pages
                       .ToList();
         }
 
+        /// <summary>
+        /// Возвращает показы фильмов на сегодняшний день
+        /// </summary>
+        /// <returns>Результат запроса</returns>
         private List<Showing> GetShowingsForToday()
         {
             return _db.Showings
@@ -71,7 +89,11 @@ namespace KinoLunticksApp.Pages
                       .ToList();
         }
 
-        private List<Movie> GetShowingsWithPrice()
+        /// <summary>
+        /// Возвращет показы, котороые уже идут на данный момент
+        /// </summary>
+        /// <returns>Результат запроса</returns>
+        private List<Movie> GetOnGoingShowings()
         {
             var currentTime = TimeOnly.FromDateTime(DateTime.Now);
 
@@ -291,7 +313,7 @@ namespace KinoLunticksApp.Pages
             dgQueries.Columns.Add(producerName);
             dgQueries.Columns.Add(ageRestriction);
 
-            dgQueries.ItemsSource = GetShowingsWithPrice();
+            dgQueries.ItemsSource = GetOnGoingShowings();
         }
     }
 }
