@@ -16,7 +16,7 @@
     <None Remove="Images\Chairs\ArmchairGrey.png" />
     <None Remove="Images\Chairs\ArmchairPurple.png" />
     <None Remove="Images\Chairs\Screen3.png" />
-    <None Remove="Images\default.JPG" />
+    <None Remove="Images\default.png" />
     <None Remove="Images\DefaultPhoto.png" />
     <None Remove="Images\exit.png" />
     <None Remove="Images\flip.png" />
@@ -65,13 +65,13 @@
     <Resource Include="Images\Chairs\Screen3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\default.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\DefaultPhoto.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\exit.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\default.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\flip.png">
@@ -86,10 +86,6 @@
     <Resource Include="Images\personal account.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Images\showhide\" />
   </ItemGroup>
 
 </Project>
