@@ -137,10 +137,22 @@
                  Style="{DynamicResource txtBoxAddEdit}"
                  
                  Grid.Column="3"
-                 Grid.Row="2"
-                 Grid.ColumnSpan="3"
+                 Grid.Row="2"/>
+
+        <TextBlock Text="Режиссер:"
+                   
+                   Style="{DynamicResource txtBlockAddEdit}"
+                   
+                   Grid.Column="4"
+                   Grid.Row="2"/>
+
+        <TextBox x:Name="txtBoxProducer"
+                 Text="{Binding ProducerName}"
                  
-                 Margin="60, 7, 5, 7"/>
+                 Style="{DynamicResource txtBoxAddEdit}"
+                 
+                 Grid.Column="5"
+                 Grid.Row="2"/>
 
         <TextBlock Text="Описание фильма:"
                    
@@ -157,6 +169,7 @@
                  Style="{DynamicResource txtBoxAddEdit}"
                  TextWrapping="Wrap"
                  Margin="60 7 5 7"
+                 VerticalContentAlignment="Top"
                  
                  Grid.Column="3"
                  Grid.Row="3"

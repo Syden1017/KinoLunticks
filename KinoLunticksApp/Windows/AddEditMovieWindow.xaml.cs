@@ -85,19 +85,6 @@ namespace KinoLunticksApp.Windows
         {
             StringBuilder errors = new StringBuilder();
 
-            #region Код фильма
-            if (string.IsNullOrWhiteSpace(_currentMovie.MovieCode.ToString()) ||
-                string.IsNullOrEmpty(_currentMovie.MovieCode.ToString()))
-            {
-                errors.AppendLine("Введите корректный код фильма!");
-            }
-            else if (_db.Movies.Local.Select(movie => movie.MovieCode).ToList().
-                        Contains(_currentMovie.MovieCode))
-            {
-                errors.AppendLine("Фильм с таким кодом уже существует!");
-            }
-            #endregion
-
             #region Название фильма
             if (string.IsNullOrWhiteSpace(_currentMovie.MovieName) ||
                 string.IsNullOrEmpty(_currentMovie.MovieName))
@@ -189,7 +176,7 @@ namespace KinoLunticksApp.Windows
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    ex.Message.ToString(),
+                    ex.InnerException.Message.ToString(),
                     "Системная ошибка",
                      MessageBoxButton.OK,
                      MessageBoxImage.Error

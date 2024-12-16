@@ -82,7 +82,7 @@
                 <Binding Path="Photo">
                     <Binding.TargetNullValue>
                         <ImageSource>
-                            /KinoLunticksApp;component/Images/default.jpg
+                            /KinoLunticksApp;component/Images/default.png
                         </ImageSource>
                     </Binding.TargetNullValue>
                 </Binding>
